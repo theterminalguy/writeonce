@@ -1,5 +1,5 @@
 div.floating-toolbar {
-  display: none;
+  /* display: none; */
   list-style: none;
   position: absolute;
   padding: 3px;
@@ -25,5 +25,17 @@ button.floating-toolbar-button {
 button.floating-toolbar-button:hover {
   background: #000;
   color: #fff;
+}
+
+button.btn-make-bold {
+  font-weight: bold;
+}
+
+button.btn-make-italic {
+  font-style: italic;
+}
+
+button.btn-make-underline {
+  text-decoration: underline;
 }
 
