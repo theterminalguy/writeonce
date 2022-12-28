@@ -1,8 +1,9 @@
 import "./index.css";
+import FloatingToolBarPlugin from "./plugins/FloatingToolBarPlugin";
 
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
-export default function Editor({ children }: { children: React.ReactNode }) {
+export default function Editor() {
   return (
     <div className="editor-container">
       <h1 contentEditable="true" suppressContentEditableWarning={true}>
@@ -26,7 +27,7 @@ export default function Editor({ children }: { children: React.ReactNode }) {
         sodales ligula pharetra at. Morbi ac nisl adipiscing sem interdum
         convallis.
       </div>
-      {children}
+      <FloatingToolBarPlugin />
     </div>
   );
 }

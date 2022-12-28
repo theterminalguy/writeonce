@@ -1,5 +1,5 @@
 div.floating-toolbar {
-  /* display: none; */
+  display: none; 
   list-style: none;
   position: absolute;
   padding: 3px;
