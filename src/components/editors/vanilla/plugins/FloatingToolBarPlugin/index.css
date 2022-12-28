@@ -1,0 +1,29 @@
+div.floating-toolbar {
+  display: none;
+  list-style: none;
+  position: absolute;
+  padding: 3px;
+
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  overflow: auto;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  border-radius: 4px;
+  --webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+button.floating-toolbar-button {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+button.floating-toolbar-button:hover {
+  background: #000;
+  color: #fff;
+}
+

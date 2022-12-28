@@ -1,6 +1,6 @@
-import './index.css';
+import "./index.css";
 
-export default function Editor() {
+export default function Editor({ children }: { children: React.ReactNode }) {
   return (
     <div className="editor-container">
       <h1 contentEditable="true">New Template</h1>
@@ -18,6 +18,7 @@ export default function Editor() {
         sodales ligula pharetra at. Morbi ac nisl adipiscing sem interdum
         convallis.
       </div>
+      {children}
     </div>
   );
 }
