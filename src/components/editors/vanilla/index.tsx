@@ -1,10 +1,18 @@
 import "./index.css";
 
+// See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
+
 export default function Editor({ children }: { children: React.ReactNode }) {
   return (
     <div className="editor-container">
-      <h1 contentEditable="true">New Template</h1>
-      <div contentEditable="true" className="editor">
+      <h1 contentEditable="true" suppressContentEditableWarning={true}>
+        New Template
+      </h1>
+      <div
+        contentEditable={true}
+        suppressContentEditableWarning={true}
+        className="editor"
+      >
         Vestibulum vel orci hendrerit ligula pharetra volutpat et sed dui.
         Phasellus vitae feugiat dolor. Mauris eleifend neque ac iaculis aliquet.
         Nunc malesuada nisi in dictum tristique. Vestibulum mauris eros, varius
