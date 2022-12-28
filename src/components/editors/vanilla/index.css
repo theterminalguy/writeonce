@@ -1,4 +1,4 @@
-div.editor {
+div.vanilla__editor {
   width: 80%;
   height: 500px;
   padding: 6px 12px;
@@ -16,7 +16,7 @@ div.editor {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-div.editor-container h1 {
+div.vanilla__editor-container h1 {
     font-size: 2em;
     margin: 0.67em 0;
     max-width: 82%;

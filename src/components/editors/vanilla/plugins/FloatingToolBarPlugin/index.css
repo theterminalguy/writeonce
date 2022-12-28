@@ -1,4 +1,4 @@
-div.floating-toolbar {
+div.vanilla__floating-toolbar {
   display: none; 
   list-style: none;
   position: absolute;
@@ -14,7 +14,7 @@ div.floating-toolbar {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
-button.floating-toolbar-button {
+button.vanilla__floating-toolbar-button {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 6px 12px;
@@ -22,20 +22,20 @@ button.floating-toolbar-button {
   cursor: pointer;
 }
 
-button.floating-toolbar-button:hover {
+button.vanilla__floating-toolbar-button:hover {
   background: #000;
   color: #fff;
 }
 
-button.btn-make-bold {
+button.vanilla__btn-make-bold {
   font-weight: bold;
 }
 
-button.btn-make-italic {
+button.vanilla__btn-make-italic {
   font-style: italic;
 }
 
-button.btn-make-underline {
+button.vanilla__btn-make-underline {
   text-decoration: underline;
 }
 

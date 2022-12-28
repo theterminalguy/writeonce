@@ -4,7 +4,7 @@ import "./index.css";
 export default function FloatingToolBarPlugin() {
   const showFloatingToolBar = (e: MouseEvent) => {
     const floatingToolBar = document.querySelector(
-      "div.floating-toolbar"
+      "div.vanilla__floating-toolbar"
     ) as HTMLElement;
     const selection = window.getSelection();
     if (!selection || selection.type !== "Range") {
@@ -36,10 +36,10 @@ export default function FloatingToolBarPlugin() {
   const makeUnderline = () => document.execCommand("underline");
 
   return (
-    <div className="floating-toolbar">
+    <div className="vanilla__floating-toolbar">
       <button
         type="button"
-        className="floating-toolbar-button btn-make-placeholder"
+        className="vanilla__floating-toolbar-button vanilla__btn-make-placeholder"
         title="Make placeholder"
         onClick={() => {
           console.log("clicked");
@@ -47,7 +47,7 @@ export default function FloatingToolBarPlugin() {
       >{`{x}`}</button>
       <button
         type="button"
-        className="floating-toolbar-button btn-make-bold"
+        className="vanilla__floating-toolbar-button vanilla__btn-make-bold"
         title="Bold"
         onClick={makeBold}
       >
@@ -55,7 +55,7 @@ export default function FloatingToolBarPlugin() {
       </button>
       <button
         type="button"
-        className="floating-toolbar-button btn-make-italic"
+        className="vanilla__floating-toolbar-button vanilla__btn-make-italic"
         title="Italic"
         onClick={makeItalic}
       >
@@ -63,7 +63,7 @@ export default function FloatingToolBarPlugin() {
       </button>
       <button
         type="button"
-        className="floating-toolbar-button btn-make-underline"
+        className="vanilla__floating-toolbar-button vanilla__btn-make-underline"
         title="Underline"
         onClick={makeUnderline}
       >

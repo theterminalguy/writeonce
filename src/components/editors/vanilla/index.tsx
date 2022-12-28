@@ -5,14 +5,14 @@ import FloatingToolBarPlugin from "./plugins/FloatingToolBarPlugin";
 
 export default function Editor() {
   return (
-    <div className="editor-container">
+    <div className="vanilla__editor-container">
       <h1 contentEditable="true" suppressContentEditableWarning={true}>
         New Template
       </h1>
       <div
         contentEditable={true}
         suppressContentEditableWarning={true}
-        className="editor"
+        className="vanilla__editor"
       >
         Vestibulum vel orci hendrerit ligula pharetra volutpat et sed dui.
         Phasellus vitae feugiat dolor. Mauris eleifend neque ac iaculis aliquet.
