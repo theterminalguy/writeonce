@@ -41,6 +41,17 @@ export default function FloatingToolBarPlugin() {
 
   // TODO: make this function a hook and move it to a separate file
   const makePlaceholder = () => {
+    // if the modal is visible, don't do anything
+    if (isModalVisible(uniqueId)) {
+      // tell the user to complete the previous action
+      alert("Please complete the previous action");
+      // set focus on the input
+      const input = document.querySelector(
+        `div.vanilla__modal-${uniqueId} input[type="text"]`
+      ) as HTMLInputElement;
+      input.focus();
+      return;
+    }
     const selection = window.getSelection();
     if (!selection || !$isRangeSelection(selection)) {
       return;
@@ -52,8 +63,8 @@ export default function FloatingToolBarPlugin() {
       return;
     }
     const selectedText = selection.toString();
-    $replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
-    $showRenamePlaceholderModal(selection, selectedText, uniqueId);
+    replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
+    showRenamePlaceholderModal(selection, selectedText, uniqueId);
   };
 
   return (
@@ -100,7 +111,14 @@ export default function FloatingToolBarPlugin() {
   );
 }
 
-function $showRenamePlaceholderModal(
+function isModalVisible(modalId: string) {
+  const modal = document.querySelector(
+    `div.vanilla__modal-${modalId}`
+  ) as HTMLElement;
+  return modal.style.display === "block";
+}
+
+function showRenamePlaceholderModal(
   selection: Selection,
   selectedText: string,
   moadalId: string
@@ -119,7 +137,7 @@ function $showRenamePlaceholderModal(
   input.focus();
 }
 
-const $replaceSelectionWithPlaceholderNode = (
+const replaceSelectionWithPlaceholderNode = (
   selection: Selection,
   selectedText: string,
   placholderId: string
