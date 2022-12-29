@@ -18,8 +18,21 @@ export default class Placeholder {
   }
 
   render(): HTMLSpanElement {
+    /**
+     * Attibutes:
+     * - data-placeholder-id (string) - id of the placeholder
+     * - data-placeholder-name (string) - name of the placeholder
+     * - data-placeholder-original-text (string) - original text of the placeholder (before it was replaced with {{.name}})
+     * 
+     * Classes:
+     * - vanilla__placeholder (string) - class for all placeholders
+     * - vanilla__placeholder-group-${id} (string) - class for all placeholder specific to a group
+     */
     const placeholder = document.createElement("span");
-    placeholder.classList.add("vanilla__placeholder");
+    placeholder.classList.add(
+      "vanilla__placeholder",
+      `vanilla__placeholder-group-${this.id}`
+    );
     placeholder.setAttribute("data-placeholder-id", this.id);
     placeholder.setAttribute("data-placeholder-name", this.name);
     placeholder.setAttribute(
@@ -27,7 +40,7 @@ export default class Placeholder {
       this.originalText
     );
     placeholder.setAttribute("contenteditable", "false");
-    placeholder.innerHTML = `{{.${this.name}}}`
+    placeholder.innerHTML = `{{.${this.name}}}`;
     return placeholder;
   }
 }

@@ -8,3 +8,8 @@ span.vanilla__placeholder {
     cursor: pointer;
     color: #999;
 }
+
+span.vanilla__placeholder--active {
+    background-color: #ccc;
+    color: #666;
+}

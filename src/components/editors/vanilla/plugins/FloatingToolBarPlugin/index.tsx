@@ -52,7 +52,7 @@ export default function FloatingToolBarPlugin() {
 
     const selectedText = selection.toString();
     const placeholderComponent = new Placeholder({
-      id:"1",
+      id: "1",
       name: selectedText,
       originalText: selectedText,
     });
