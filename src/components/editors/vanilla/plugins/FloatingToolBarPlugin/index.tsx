@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { generate } from 'shortid';
+import { generate } from "shortid";
 
 import "./index.css";
 import Modal from "../../components/modal";
 import Placeholder from "../../components/placeholder";
 export default function FloatingToolBarPlugin() {
+  const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
     const floatingToolBar = document.querySelector(
       "div.vanilla__floating-toolbar"
@@ -37,6 +38,8 @@ export default function FloatingToolBarPlugin() {
   const makeBold = () => document.execCommand("bold");
   const makeItalic = () => document.execCommand("italic");
   const makeUnderline = () => document.execCommand("underline");
+
+  // TODO: make this function a hook and move it to a separate file
   const makePlaceholder = () => {
     const selection = window.getSelection();
     if (!selection || !$isRangeSelection(selection)) {
@@ -48,18 +51,9 @@ export default function FloatingToolBarPlugin() {
       alert("You can't nest placeholders");
       return;
     }
-    const { left, top } = $getSelectionRect(selection);
-    console.log(left, top);
-
     const selectedText = selection.toString();
-    const placeholderId = generate();
-    const placeholderComponent = new Placeholder({
-      id: placeholderId,
-      name: selectedText,
-      originalText: selectedText,
-    });
-    selection.deleteFromDocument();
-    selection.getRangeAt(0).insertNode(placeholderComponent.render());
+    $replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
+    $showRenamePlaceholderModal(selection, selectedText, uniqueId);
   };
 
   return (
@@ -96,10 +90,48 @@ export default function FloatingToolBarPlugin() {
           U
         </button>
       </div>
-      <Modal title="Enter a name" handleOk={() => {}} handleCancel={() => {}} />
+      <Modal
+        id={uniqueId}
+        title="Enter a name"
+        handleOk={() => {}}
+        handleCancel={() => {}}
+      />
     </>
   );
 }
+
+function $showRenamePlaceholderModal(
+  selection: Selection,
+  selectedText: string,
+  moadalId: string
+) {
+  const { left, top } = $getSelectionRect(selection);
+  const modal = document.querySelector(
+    `div.vanilla__modal-${moadalId}`
+  ) as HTMLElement;
+  modal.style.display = "block";
+  modal.style.left = left - 32 + "px";
+  modal.style.top = top + 30 + "px";
+
+  // set focus on the input
+  const input = modal.querySelector('input[type="text"]') as HTMLInputElement;
+  input.value = selectedText;
+  input.focus();
+}
+
+const $replaceSelectionWithPlaceholderNode = (
+  selection: Selection,
+  selectedText: string,
+  placholderId: string
+) => {
+  const placeholderComponent = new Placeholder({
+    id: placholderId,
+    name: selectedText,
+    originalText: selectedText,
+  });
+  selection.deleteFromDocument();
+  selection.getRangeAt(0).insertNode(placeholderComponent.render());
+};
 
 const $isSelectionPlaceholder = (selection: Selection) => {
   const parentNode = selection?.anchorNode?.parentNode as HTMLElement;
