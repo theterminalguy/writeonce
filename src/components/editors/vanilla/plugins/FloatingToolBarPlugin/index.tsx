@@ -1,4 +1,5 @@
-import { useEffect, useId } from "react";
+import { useEffect } from "react";
+import { generate } from 'shortid';
 
 import "./index.css";
 import Modal from "../../components/modal";
@@ -51,8 +52,9 @@ export default function FloatingToolBarPlugin() {
     console.log(left, top);
 
     const selectedText = selection.toString();
+    const placeholderId = generate();
     const placeholderComponent = new Placeholder({
-      id: "1",
+      id: placeholderId,
       name: selectedText,
       originalText: selectedText,
     });
