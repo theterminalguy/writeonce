@@ -1,5 +1,5 @@
 div.vanilla__modal {
-  /* display: none; */
+  display: none;
   border: 1px solid #ccc;
   position: absolute;
   padding: 10px;

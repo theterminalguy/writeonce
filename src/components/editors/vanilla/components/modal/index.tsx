@@ -1,11 +1,17 @@
 import { useId, useState } from "react";
 
 import "./index.css";
-export default function Modal({ title }: { title: string }) {
+
+type ModalProps = {
+  title: string;
+  handleOk: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleCancel: (e: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
+export default function Modal({ title, handleOk, handleCancel } : ModalProps) {
+  const [error] = useState(false);
   const id = useId();
   const htmlId = `title-${id}`;
-
-  const [error] = useState(false);
 
   return (
     <div className="vanilla__modal">
@@ -14,8 +20,8 @@ export default function Modal({ title }: { title: string }) {
         <input type="text" id={htmlId} name={htmlId} required />
         {error && <span className="vanilla__error-message">Required</span>}
         <div className="vanilla__modal-buttons">
-          <button type="button">OK</button>
-          <button type="button">Cancel</button>
+          <button type="button" onClick={handleOk}>OK</button>
+          <button type="button" onClick={handleCancel}>Cancel</button>
         </div>
       </div>
     </div>
