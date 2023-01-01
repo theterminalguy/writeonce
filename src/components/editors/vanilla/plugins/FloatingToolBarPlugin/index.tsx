@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { generate } from "shortid";
 
 import "./index.css";
-import Modal from "../../components/modal";
-import Placeholder from "../../components/placeholder";
+import Modal, { $getModal } from "../../components/modal";
+import Placeholder, { $getPlaceholder } from "../../components/placeholder";
 export default function FloatingToolBarPlugin() {
   const uniqueId = generate();
+  console.log('uniqueId', uniqueId)
   const showFloatingToolBar = (e: MouseEvent) => {
     const floatingToolBar = document.querySelector(
       "div.vanilla__floating-toolbar"
@@ -67,6 +68,52 @@ export default function FloatingToolBarPlugin() {
     showRenamePlaceholderModal(selection, selectedText, uniqueId);
   };
 
+  const handleModalOk = () => {
+    const modal = $getModal(uniqueId);
+    if (!modal) {
+      console.error("Modal not found");
+      return;
+    }
+    const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
+    // validate placeholder name
+    if (input.value.trim() === "") {
+      // show error
+      modal.classList.add("vanilla__modal-error");
+      return;
+    }
+  };
+
+  const handleModalCancel = () => {
+    const modal = $getModal(uniqueId);
+    if (!modal) {
+      // TODO: show error to the user
+      console.error("Modal not found");
+      return;
+    }
+    modal.style.display = "none";
+    if (modal.classList.contains("vanilla__modal-error")) {
+      modal.classList.remove("vanilla__modal-error");
+    }
+    const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
+    input.value = "";
+
+    // undo the placeholder creation
+    const placeholder = $getPlaceholder(uniqueId);
+    if (!placeholder) {
+      // TODO: show error to the user
+      console.error("Placeholder not found");
+      return;
+    }
+    const originalText = placeholder.getAttribute("data-placeholder-original-text");
+    if (!originalText) {
+      // TODO: show error to the user
+      console.error("Original text not found");
+      return;
+    }
+    const textNode = document.createTextNode(originalText);
+    placeholder.parentNode?.replaceChild(textNode, placeholder);
+  };
+
   return (
     <>
       <div className="vanilla__floating-toolbar">
@@ -104,8 +151,8 @@ export default function FloatingToolBarPlugin() {
       <Modal
         id={uniqueId}
         title="Enter a name"
-        handleOk={() => {}}
-        handleCancel={() => {}}
+        handleOk={handleModalOk}
+        handleCancel={handleModalCancel}
       />
     </>
   );

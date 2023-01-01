@@ -5,7 +5,7 @@ import "./index.css";
 type ModalProps = {
   id: string;
   title: string;
-  handleOk: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleOk: () => void;
   handleCancel: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
@@ -36,3 +36,9 @@ export default function Modal({
     </div>
   );
 }
+
+export const $getModal = (modalId: string): HTMLDivElement | null => {
+  return document.querySelector(
+    `div.vanilla__modal-${modalId}`
+  ) as HTMLDivElement | null;
+};

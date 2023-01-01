@@ -31,6 +31,7 @@ export default class Placeholder {
     const placeholder = document.createElement("span");
     placeholder.classList.add(
       "vanilla__placeholder",
+      `vanilla__placeholder-${this.id}`,
       `vanilla__placeholder-group-${this.id}`
     );
     placeholder.setAttribute("data-placeholder-id", this.id);
@@ -43,4 +44,10 @@ export default class Placeholder {
     placeholder.innerHTML = `{{.${this.name}}}`;
     return placeholder;
   }
+}
+
+export const $getPlaceholder = (placeholderId: string): HTMLSpanElement | null => {
+  return document.querySelector(
+    `span.vanilla__placeholder-${placeholderId}`
+  ) as HTMLSpanElement | null;
 }
