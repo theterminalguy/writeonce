@@ -1,11 +1,10 @@
-import React from 'react';
-import './App.css';
-import Editor from './components/editors/vanilla/index';
+import "./App.css";
+import VanillaEditor from "./components/editors/vanilla";
 
 function App() {
   return (
     <div className="wrapper">
-      <Editor />
+      <VanillaEditor />
     </div>
   );
 }
