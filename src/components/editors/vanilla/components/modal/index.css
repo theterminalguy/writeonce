@@ -46,4 +46,6 @@ span.vanilla__error-message {
   color: red;
   font-size: 12px;
   padding: 5px;
+  /* TODO: remove this and use react state to show/hide */
+  display: none; 
 }

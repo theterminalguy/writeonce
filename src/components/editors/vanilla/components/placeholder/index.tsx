@@ -51,3 +51,5 @@ export const $getPlaceholder = (placeholderId: string): HTMLSpanElement | null =
     `span.vanilla__placeholder-${placeholderId}`
   ) as HTMLSpanElement | null;
 }
+
+export const $placeholdify = (input: string): string => `{{.${input}}}`;

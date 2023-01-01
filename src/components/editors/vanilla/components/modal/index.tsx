@@ -24,6 +24,7 @@ export default function Modal({
         <label htmlFor={htmlId}>{title}</label>
         <input type="text" id={htmlId} name={htmlId} required />
         {error && <span className="vanilla__error-message">Required</span>}
+        <span className="vanilla__error-message">Required</span>
         <div className="vanilla__modal-buttons">
           <button type="button" onClick={handleOk}>
             OK
@@ -42,3 +43,21 @@ export const $getModal = (modalId: string): HTMLDivElement | null => {
     `div.vanilla__modal-${modalId}`
   ) as HTMLDivElement | null;
 };
+
+export const $closeModal = (modalId: string): boolean => {
+  const modal = $getModal(modalId);
+  if(!modal) return false;
+
+  modal.style.display = "none";
+  if (modal.classList.contains("vanilla__modal-error")) {
+    modal.classList.remove("vanilla__modal-error");
+  }
+  const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
+  input.value = "";
+  input.classList.remove("vanilla__error");
+  const spanError = modal.querySelector(
+    "span.vanilla__error-message"
+  ) as HTMLSpanElement;
+  spanError.style.display = "none";
+  return true;
+}

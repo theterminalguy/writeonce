@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { generate } from "shortid";
 
 import "./index.css";
-import Modal, { $getModal } from "../../components/modal";
-import Placeholder, { $getPlaceholder } from "../../components/placeholder";
+import Modal, { $closeModal, $getModal } from "../../components/modal";
+import Placeholder, { $getPlaceholder, $placeholdify } from "../../components/placeholder";
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
 
@@ -43,7 +43,6 @@ export default function FloatingToolBarPlugin() {
 
   // TODO: make this function a hook and move it to a separate file
   const makePlaceholder = () => {
-    console.log('uniqueId makePlaceholder', uniqueId)
     // if the modal is visible, don't do anything
     if (isModalVisible(uniqueId)) {
       // tell the user to complete the previous action
@@ -81,25 +80,34 @@ export default function FloatingToolBarPlugin() {
     if (input.value.trim() === "") {
       // show error
       modal.classList.add("vanilla__modal-error");
+      const spanError = modal.querySelector(
+        "span.vanilla__error-message"
+      ) as HTMLSpanElement;
+      spanError.style.display = "block";
+      input.classList.add("vanilla__error");
+      input.focus();
       return;
     }
+    // replace placeholder with the name
+    const placeholder = $getPlaceholder(uniqueId);
+    if (!placeholder) { return }
+    placeholder.innerText = $placeholdify(input.value);
+
+    // set the caret after the last placeholder
+    const range = document.createRange();
+    range.setStartAfter(placeholder);
+    range.setEndAfter(placeholder);
+    const sel = window.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+
+    $closeModal(uniqueId);
     // re-render component
     setRendered(!rendered);
   };
 
   const handleModalCancel = () => {
-    const modal = $getModal(uniqueId);
-    if (!modal) {
-      // TODO: show error to the user
-      console.error("Modal not found");
-      return;
-    }
-    modal.style.display = "none";
-    if (modal.classList.contains("vanilla__modal-error")) {
-      modal.classList.remove("vanilla__modal-error");
-    }
-    const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
-    input.value = "";
+    if (!$closeModal(uniqueId)) return;
 
     // undo the placeholder creation
     const placeholder = $getPlaceholder(uniqueId);
