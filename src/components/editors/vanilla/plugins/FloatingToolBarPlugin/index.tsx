@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { generate } from "shortid";
 
 import "./index.css";
 import Modal, { $getModal } from "../../components/modal";
 import Placeholder, { $getPlaceholder } from "../../components/placeholder";
 export default function FloatingToolBarPlugin() {
+  const [rendered, setRendered] = useState(false);
+
   const uniqueId = generate();
-  console.log('uniqueId', uniqueId)
   const showFloatingToolBar = (e: MouseEvent) => {
     const floatingToolBar = document.querySelector(
       "div.vanilla__floating-toolbar"
@@ -42,6 +43,7 @@ export default function FloatingToolBarPlugin() {
 
   // TODO: make this function a hook and move it to a separate file
   const makePlaceholder = () => {
+    console.log('uniqueId makePlaceholder', uniqueId)
     // if the modal is visible, don't do anything
     if (isModalVisible(uniqueId)) {
       // tell the user to complete the previous action
@@ -81,6 +83,8 @@ export default function FloatingToolBarPlugin() {
       modal.classList.add("vanilla__modal-error");
       return;
     }
+    // re-render component
+    setRendered(!rendered);
   };
 
   const handleModalCancel = () => {
@@ -112,6 +116,8 @@ export default function FloatingToolBarPlugin() {
     }
     const textNode = document.createTextNode(originalText);
     placeholder.parentNode?.replaceChild(textNode, placeholder);
+    // re-render component
+    setRendered(!rendered);
   };
 
   return (
