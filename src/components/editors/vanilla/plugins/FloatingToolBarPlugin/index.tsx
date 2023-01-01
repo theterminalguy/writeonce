@@ -94,13 +94,7 @@ export default function FloatingToolBarPlugin() {
     placeholder.innerText = $placeholdify(input.value);
 
     // set the caret after the last placeholder
-    const range = document.createRange();
-    range.setStartAfter(placeholder);
-    range.setEndAfter(placeholder);
-    const sel = window.getSelection();
-    sel?.removeAllRanges();
-    sel?.addRange(range);
-
+    $setCaretAfterPlaceholder(placeholder);
     $closeModal(uniqueId);
     // re-render component
     setRendered(!rendered);
@@ -134,7 +128,7 @@ export default function FloatingToolBarPlugin() {
         <button
           type="button"
           className="vanilla__floating-toolbar-button vanilla__btn-make-placeholder"
-          title="Make placeholder"
+          title="placeholdify"
           onClick={makePlaceholder}
         >{`{x}`}</button>
         <button
@@ -225,3 +219,12 @@ const $getSelectionRect = (selection: Selection) => {
   const range = selection.getRangeAt(0);
   return range.getBoundingClientRect();
 };
+
+const $setCaretAfterPlaceholder = (placeholder: HTMLElement) => {
+  const range = document.createRange();
+  range.setStartAfter(placeholder);
+  range.setEndAfter(placeholder);
+  const sel = window.getSelection();
+  sel?.removeAllRanges();
+  sel?.addRange(range);
+}
