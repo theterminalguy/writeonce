@@ -1,3 +1,12 @@
+import './index.css'
+import PlaceholderItem from './PlaceholderItem';
+
 export default function PlaceholderSidePanel() {
-  return <form name="vanilla__placeholder-side-panel"></form>;
+  return (
+    <div className="vanilla__placeholder-sidepanel-wrapper">
+      <form name="vanilla__placeholder-side-panel">
+        <PlaceholderItem />
+      </form>;
+    </div>
+  );
 }
