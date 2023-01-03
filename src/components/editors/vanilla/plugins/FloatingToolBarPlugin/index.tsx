@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { generate } from "shortid";
-
+import ReactDOMServer from "react-dom/server";
 import "./index.css";
 import Modal, { $closeModal, $getModal } from "../../components/modal";
-import Placeholder, { $getPlaceholder, $placeholdify } from "../../components/placeholder";
+import Placeholder, {
+  $getPlaceholder,
+  $placeholdify,
+} from "../../components/placeholder";
+import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
 
@@ -90,8 +94,13 @@ export default function FloatingToolBarPlugin() {
     }
     // replace placeholder with the name
     const placeholder = $getPlaceholder(uniqueId);
-    if (!placeholder) { return }
-    placeholder.innerText = $placeholdify(input.value);
+    if (!placeholder) {
+      return;
+    }
+    const placeholderName = input.value;
+    placeholder.innerText = $placeholdify(placeholderName);
+
+    addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
 
     // set the caret after the last placeholder
     $setCaretAfterPlaceholder(placeholder);
@@ -110,7 +119,9 @@ export default function FloatingToolBarPlugin() {
       console.error("Placeholder not found");
       return;
     }
-    const originalText = placeholder.getAttribute("data-placeholder-original-text");
+    const originalText = placeholder.getAttribute(
+      "data-placeholder-original-text"
+    );
     if (!originalText) {
       // TODO: show error to the user
       console.error("Original text not found");
@@ -192,6 +203,16 @@ function showRenamePlaceholderModal(
   input.focus();
 }
 
+function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
+  const placeholderSidePanel = document.querySelector(
+    "div.vanilla__placeholder-side-panel"
+  ) as HTMLDivElement;
+  const htmlString = ReactDOMServer.renderToStaticMarkup(
+    <PlaceholderItem placeholderId={id} placeholderName={name} />
+  );
+  placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
+}
+
 const replaceSelectionWithPlaceholderNode = (
   selection: Selection,
   selectedText: string,
@@ -227,4 +248,4 @@ const $setCaretAfterPlaceholder = (placeholder: HTMLElement) => {
   const sel = window.getSelection();
   sel?.removeAllRanges();
   sel?.addRange(range);
-}
+};
