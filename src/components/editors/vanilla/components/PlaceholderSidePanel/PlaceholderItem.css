@@ -6,7 +6,7 @@ div.vanilla__placeholder-item {
   cursor: pointer;
 
   /* add glass effect */
-  background: rgba(255, 255, 255, 0.5);
+  /* background: rgba(255, 255, 255, 0.5); */
   -webkit-box-shadow: 0 8px 6px -6px #999;
   -moz-box-shadow: 0 8px 6px -6px #999;
   box-shadow: 0 8px 6px -6px #999;
@@ -22,13 +22,13 @@ div.vanilla__placeholder-item {
 }
 
 div.vanilla__placeholder-item:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   -webkit-box-shadow: 0 8px 6px -6px #666;
   -moz-box-shadow: 0 8px 6px -6px #666;
   box-shadow: 0 8px 6px -6px #666;
 }
 
-span.vanilla__placeholder-item-name {
+div.vanilla__placeholder-item-header  {
   font-weight: bold;
   font-size: 16px;
   margin-bottom: 5px;
@@ -37,13 +37,12 @@ span.vanilla__placeholder-item-name {
 }
 
 div.vanilla__placeholder-item-header button {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 6px 12px;
-    margin: 5px;
-    cursor: pointer;
-  }
-  
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin: 5px;
+  cursor: pointer;
+}
 
 div.vanilla__placeholder-field input,
 select,

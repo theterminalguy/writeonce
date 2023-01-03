@@ -1,12 +1,25 @@
 import "./PlaceholderItem.css";
 
+type PlaceholderItemProps = {
+  placeholderName: string;
+  placeholderId: string;
+};
+
 export default class PlaceholderItem {
+  placeholderName: string;
+  placeholderId: string;
+
+  constructor({ placeholderName, placeholderId }: PlaceholderItemProps) {
+    this.placeholderName = placeholderName;
+    this.placeholderId = placeholderId;
+  }
+
   render(): JSX.Element {
     return (
       <div className="vanilla__placeholder-item ">
         <div className="vanilla__placeholder-item-header">
           <span className="vanilla__placeholder-item-name">
-            Placeholder name
+            {this.placeholderName}
           </span>
           <button type="button" className="vanilla__placeholder-item-delete">
             X
