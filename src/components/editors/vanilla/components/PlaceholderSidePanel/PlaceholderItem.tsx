@@ -8,10 +8,23 @@ type PlaceholderItemProps = {
 export default class PlaceholderItem {
   placeholderName: string;
   placeholderId: string;
+  htmlFor: {
+    placeholderType: string;
+    defaultValue: string;
+    required: string;
+    description: string;
+  };
 
   constructor({ placeholderName, placeholderId }: PlaceholderItemProps) {
     this.placeholderName = placeholderName;
     this.placeholderId = placeholderId;
+
+    this.htmlFor = {
+      placeholderType: `placeholder-type-${this.placeholderId}`,
+      defaultValue: `default-value-${this.placeholderId}`,
+      required: `required-${this.placeholderId}`,
+      description: `description-${this.placeholderId}`,
+    };
   }
 
   render(): JSX.Element {
@@ -26,27 +39,28 @@ export default class PlaceholderItem {
           </button>
         </div>
         <div className="vanilla__placeholder-field">
-          <label htmlFor="placeholder-type">Type</label>
-          <select name="placeholder-type" id="placeholder-type">
+          <label htmlFor={this.htmlFor.placeholderType}>Type</label>
+          <select id={this.htmlFor.placeholderType}>
             <option value="text">Text</option>
           </select>
         </div>
 
         <div className="vanilla__placeholder-field">
-          <label htmlFor="default-value">Default value</label>
-          <input type="text" id="default-value" name="default-value" />
+          <label htmlFor={this.htmlFor.defaultValue}>Default value</label>
+          <input type="text" id={this.htmlFor.defaultValue} />
         </div>
 
         <div className="vanilla__placeholder-field">
-          <label htmlFor="required">Required</label>
-          <input type="checkbox" id="required" name="required" />
+          <label htmlFor={this.htmlFor.required}>Required</label>
+          <input type="checkbox" id={this.htmlFor.required} />
         </div>
 
         <div className="vanilla__placeholder-field">
-          <label htmlFor="description">Add description (optional)</label>
+          <label htmlFor={this.htmlFor.description}>
+            Add description (optional)
+          </label>
           <textarea
-            id="description"
-            name="description"
+            id={this.htmlFor.description}
             cols={26}
             rows={3}
             maxLength={50}
