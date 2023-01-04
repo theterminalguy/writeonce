@@ -23,7 +23,7 @@ export default class Placeholder {
      * - data-placeholder-id (string) - id of the placeholder
      * - data-placeholder-name (string) - name of the placeholder
      * - data-placeholder-original-text (string) - original text of the placeholder (before it was replaced with {{.name}})
-     * 
+     *
      * Classes:
      * - vanilla__placeholder (string) - class for all placeholders
      * - vanilla__placeholder-group-${id} (string) - class for all placeholder specific to a group
@@ -46,10 +46,33 @@ export default class Placeholder {
   }
 }
 
-export const $getPlaceholder = (placeholderId: string): HTMLSpanElement | null => {
+export const $getPlaceholder = (
+  placeholderId: string
+): HTMLSpanElement | null => {
   return document.querySelector(
     `span.vanilla__placeholder-${placeholderId}`
   ) as HTMLSpanElement | null;
-}
+};
 
 export const $placeholdify = (input: string): string => `{{.${input}}}`;
+
+export const $undoPlaceholdify = (uniqueId: string): boolean => {
+  // undo the placeholder creation
+  const placeholder = $getPlaceholder(uniqueId);
+  if (!placeholder) {
+    // TODO: show error to the user
+    console.error("Placeholder not found");
+    return false;
+  }
+  const originalText = placeholder.getAttribute(
+    "data-placeholder-original-text"
+  );
+  if (!originalText) {
+    // TODO: show error to the user
+    console.error("Original text not found");
+    return false;
+  }
+  const textNode = document.createTextNode(originalText);
+  placeholder.parentNode?.replaceChild(textNode, placeholder);
+  return true;
+};

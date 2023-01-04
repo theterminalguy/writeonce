@@ -6,8 +6,12 @@ import Modal, { $closeModal, $getModal } from "../../components/modal";
 import Placeholder, {
   $getPlaceholder,
   $placeholdify,
+  $undoPlaceholdify,
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
+
+const EventPlaceholderAdded = "placeholder-added";
+
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
 
@@ -36,6 +40,21 @@ export default function FloatingToolBarPlugin() {
 
   useEffect(() => {
     document.addEventListener("mouseup", showFloatingToolBar);
+    document.addEventListener(EventPlaceholderAdded, (e) => {
+      const customEvent = e as CustomEvent;
+      const detail = customEvent.detail as {
+        id: string;
+        name: string;
+      };
+      const sidePanel = document.querySelector(
+        "div.vanilla__placeholder-side-panel"
+      ) as HTMLElement;
+      const deleteButton = sidePanel.querySelector(
+        `button.vanilla__placeholder-item-delete-${detail.id}`
+      ) as HTMLButtonElement;
+      console.log("Placeholder added", detail.name);
+      deleteButton.addEventListener("click", (e) => onPlaceholderSidepanelDelete(detail.id));
+    });
     return () => {
       document.removeEventListener("mouseup", showFloatingToolBar);
     };
@@ -111,25 +130,7 @@ export default function FloatingToolBarPlugin() {
 
   const handleModalCancel = () => {
     if (!$closeModal(uniqueId)) return;
-
-    // undo the placeholder creation
-    const placeholder = $getPlaceholder(uniqueId);
-    if (!placeholder) {
-      // TODO: show error to the user
-      console.error("Placeholder not found");
-      return;
-    }
-    const originalText = placeholder.getAttribute(
-      "data-placeholder-original-text"
-    );
-    if (!originalText) {
-      // TODO: show error to the user
-      console.error("Original text not found");
-      return;
-    }
-    const textNode = document.createTextNode(originalText);
-    placeholder.parentNode?.replaceChild(textNode, placeholder);
-    // re-render component
+    if (!$undoPlaceholdify(uniqueId)) return;
     setRendered(!rendered);
   };
 
@@ -203,6 +204,18 @@ function showRenamePlaceholderModal(
   input.focus();
 }
 
+function onPlaceholderSidepanelDelete(placeholderId: string) {
+  console.log("delete", placeholderId);
+  $undoPlaceholdify(placeholderId);
+  const placeholderSidePanel = document.querySelector(
+    "div.vanilla__placeholder-side-panel"
+  ) as HTMLDivElement;
+  const placeholderItem = document.querySelector(
+    `div.vanilla__placeholder-item-${placeholderId}`
+  ) as HTMLDivElement;
+  placeholderSidePanel.removeChild(placeholderItem);
+}
+
 function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
   const placeholderSidePanel = document.querySelector(
     "div.vanilla__placeholder-side-panel"
@@ -211,6 +224,11 @@ function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
     <PlaceholderItem placeholderId={id} placeholderName={name} />
   );
   placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
+  // publish a custom event
+  const event = new CustomEvent(EventPlaceholderAdded, {
+    detail: { name, id },
+  });
+  document.dispatchEvent(event);
 }
 
 const replaceSelectionWithPlaceholderNode = (

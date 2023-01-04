@@ -22,7 +22,10 @@ export default function PlaceholderItem({
         <span className="vanilla__placeholder-item-name">
           {placeholderName}
         </span>
-        <button type="button" className="vanilla__placeholder-item-delete">
+        <button
+          type="button"
+          className={`vanilla__placeholder-item-delete vanilla__placeholder-item-delete-${placeholderId}`}
+        >
           X
         </button>
       </div>
