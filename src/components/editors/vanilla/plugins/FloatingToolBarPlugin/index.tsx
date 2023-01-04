@@ -176,6 +176,7 @@ export default function FloatingToolBarPlugin() {
       <Modal
         id={uniqueId}
         title="Enter a name"
+        hasInput={true}
         handleOk={handleModalOk}
         handleCancel={handleModalCancel}
       />
