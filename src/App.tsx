@@ -4,14 +4,14 @@ import { Storybook } from "./components/storybook";
 
 function App() {
   // check if env is dev
-  const isDev = process.env.NODE_ENV === "development";
+  const showStoryBook = false;
   return (
     <>
     <div className="wrapper">
       <VanillaEditor />
     </div>
     {/* todo; this should be  in a separate component and route */}
-      { isDev && <Storybook /> }
+      { showStoryBook && <Storybook /> }
     </>
   );
 }
