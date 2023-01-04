@@ -5,7 +5,8 @@ import "./index.css";
 type ModalProps = {
   id: string;
   title: string;
-  hasInput: boolean;
+  hasInput?: boolean;
+  defaultDisplay?: "none" | "block" | "inline" | "inline-block";
   handleOk: () => void;
   handleCancel: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
@@ -13,7 +14,8 @@ type ModalProps = {
 export default function Modal({
   id,
   title,
-  hasInput,
+  hasInput = true,
+  defaultDisplay = "none",
   handleOk,
   handleCancel,
 }: ModalProps) {
@@ -21,7 +23,9 @@ export default function Modal({
   const htmlId = `title-${id}`;
 
   return (
-    <div className={`vanilla__modal ${error ? "vanilla__modal-error" : ""} vanilla__modal-${id}`}>
+    <div className={`vanilla__modal ${error ? "vanilla__modal-error" : ""} vanilla__modal-${id}`}
+      style={{ display: defaultDisplay }}
+    >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{title}</label>
         {hasInput && <input type="text" id={htmlId} name={htmlId} required /> }

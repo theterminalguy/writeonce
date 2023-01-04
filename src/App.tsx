@@ -10,6 +10,7 @@ function App() {
     <div className="wrapper">
       <VanillaEditor />
     </div>
+    {/* todo; this should be  in a separate component and route */}
       { isDev && <Storybook /> }
     </>
   );
