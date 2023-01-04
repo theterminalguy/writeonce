@@ -38,25 +38,30 @@ export default function FloatingToolBarPlugin() {
     }
   };
 
+  const handlePlaceholderAdd = (e: Event) => {
+    const customEvent = e as CustomEvent;
+    const detail = customEvent.detail as {
+      id: string;
+      name: string;
+    };
+    const sidePanel = document.querySelector(
+      "div.vanilla__placeholder-side-panel"
+    ) as HTMLElement;
+    const deleteButton = sidePanel.querySelector(
+      `button.vanilla__placeholder-item-delete-${detail.id}`
+    ) as HTMLButtonElement;
+    console.log("Placeholder added", detail.name);
+    deleteButton.addEventListener("click", (e) =>
+      onPlaceholderSidepanelDelete(detail.id)
+    );
+  };
+
   useEffect(() => {
     document.addEventListener("mouseup", showFloatingToolBar);
-    document.addEventListener(EventPlaceholderAdded, (e) => {
-      const customEvent = e as CustomEvent;
-      const detail = customEvent.detail as {
-        id: string;
-        name: string;
-      };
-      const sidePanel = document.querySelector(
-        "div.vanilla__placeholder-side-panel"
-      ) as HTMLElement;
-      const deleteButton = sidePanel.querySelector(
-        `button.vanilla__placeholder-item-delete-${detail.id}`
-      ) as HTMLButtonElement;
-      console.log("Placeholder added", detail.name);
-      deleteButton.addEventListener("click", (e) => onPlaceholderSidepanelDelete(detail.id));
-    });
+    document.addEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
     return () => {
       document.removeEventListener("mouseup", showFloatingToolBar);
+      document.removeEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
     };
   }, []);
 

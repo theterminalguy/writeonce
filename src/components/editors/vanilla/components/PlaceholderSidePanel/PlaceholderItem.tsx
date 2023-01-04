@@ -17,7 +17,7 @@ export default function PlaceholderItem({
   };
 
   return (
-    <div className="vanilla__placeholder-item ">
+    <div className={`vanilla__placeholder-item vanilla__placeholder-item-${placeholderId}`}>
       <div className="vanilla__placeholder-item-header">
         <span className="vanilla__placeholder-item-name">
           {placeholderName}
