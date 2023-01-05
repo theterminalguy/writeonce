@@ -1,8 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import logger from 'redux-logger'
+
 import reducer from "./reducers";
 
 export const store = configureStore({
   reducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 store.subscribe(() => {
