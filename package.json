@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@types/shortid": "^0.0.29"
+    "@types/shortid": "^0.0.29",
+    "redux-devtools-extension": "^2.13.9"
   }
 }
