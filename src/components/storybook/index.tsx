@@ -1,6 +1,8 @@
 import Modal from "../editors/vanilla/components/modal";
-
+import { increment } from "../../store/reducers/counterSlice";
+import { store } from "../../store";
 export const Storybook = () => {
+
   return (
     <div className="storybook">
       <Modal
@@ -8,7 +10,7 @@ export const Storybook = () => {
         title="Do you want to replace this placeholder?"
         hasInput={false}
         defaultDisplay="block"
-        handleOk={() => console.log("ok")}
+        handleOk={() => store.dispatch(increment())}
         handleCancel={() => console.log("cancel")}
       />
     </div>

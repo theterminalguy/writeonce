@@ -4,7 +4,7 @@ import { Storybook } from "./components/storybook";
 
 function App() {
   // check if env is dev
-  const showStoryBook = false;
+  const showStoryBook = true;
   return (
     <>
     <div className="wrapper">
