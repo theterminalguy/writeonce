@@ -21,3 +21,9 @@ div.vanilla__editor-container h1 {
     margin: 0.67em 0;
     max-width: 82%;
 }
+
+div.vanilla__editor[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  pointer-events: none;
+  display: block; /* For Firefox */
+}
