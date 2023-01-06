@@ -17,6 +17,11 @@ export default function FloatingToolBarPlugin() {
 
   const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
+    // if it's not the editor, don't show the floating toolbar
+    if (!e.target || !(e.target as HTMLElement).classList.contains("vanilla__editor")) {
+      return;
+    }
+
     const floatingToolBar = document.querySelector(
       "div.vanilla__floating-toolbar"
     ) as HTMLElement;
