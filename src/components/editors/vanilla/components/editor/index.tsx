@@ -1,9 +1,23 @@
+import { useEffect } from "react";
+
 import "./index.css";
 import FloatingToolBarPlugin from "../../plugins/FloatingToolBarPlugin";
 
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
 export default function Editor() {
+  useEffect(() => {
+    document.addEventListener("focusout", (e) => {
+      const editor = e?.target as HTMLElement;
+      if (!editor.classList.contains("vanilla__editor")) return;
+      console.log("focusout", editor.innerHTML);
+    });
+
+    return () => {
+      document.removeEventListener("focusout", () => {});
+    };
+  });
+  
   return (
     <div className="vanilla__editor-container">
       <h1 contentEditable="true" suppressContentEditableWarning={true}>
