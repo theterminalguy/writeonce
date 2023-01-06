@@ -6,7 +6,7 @@ export interface EditorState {
   contentHTML: string;
 }
 
-const initialState: EditorState = {
+export const initialState: EditorState = {
   templateName: "New Template",
   contentText: "",
   contentHTML: "",
