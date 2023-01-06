@@ -3,8 +3,7 @@ import { useEffect } from "react";
 import "./index.css";
 import FloatingToolBarPlugin from "../../plugins/FloatingToolBarPlugin";
 import {
-  setHtmlText,
-  setPlainText,
+  setContent,
   setTemplateName,
 } from "../../../../../store/features/editor/editorSlice";
 import { store } from "../../../../../store";
@@ -25,14 +24,18 @@ export default function Editor({ title }: { title: string }) {
       ) {
         return;
       }
-      const isInputEditor = input.classList.contains("vanilla__editor");
-      const isInputTitle = input.classList.contains("vanilla__editor-title");
+      const isEditorChanged = input.classList.contains("vanilla__editor");
+      const isTitleChanged = input.classList.contains("vanilla__editor-title");
 
-      if (isInputEditor) {
-        store.dispatch(setPlainText(input.innerText));
-        store.dispatch(setHtmlText(input.innerHTML));
+      if (isEditorChanged) {
+        store.dispatch(
+          setContent({
+            contentText: input.innerText,
+            contentHTML: input.innerHTML,
+          })
+        );
       }
-      if (isInputTitle) {
+      if (isTitleChanged) {
         store.dispatch(setTemplateName(input.innerText));
       }
     });
