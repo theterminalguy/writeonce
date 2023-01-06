@@ -13,6 +13,10 @@ import { store } from "../../../../../store";
 
 export default function Editor({ title }: { title: string }) {
   useEffect(() => {
+    // focus the editor on load
+    const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
+    editor.focus();
+
     document.addEventListener("focusout", (e) => {
       const input = e?.target as HTMLElement;
       if (
