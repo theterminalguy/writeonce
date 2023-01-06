@@ -39,6 +39,7 @@ export const editorSlice = createSlice({
   },
 });
 
-export const { setPlainText, setHtmlText } = editorSlice.actions;
+export const { setContent, setPlainText, setHtmlText, setTemplateName } =
+  editorSlice.actions;
 
 export default editorSlice.reducer;
