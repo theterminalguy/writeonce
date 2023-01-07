@@ -8,6 +8,7 @@ export interface PlaceholderState {
   required: boolean;
   default: string;
   description: string;
+  occurrences: number;
 }
 
 export interface PlaceholderPayload {
@@ -18,6 +19,7 @@ export interface PlaceholderPayload {
   required?: boolean;
   default?: string;
   description?: string;
+  occurrences?: number;
 }
 
 export interface PlaceholderUpdatePayload {
@@ -46,6 +48,7 @@ export const placeholdersSlice = createSlice({
         required: action.payload.required || false,
         default: action.payload.default || "",
         description: action.payload.description || "",
+        occurrences: action.payload.occurrences || 0,
       });
     },
     deletePlaceholder(state, action: PayloadAction<string>) {

@@ -86,3 +86,5 @@ export function $getPlaceholderOriginalText(
   }
   return placeholder.getAttribute("data-placeholder-original-text");
 }
+
+// export function $placeholderExists

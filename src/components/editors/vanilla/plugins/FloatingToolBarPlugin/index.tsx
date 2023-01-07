@@ -129,7 +129,44 @@ export default function FloatingToolBarPlugin() {
     if (!placeholder) {
       return;
     }
+
     const placeholderName = input.value;
+    // first check if the placeholder name is unique
+    // if not, ask them if they'd like to merge the placeholders
+    // if yes, merge the placeholders
+    // if no, show an error message and ask them to choose a different name
+
+    // placeholder names are case sensitive but ignores leading and trailing spaces so we need to trim the name
+   /*: const trimmedPlaceholderName = placeholderName.trim();
+    const placeholderExists = $findPlaceholderByName(trimmedPlaceholderName);
+    if (placeholderExists) {
+      // show a modal asking if they'd like to merge the placeholders
+      const mergePlaceholders = confirm(
+        `A placeholder with the name "${trimmedPlaceholderName}" already exists. Would you like to merge the placeholders?`
+      );
+      if (mergePlaceholders) {
+        // merge the placeholders
+        $mergePlaceholders(trimmedPlaceholderName, uniqueId);
+        // re-render component
+        setRendered(!rendered);
+        return;
+      } else {
+        // show an error message and ask them to choose a different name
+        // show error
+        modal.classList.add("vanilla__modal-error");
+        const spanError = modal.querySelector(
+          "span.vanilla__error-message"
+        ) as HTMLSpanElement;
+        spanError.style.display = "block";
+        input.classList.add("vanilla__error");
+        input.focus();
+        return;
+      }
+    }*/
+
+
+
+
     placeholder.innerText = $placeholdify(placeholderName);
 
     addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
