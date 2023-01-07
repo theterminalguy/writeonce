@@ -13,7 +13,10 @@ import Placeholder, {
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../../../../store/index";
-import { addPlaceholder, deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import {
+  addPlaceholder,
+  deletePlaceholder,
+} from "../../../../../store/features/placeholder/placeholderSlice";
 import { Events } from "../../../../events";
 
 export default function FloatingToolBarPlugin() {
@@ -133,49 +136,32 @@ export default function FloatingToolBarPlugin() {
     }
 
     const placeholderName = input.value.trim();
-    // first check if the placeholder name is unique
-    // if not, ask them if they'd like to merge the placeholders
-    // if yes, merge the placeholders
-    // if no, show an error message and ask them to choose a different name
-
-    // placeholder names are case sensitive but ignores leading and trailing spaces so we need to trim the name
     if (!$isPlaceholderNameUnique(placeholderName)) {
       // show a modal asking if they'd like to merge the placeholders
       const shouldMergePlaceholder = window.confirm(
         `A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`
       );
       if (shouldMergePlaceholder) {
-        // merge the placeholders
-        $mergePlaceholders(uniqueId);
-        // re-render component
+        $mergePlaceholders(uniqueId, placeholderName);
         setRendered(!rendered);
+        $closeModal(uniqueId);
         return;
       } else {
-        // show an error message and ask them to choose a different name
-        // show error
         modal.classList.add("vanilla__modal-error");
         const spanError = modal.querySelector(
           "span.vanilla__error-message"
         ) as HTMLSpanElement;
         spanError.style.display = "block";
-        spanError.innerText = `A placeholder with the name "${placeholderName}" already exists. Please choose a different name.`;
+        spanError.innerText = `"${placeholderName}" already in use. Please provide a new name or merge the placeholders.`;
         input.classList.add("vanilla__error");
         input.focus();
         return;
       }
     }
-
-
-
-
     placeholder.innerText = $placeholdify(placeholderName);
-
     addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
-
-    // set the caret after the last placeholder
     $setCaretAfterPlaceholder(placeholder);
     $closeModal(uniqueId);
-    // re-render component
     setRendered(!rendered);
   };
 

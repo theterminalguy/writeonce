@@ -94,6 +94,30 @@ export function $isPlaceholderNameUnique(name: string): boolean {
   return placeholder === undefined;
 }
 
-export function $mergePlaceholders(id: string) {
-  
+/**
+ * @param id - id of the new placeholder
+ * @param name - name of the new placeholder
+ * @returns - true if the placeholder was successfully merged, false otherwise
+ *
+ * @description
+ * This function merges the placeholder with the same name as the placeholder with the given id. The id of the new placeholder,
+ * is ignored and the id of the existing placeholder is used.
+ */
+export function $mergePlaceholders(id: string, name: string) {
+ let newPlaceholder = $getPlaceholder(id);
+  if (!newPlaceholder) {
+    return false;
+  }
+  const data = selectPlaceholderByName(store.getState(), name);
+  if (!data) {
+    return false;
+  }
+  const prevPlaceholder = $getPlaceholder(data.id);
+  if (!prevPlaceholder) {
+    return false;
+  }
+  // clone the prevPlaceholder
+  const clone = prevPlaceholder.cloneNode(true) as HTMLSpanElement;
+  // replace the newPlaceholder with the clone
+  newPlaceholder.parentNode?.replaceChild(clone, newPlaceholder);
 }
