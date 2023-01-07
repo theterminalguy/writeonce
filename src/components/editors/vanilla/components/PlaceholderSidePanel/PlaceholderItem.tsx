@@ -31,7 +31,7 @@ export default function PlaceholderItem({
       </div>
       <div className="vanilla__placeholder-field">
         <label htmlFor={htmlFor.placeholderType}>Type</label>
-        <select id={htmlFor.placeholderType}>
+        <select id={htmlFor.placeholderType} className="vanilla__form-control">
           <option value="text">Text</option>
           <option value="number">Number</option>
           <option value="date">Date</option>
@@ -40,12 +40,12 @@ export default function PlaceholderItem({
 
       <div className="vanilla__placeholder-field">
         <label htmlFor={htmlFor.defaultValue}>Default value</label>
-        <input type="text" id={htmlFor.defaultValue} />
+        <input type="text" id={htmlFor.defaultValue} className="vanilla__form-control" />
       </div>
 
       <div className="vanilla__placeholder-field">
         <label htmlFor={htmlFor.required}>Required</label>
-        <input type="checkbox" id={htmlFor.required} />
+        <input type="checkbox" id={htmlFor.required} className="vanilla__form-control" />
       </div>
 
       <div className="vanilla__placeholder-field">
@@ -55,6 +55,7 @@ export default function PlaceholderItem({
           cols={26}
           rows={3}
           maxLength={50}
+          className="vanilla__form-control"
         ></textarea>
       </div>
     </div>

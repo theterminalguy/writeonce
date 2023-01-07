@@ -20,6 +20,16 @@ export interface PlaceholderPayload {
   description?: string;
 }
 
+export interface PlaceholderUpdatePayload {
+  id: string;
+  name?: string;
+  originalText?: string;
+  dataType?: string;
+  required?: boolean;
+  default?: string;
+  description?: string;
+}
+
 export const initialState: PlaceholderState[] = [];
 
 export const placeholdersSlice = createSlice({
@@ -44,11 +54,29 @@ export const placeholdersSlice = createSlice({
       );
       state.splice(index, 1);
     },
-    updatePlaceholder(state, action: PayloadAction<PlaceholderState>) {
+    updatePlaceholder(state, action: PayloadAction<PlaceholderUpdatePayload>) {
       const index = state.findIndex(
         (placeholder) => placeholder.id === action.payload.id
       );
-      state[index] = action.payload;
+      const placeholder = state[index];
+      if (action.payload.name) {
+        placeholder.name = action.payload.name;
+      }
+      if (action.payload.originalText) {
+        placeholder.originalText = action.payload.originalText;
+      }
+      if (action.payload.dataType) {
+        placeholder.dataType = action.payload.dataType;
+      }
+      if (action.payload.required) {
+        placeholder.required = action.payload.required;
+      }
+      if (action.payload.default) {
+        placeholder.default = action.payload.default;
+      }
+      if (action.payload.description) {
+        placeholder.description = action.payload.description;
+      }
     },
   },
 });

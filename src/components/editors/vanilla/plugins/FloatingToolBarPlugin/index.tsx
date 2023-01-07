@@ -12,8 +12,7 @@ import Placeholder, {
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../../../../store/index";
 import { addPlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
-
-const EventPlaceholderAdded = "placeholder-added";
+import { Events } from "../../../../events";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
@@ -61,10 +60,10 @@ export default function FloatingToolBarPlugin() {
   useEffect(() => {
     const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
     editor.addEventListener("mouseup", showFloatingToolBar);
-    document.addEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
+    document.addEventListener(Events.PlaceholderAdded, handlePlaceholderAdd);
     return () => {
       editor.removeEventListener("mouseup", showFloatingToolBar);
-      document.removeEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
+      document.removeEventListener(Events.PlaceholderAdded, handlePlaceholderAdd);
     };
   }, []);
 
@@ -233,7 +232,7 @@ function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
   );
   placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
   // publish a custom event
-  const event = new CustomEvent(EventPlaceholderAdded, {
+  const event = new CustomEvent(Events.PlaceholderAdded, {
     detail: { name, id },
   });
   document.dispatchEvent(event);
