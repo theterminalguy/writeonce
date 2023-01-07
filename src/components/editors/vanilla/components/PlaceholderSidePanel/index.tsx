@@ -7,17 +7,20 @@ import { updatePlaceholder } from "../../../../../store/features/placeholder/pla
 export default function PlaceholderSidePanel() {
   useEffect(() => {
     document.addEventListener(Events.PlaceholderAdded, function (e) {
+      // stop propagation to prevent the event from being handled by the editor
+      e.stopPropagation();
       const customEvent = e as CustomEvent;
       const placeholder = customEvent.detail as {
         id: string;
         name: string;
       };
       const formControls = document.querySelectorAll(
-        ".vanilla__form-control"
+        `.vanilla__form-control-${placeholder.id}`
       ) as NodeListOf<HTMLElement>;
 
       formControls.forEach((control) => {
         control.addEventListener("focusout", function (e) {
+          e.stopPropagation();
           const target = e.target as HTMLElement;
           let value: string | boolean;
           let name: string;
@@ -28,7 +31,7 @@ export default function PlaceholderSidePanel() {
             name = select.name;
           } else if (target.tagName === "INPUT") {
             const input = target as HTMLInputElement;
-            value = (input.type === "checkbox" ? input.checked : input.value)
+            value = input.type === "checkbox" ? input.checked : input.value;
             name = input.name;
           } else if (target.tagName === "TEXTAREA") {
             const textarea = target as HTMLTextAreaElement;
@@ -38,7 +41,9 @@ export default function PlaceholderSidePanel() {
             // TODO: Handle other types of form controls
             return;
           }
-          store.dispatch(updatePlaceholder({ ...placeholder, [name]: value }));
+          store.dispatch(
+            updatePlaceholder({ id: placeholder.id, [name]: value })
+          );
         });
       });
     });

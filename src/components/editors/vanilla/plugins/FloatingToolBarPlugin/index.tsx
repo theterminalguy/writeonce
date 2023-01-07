@@ -19,6 +19,7 @@ export default function FloatingToolBarPlugin() {
 
   const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
+    e.stopPropagation();
     const floatingToolBar = document.querySelector(
       "div.vanilla__floating-toolbar"
     ) as HTMLElement;
@@ -41,6 +42,7 @@ export default function FloatingToolBarPlugin() {
   };
 
   const handlePlaceholderAdd = (e: Event) => {
+    e.stopPropagation();
     const customEvent = e as CustomEvent;
     const detail = customEvent.detail as {
       id: string;
@@ -52,9 +54,10 @@ export default function FloatingToolBarPlugin() {
     const deleteButton = sidePanel.querySelector(
       `button.vanilla__placeholder-item-delete-${detail.id}`
     ) as HTMLButtonElement;
-    deleteButton.addEventListener("click", (e) =>
-      onPlaceholderSidepanelDelete(detail.id)
-    );
+    deleteButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      onPlaceholderSidepanelDelete(detail.id);
+    });
   };
 
   useEffect(() => {
@@ -63,7 +66,10 @@ export default function FloatingToolBarPlugin() {
     document.addEventListener(Events.PlaceholderAdded, handlePlaceholderAdd);
     return () => {
       editor.removeEventListener("mouseup", showFloatingToolBar);
-      document.removeEventListener(Events.PlaceholderAdded, handlePlaceholderAdd);
+      document.removeEventListener(
+        Events.PlaceholderAdded,
+        handlePlaceholderAdd
+      );
     };
   }, []);
 
@@ -212,7 +218,6 @@ function showRenamePlaceholderModal(
 }
 
 function onPlaceholderSidepanelDelete(placeholderId: string) {
-  console.log("delete", placeholderId);
   $undoPlaceholdify(placeholderId);
   const placeholderSidePanel = document.querySelector(
     "div.vanilla__placeholder-side-panel"

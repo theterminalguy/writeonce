@@ -35,7 +35,7 @@ export default function PlaceholderItem({
         <label htmlFor={htmlFor.placeholderType}>Type</label>
         <select
           id={htmlFor.placeholderType}
-          className="vanilla__form-control"
+          className={`vanilla__form-control vanilla__form-control-${placeholderId}`}
           name="dataType"
         >
           <option value="text">Text</option>
@@ -49,7 +49,7 @@ export default function PlaceholderItem({
         <input
           type="text"
           id={htmlFor.defaultValue}
-          className="vanilla__form-control"
+          className={`vanilla__form-control vanilla__form-control-${placeholderId}`}
           name="default"
         />
       </div>
@@ -59,7 +59,7 @@ export default function PlaceholderItem({
         <input
           type="checkbox"
           id={htmlFor.required}
-          className="vanilla__form-control"
+          className={`vanilla__form-control vanilla__form-control-${placeholderId}`}
           name="required"
         />
       </div>
@@ -71,7 +71,7 @@ export default function PlaceholderItem({
           cols={26}
           rows={3}
           maxLength={50}
-          className="vanilla__form-control"
+          className={`vanilla__form-control vanilla__form-control-${placeholderId}`}
           name="description"
         ></textarea>
       </div>

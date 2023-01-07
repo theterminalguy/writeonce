@@ -16,6 +16,7 @@ export default function Editor({ title }: { title: string }) {
     const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
     editor.focus();
     editor.addEventListener("focusout", function (e) {
+      e.stopPropagation();
       const input = e?.target as HTMLElement;
       // TODO only dispatch if the content has changed
       store.dispatch(
@@ -27,6 +28,7 @@ export default function Editor({ title }: { title: string }) {
     });
     const title = document.querySelector("h1.vanilla__editor-title") as HTMLElement;
     title.addEventListener("focusout", function (e) {
+      e.stopPropagation();
       const input = e?.target as HTMLElement;
       // TODO only dispatch if the content has changed
       store.dispatch(setTemplateName(input.innerText));
