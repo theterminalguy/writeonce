@@ -19,8 +19,8 @@ export default function PlaceholderSidePanel() {
       formControls.forEach((control) => {
         control.addEventListener("focusout", function (e) {
           const target = e.target as HTMLElement;
-          let value,
-            name = "";
+          let value: string | boolean;
+          let name: string;
           if (target.tagName === "SELECT") {
             const select = target as HTMLSelectElement;
             const option = select.options[select.selectedIndex];
@@ -28,12 +28,15 @@ export default function PlaceholderSidePanel() {
             name = select.name;
           } else if (target.tagName === "INPUT") {
             const input = target as HTMLInputElement;
-            value = input.value;
+            value = (input.type === "checkbox" ? input.checked : input.value)
             name = input.name;
           } else if (target.tagName === "TEXTAREA") {
             const textarea = target as HTMLTextAreaElement;
             value = textarea.value;
             name = textarea.name;
+          } else {
+            // TODO: Handle other types of form controls
+            return;
           }
           store.dispatch(updatePlaceholder({ ...placeholder, [name]: value }));
         });

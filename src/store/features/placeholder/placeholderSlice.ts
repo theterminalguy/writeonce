@@ -68,9 +68,8 @@ export const placeholdersSlice = createSlice({
       if (action.payload.dataType) {
         placeholder.dataType = action.payload.dataType;
       }
-      if (action.payload.required) {
-        placeholder.required = action.payload.required;
-      }
+      // convert to boolean depending on whether it is undefined or not
+      placeholder.required = !!action.payload.required; 
       if (action.payload.default) {
         placeholder.default = action.payload.default;
       }
