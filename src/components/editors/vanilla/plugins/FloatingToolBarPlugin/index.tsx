@@ -11,7 +11,7 @@ import Placeholder, {
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../../../../store/index";
-import { addPlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import { addPlaceholder, deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import { Events } from "../../../../events";
 
 export default function FloatingToolBarPlugin() {
@@ -226,6 +226,7 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
     `div.vanilla__placeholder-item-${placeholderId}`
   ) as HTMLDivElement;
   placeholderSidePanel.removeChild(placeholderItem);
+  store.dispatch(deletePlaceholder(placeholderId));
 }
 
 function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {

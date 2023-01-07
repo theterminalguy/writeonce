@@ -48,7 +48,7 @@ export const placeholdersSlice = createSlice({
         description: action.payload.description || "",
       });
     },
-    removePlaceholder(state, action: PayloadAction<string>) {
+    deletePlaceholder(state, action: PayloadAction<string>) {
       const index = state.findIndex(
         (placeholder) => placeholder.id === action.payload
       );
@@ -79,7 +79,7 @@ export const placeholdersSlice = createSlice({
   },
 });
 
-export const { addPlaceholder, removePlaceholder, updatePlaceholder } =
+export const { addPlaceholder, deletePlaceholder, updatePlaceholder } =
   placeholdersSlice.actions;
 
 export default placeholdersSlice.reducer;
