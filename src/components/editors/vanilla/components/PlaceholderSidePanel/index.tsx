@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import "./index.css";
 import { Events } from "../../../../events";
+import { store } from "../../../../../store";
+import { updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 
 export default function PlaceholderSidePanel() {
   useEffect(() => {
@@ -17,7 +19,8 @@ export default function PlaceholderSidePanel() {
       formControls.forEach((control) => {
         control.addEventListener("focusout", function (e) {
           const target = e.target as HTMLElement;
-          let value, name = "";
+          let value,
+            name = "";
           if (target.tagName === "SELECT") {
             const select = target as HTMLSelectElement;
             const option = select.options[select.selectedIndex];
@@ -32,8 +35,7 @@ export default function PlaceholderSidePanel() {
             value = textarea.value;
             name = textarea.name;
           }
-          // TODO: support other form controls for example file, date, time, etc
-          console.log("value", value, "name", name, "placeholder", placeholder);
+          store.dispatch(updatePlaceholder({ ...placeholder, [name]: value }));
         });
       });
     });
