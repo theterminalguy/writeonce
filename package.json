@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
+    "@hotwired/stimulus-webpack-helpers": "^1.0.1",
     "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@types/redux-logger": "^3.0.9",
     "@types/shortid": "^0.0.29",
+    "@types/webpack-env": "^1.18.0",
     "redux-logger": "^3.0.6"
   }
 }

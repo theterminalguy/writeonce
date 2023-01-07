@@ -5,15 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { Application } from "@hotwired/stimulus";
-import PlaceholderController from "./components/editors/vanilla/components/PlaceholderSidePanel/placeholder_controller";
+import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers"
 
+// see https://stackoverflow.com/questions/12709074/how-do-you-explicitly-set-a-new-property-on-window-in-typescript
 interface Window {
   Stimulus: Application;
 }
 
 declare var window: Window;
-window.Stimulus = Application.start();
-window.Stimulus.register("placeholder", PlaceholderController);
+window.Stimulus = Application.start()
+const context = require.context("./controllers", true, /\.ts$/)
+window.Stimulus.load(definitionsFromContext(context))
 
 
 const root = ReactDOM.createRoot(
