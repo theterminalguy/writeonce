@@ -1,11 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+import { Application } from "@hotwired/stimulus";
+import PlaceholderController from "./components/editors/vanilla/components/PlaceholderSidePanel/placeholder_controller";
+
+interface Window {
+  Stimulus: Application;
+}
+
+declare var window: Window;
+window.Stimulus = Application.start();
+window.Stimulus.register("placeholder", PlaceholderController);
+
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>

@@ -20,10 +20,16 @@ export default function PlaceholderItem({
     <div
       className={`vanilla__placeholder-item vanilla__placeholder-item-${placeholderId}`}
     >
-      <div className="vanilla__placeholder-item-header">
+      <div className="vanilla__placeholder-item-header" data-controller="placeholder">
         <span className="vanilla__placeholder-item-name">
           {placeholderName}
         </span>
+        <button
+          type="button"
+          onClick={() => console.log('delete....')}
+          data-action="click->placeholder#deletePlaceholder"
+          >Click Me</button>
+
         <button
           type="button"
           className={`vanilla__placeholder-item-delete vanilla__placeholder-item-delete-${placeholderId}`}
