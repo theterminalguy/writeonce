@@ -17,21 +17,23 @@ export default function PlaceholderSidePanel() {
       formControls.forEach((control) => {
         control.addEventListener("focusout", function (e) {
           const target = e.target as HTMLElement;
-          let value = "";
+          let value, name = "";
           if (target.tagName === "SELECT") {
             const select = target as HTMLSelectElement;
             const option = select.options[select.selectedIndex];
             value = option.value;
-            console.log("select:", value);
+            name = select.name;
           } else if (target.tagName === "INPUT") {
             const input = target as HTMLInputElement;
-            console.log("input:", input.type, input.value);
+            value = input.value;
+            name = input.name;
           } else if (target.tagName === "TEXTAREA") {
             const textarea = target as HTMLTextAreaElement;
             value = textarea.value;
-            console.log("text area:", value);
+            name = textarea.name;
           }
           // TODO: support other form controls for example file, date, time, etc
+          console.log("value", value, "name", name, "placeholder", placeholder);
         });
       });
     });

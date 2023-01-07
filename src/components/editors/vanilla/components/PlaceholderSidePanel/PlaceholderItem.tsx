@@ -17,7 +17,9 @@ export default function PlaceholderItem({
   };
 
   return (
-    <div className={`vanilla__placeholder-item vanilla__placeholder-item-${placeholderId}`}>
+    <div
+      className={`vanilla__placeholder-item vanilla__placeholder-item-${placeholderId}`}
+    >
       <div className="vanilla__placeholder-item-header">
         <span className="vanilla__placeholder-item-name">
           {placeholderName}
@@ -31,7 +33,11 @@ export default function PlaceholderItem({
       </div>
       <div className="vanilla__placeholder-field">
         <label htmlFor={htmlFor.placeholderType}>Type</label>
-        <select id={htmlFor.placeholderType} className="vanilla__form-control">
+        <select
+          id={htmlFor.placeholderType}
+          className="vanilla__form-control"
+          name="dataType"
+        >
           <option value="text">Text</option>
           <option value="number">Number</option>
           <option value="date">Date</option>
@@ -40,12 +46,22 @@ export default function PlaceholderItem({
 
       <div className="vanilla__placeholder-field">
         <label htmlFor={htmlFor.defaultValue}>Default value</label>
-        <input type="text" id={htmlFor.defaultValue} className="vanilla__form-control" />
+        <input
+          type="text"
+          id={htmlFor.defaultValue}
+          className="vanilla__form-control"
+          name="default"
+        />
       </div>
 
       <div className="vanilla__placeholder-field">
         <label htmlFor={htmlFor.required}>Required</label>
-        <input type="checkbox" id={htmlFor.required} className="vanilla__form-control" />
+        <input
+          type="checkbox"
+          id={htmlFor.required}
+          className="vanilla__form-control"
+          name="required"
+        />
       </div>
 
       <div className="vanilla__placeholder-field">
@@ -56,6 +72,7 @@ export default function PlaceholderItem({
           rows={3}
           maxLength={50}
           className="vanilla__form-control"
+          name="description"
         ></textarea>
       </div>
     </div>
