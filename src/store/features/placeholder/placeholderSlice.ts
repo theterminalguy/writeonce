@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../..";
 
 export interface PlaceholderState {
   id: string;
@@ -84,5 +85,14 @@ export const placeholdersSlice = createSlice({
 
 export const { addPlaceholder, deletePlaceholder, updatePlaceholder } =
   placeholdersSlice.actions;
+
+export const selectPlaceholderByName = (
+  state: RootState,
+  name: string
+): PlaceholderUpdatePayload | undefined => {
+  return state.editorState.placeholders.find(
+    (placeholder) => placeholder.name === name
+  );
+};
 
 export default placeholdersSlice.reducer;

@@ -8,6 +8,8 @@ import Placeholder, {
   $getPlaceholderOriginalText,
   $placeholdify,
   $undoPlaceholdify,
+  $isPlaceholderNameUnique,
+  $mergePlaceholders,
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../../../../store/index";
@@ -130,23 +132,21 @@ export default function FloatingToolBarPlugin() {
       return;
     }
 
-    const placeholderName = input.value;
+    const placeholderName = input.value.trim();
     // first check if the placeholder name is unique
     // if not, ask them if they'd like to merge the placeholders
     // if yes, merge the placeholders
     // if no, show an error message and ask them to choose a different name
 
     // placeholder names are case sensitive but ignores leading and trailing spaces so we need to trim the name
-   /*: const trimmedPlaceholderName = placeholderName.trim();
-    const placeholderExists = $findPlaceholderByName(trimmedPlaceholderName);
-    if (placeholderExists) {
+    if (!$isPlaceholderNameUnique(placeholderName)) {
       // show a modal asking if they'd like to merge the placeholders
-      const mergePlaceholders = confirm(
-        `A placeholder with the name "${trimmedPlaceholderName}" already exists. Would you like to merge the placeholders?`
+      const shouldMergePlaceholder = window.confirm(
+        `A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`
       );
-      if (mergePlaceholders) {
+      if (shouldMergePlaceholder) {
         // merge the placeholders
-        $mergePlaceholders(trimmedPlaceholderName, uniqueId);
+        $mergePlaceholders(uniqueId);
         // re-render component
         setRendered(!rendered);
         return;
@@ -158,11 +158,12 @@ export default function FloatingToolBarPlugin() {
           "span.vanilla__error-message"
         ) as HTMLSpanElement;
         spanError.style.display = "block";
+        spanError.innerText = `A placeholder with the name "${placeholderName}" already exists. Please choose a different name.`;
         input.classList.add("vanilla__error");
         input.focus();
         return;
       }
-    }*/
+    }
 
 
 

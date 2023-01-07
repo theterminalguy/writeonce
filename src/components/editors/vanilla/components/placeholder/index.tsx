@@ -1,4 +1,6 @@
 import "./index.css";
+import { selectPlaceholderByName } from "../../../../../store/features/placeholder/placeholderSlice";
+import { store } from "../../../../../store";
 
 type PlaceholderProps = {
   id: string;
@@ -87,4 +89,11 @@ export function $getPlaceholderOriginalText(
   return placeholder.getAttribute("data-placeholder-original-text");
 }
 
-// export function $placeholderExists
+export function $isPlaceholderNameUnique(name: string): boolean {
+  const placeholder = selectPlaceholderByName(store.getState(), name);
+  return placeholder === undefined;
+}
+
+export function $mergePlaceholders(id: string) {
+  
+}
