@@ -68,7 +68,7 @@ export const placeholdersSlice = createSlice({
       if (action.payload.dataType) {
         placeholder.dataType = action.payload.dataType;
       }
-      placeholder.required = action.payload.required || false;
+      placeholder.required = !!action.payload.required;
       if (action.payload.default) {
         placeholder.default = action.payload.default;
       }
