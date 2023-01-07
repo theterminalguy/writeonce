@@ -76,3 +76,13 @@ export const $undoPlaceholdify = (uniqueId: string): boolean => {
   placeholder.parentNode?.replaceChild(textNode, placeholder);
   return true;
 };
+
+export function $getPlaceholderOriginalText(
+  placeholderId: string
+): string | null {
+  const placeholder = $getPlaceholder(placeholderId);
+  if (!placeholder) {
+    return null;
+  }
+  return placeholder.getAttribute("data-placeholder-original-text");
+}

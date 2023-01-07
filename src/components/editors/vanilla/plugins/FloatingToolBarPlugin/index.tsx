@@ -5,10 +5,13 @@ import "./index.css";
 import Modal, { $closeModal, $getModal } from "../../components/modal";
 import Placeholder, {
   $getPlaceholder,
+  $getPlaceholderOriginalText,
   $placeholdify,
   $undoPlaceholdify,
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
+import { store } from "../../../../../store/index";
+import { addPlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 
 const EventPlaceholderAdded = "placeholder-added";
 
@@ -17,11 +20,6 @@ export default function FloatingToolBarPlugin() {
 
   const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
-    // if it's not the editor, don't show the floating toolbar
-    if (!e.target || !(e.target as HTMLElement).classList.contains("vanilla__editor")) {
-      return;
-    }
-
     const floatingToolBar = document.querySelector(
       "div.vanilla__floating-toolbar"
     ) as HTMLElement;
@@ -239,6 +237,13 @@ function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
     detail: { name, id },
   });
   document.dispatchEvent(event);
+  store.dispatch(
+    addPlaceholder({
+      id,
+      name,
+      originalText: $getPlaceholderOriginalText(id) || name,
+    })
+  );
 }
 
 const replaceSelectionWithPlaceholderNode = (
