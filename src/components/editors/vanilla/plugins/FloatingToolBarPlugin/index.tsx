@@ -53,17 +53,17 @@ export default function FloatingToolBarPlugin() {
     const deleteButton = sidePanel.querySelector(
       `button.vanilla__placeholder-item-delete-${detail.id}`
     ) as HTMLButtonElement;
-    console.log("Placeholder added", detail.name);
     deleteButton.addEventListener("click", (e) =>
       onPlaceholderSidepanelDelete(detail.id)
     );
   };
 
   useEffect(() => {
-    document.addEventListener("mouseup", showFloatingToolBar);
+    const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
+    editor.addEventListener("mouseup", showFloatingToolBar);
     document.addEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
     return () => {
-      document.removeEventListener("mouseup", showFloatingToolBar);
+      editor.removeEventListener("mouseup", showFloatingToolBar);
       document.removeEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
     };
   }, []);

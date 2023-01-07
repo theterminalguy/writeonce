@@ -15,33 +15,25 @@ export default function Editor({ title }: { title: string }) {
     // focus the editor on load
     const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
     editor.focus();
-
-    document.addEventListener("focusout", (e) => {
+    editor.addEventListener("focusout", function (e) {
       const input = e?.target as HTMLElement;
-      if (
-        !input.classList.contains("vanilla__editor") &&
-        !input.classList.contains("vanilla__editor-title")
-      ) {
-        return;
-      }
-      const isEditorChanged = input.classList.contains("vanilla__editor");
-      const isTitleChanged = input.classList.contains("vanilla__editor-title");
-
-      if (isEditorChanged) {
-        store.dispatch(
-          setContent({
-            contentText: input.innerText,
-            contentHTML: input.innerHTML,
-          })
-        );
-      }
-      if (isTitleChanged) {
-        store.dispatch(setTemplateName(input.innerText));
-      }
+      // TODO only dispatch if the content has changed
+      store.dispatch(
+        setContent({
+          contentText: input.innerText,
+          contentHTML: input.innerHTML,
+        })
+      );
+    });
+    const title = document.querySelector("h1.vanilla__editor-title") as HTMLElement;
+    title.addEventListener("focusout", function (e) {
+      const input = e?.target as HTMLElement;
+      // TODO only dispatch if the content has changed
+      store.dispatch(setTemplateName(input.innerText));
     });
 
     return () => {
-      document.removeEventListener("focusout", () => {});
+      editor.removeEventListener("focusout", () => {});
     };
   });
 

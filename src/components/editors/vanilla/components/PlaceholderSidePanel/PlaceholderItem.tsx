@@ -33,6 +33,8 @@ export default function PlaceholderItem({
         <label htmlFor={htmlFor.placeholderType}>Type</label>
         <select id={htmlFor.placeholderType}>
           <option value="text">Text</option>
+          <option value="number">Number</option>
+          <option value="date">Date</option>
         </select>
       </div>
 
