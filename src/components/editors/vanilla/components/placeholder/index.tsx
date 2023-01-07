@@ -1,5 +1,8 @@
 import "./index.css";
-import { selectPlaceholderByName } from "../../../../../store/features/placeholder/placeholderSlice";
+import {
+  incrementPlaceholderOccurrences,
+  selectPlaceholderByName,
+} from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
 
 type PlaceholderProps = {
@@ -104,7 +107,7 @@ export function $isPlaceholderNameUnique(name: string): boolean {
  * is ignored and the id of the existing placeholder is used.
  */
 export function $mergePlaceholders(id: string, name: string) {
- let newPlaceholder = $getPlaceholder(id);
+  let newPlaceholder = $getPlaceholder(id);
   if (!newPlaceholder) {
     return false;
   }
@@ -116,8 +119,15 @@ export function $mergePlaceholders(id: string, name: string) {
   if (!prevPlaceholder) {
     return false;
   }
-  // clone the prevPlaceholder
   const clone = prevPlaceholder.cloneNode(true) as HTMLSpanElement;
-  // replace the newPlaceholder with the clone
   newPlaceholder.parentNode?.replaceChild(clone, newPlaceholder);
+  store.dispatch(incrementPlaceholderOccurrences(data.id));
+  // update badge count
+  const badge = document.querySelector(
+    `span.vanilla__placheholder-count-badge-${data.id}`
+  ) as HTMLSpanElement | null;
+  if (badge) {
+    // convert the innerText to a number and increment it by 1
+    badge.innerText = `${Number(badge.innerText) + 1}`;
+  }
 }

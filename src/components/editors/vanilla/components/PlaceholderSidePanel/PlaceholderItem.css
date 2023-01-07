@@ -81,3 +81,12 @@ div.vanilla__placeholder-field label {
 div.vanilla__placeholder-field input[type="checkbox"] {
   margin-left: -106px;
 }
+
+span.vanilla__placheholder-count-badge {
+  background-color: #ccc;
+  border-radius: 50%;
+  padding: 5px;
+  margin: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}

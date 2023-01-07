@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
+
 import "./index.css";
 import Modal, { $closeModal, $getModal } from "../../components/modal";
 import Placeholder, {
@@ -258,7 +259,7 @@ function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
     "div.vanilla__placeholder-side-panel"
   ) as HTMLDivElement;
   const htmlString = ReactDOMServer.renderToStaticMarkup(
-    <PlaceholderItem placeholderId={id} placeholderName={name} />
+    <PlaceholderItem placeholderId={id} placeholderName={name} count={1} />
   );
   placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
   // publish a custom event

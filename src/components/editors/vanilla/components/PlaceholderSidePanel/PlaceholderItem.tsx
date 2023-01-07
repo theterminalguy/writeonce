@@ -3,11 +3,13 @@ import "./PlaceholderItem.css";
 type PlaceholderItemProps = {
   placeholderName: string;
   placeholderId: string;
+  count: number;
 };
 
 export default function PlaceholderItem({
   placeholderName,
   placeholderId,
+  count,
 }: PlaceholderItemProps) {
   const htmlFor = {
     placeholderType: `placeholder-type-${placeholderId}`,
@@ -23,6 +25,12 @@ export default function PlaceholderItem({
       <div className="vanilla__placeholder-item-header">
         <span className="vanilla__placeholder-item-name">
           {placeholderName}
+        </span>
+        <span
+          className={`vanilla__placheholder-count-badge vanilla__placheholder-count-badge-${placeholderId}`}
+          title="Number of occurrences"
+        >
+          {count}
         </span>
         <button
           type="button"
