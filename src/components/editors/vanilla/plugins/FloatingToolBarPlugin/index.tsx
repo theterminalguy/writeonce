@@ -5,23 +5,21 @@ import "./index.css";
 import Modal, { $closeModal, $getModal } from "../../components/modal";
 import Placeholder, {
   $getPlaceholder,
+  $getPlaceholderOriginalText,
   $placeholdify,
   $undoPlaceholdify,
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
-
-const EventPlaceholderAdded = "placeholder-added";
+import { store } from "../../../../../store/index";
+import { addPlaceholder, deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import { Events } from "../../../../events";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
 
   const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
-    // if it's not the editor, don't show the floating toolbar
-    if (!e.target || !(e.target as HTMLElement).classList.contains("vanilla__editor")) {
-      return;
-    }
-
+    e.stopPropagation();
     const floatingToolBar = document.querySelector(
       "div.vanilla__floating-toolbar"
     ) as HTMLElement;
@@ -44,6 +42,7 @@ export default function FloatingToolBarPlugin() {
   };
 
   const handlePlaceholderAdd = (e: Event) => {
+    e.stopPropagation();
     const customEvent = e as CustomEvent;
     const detail = customEvent.detail as {
       id: string;
@@ -55,18 +54,22 @@ export default function FloatingToolBarPlugin() {
     const deleteButton = sidePanel.querySelector(
       `button.vanilla__placeholder-item-delete-${detail.id}`
     ) as HTMLButtonElement;
-    console.log("Placeholder added", detail.name);
-    deleteButton.addEventListener("click", (e) =>
-      onPlaceholderSidepanelDelete(detail.id)
-    );
+    deleteButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      onPlaceholderSidepanelDelete(detail.id);
+    });
   };
 
   useEffect(() => {
-    document.addEventListener("mouseup", showFloatingToolBar);
-    document.addEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
+    const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
+    editor.addEventListener("mouseup", showFloatingToolBar);
+    document.addEventListener(Events.PlaceholderAdded, handlePlaceholderAdd);
     return () => {
-      document.removeEventListener("mouseup", showFloatingToolBar);
-      document.removeEventListener(EventPlaceholderAdded, handlePlaceholderAdd);
+      editor.removeEventListener("mouseup", showFloatingToolBar);
+      document.removeEventListener(
+        Events.PlaceholderAdded,
+        handlePlaceholderAdd
+      );
     };
   }, []);
 
@@ -215,7 +218,6 @@ function showRenamePlaceholderModal(
 }
 
 function onPlaceholderSidepanelDelete(placeholderId: string) {
-  console.log("delete", placeholderId);
   $undoPlaceholdify(placeholderId);
   const placeholderSidePanel = document.querySelector(
     "div.vanilla__placeholder-side-panel"
@@ -224,6 +226,7 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
     `div.vanilla__placeholder-item-${placeholderId}`
   ) as HTMLDivElement;
   placeholderSidePanel.removeChild(placeholderItem);
+  store.dispatch(deletePlaceholder(placeholderId));
 }
 
 function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
@@ -235,10 +238,17 @@ function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
   );
   placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
   // publish a custom event
-  const event = new CustomEvent(EventPlaceholderAdded, {
+  const event = new CustomEvent(Events.PlaceholderAdded, {
     detail: { name, id },
   });
   document.dispatchEvent(event);
+  store.dispatch(
+    addPlaceholder({
+      id,
+      name,
+      originalText: $getPlaceholderOriginalText(id) || name,
+    })
+  );
 }
 
 const replaceSelectionWithPlaceholderNode = (
