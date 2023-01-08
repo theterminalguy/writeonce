@@ -5,9 +5,9 @@ import SidePanel from "./components/sidepanel";
 
 export default function VanillaEditor() {
   return (
-    <>
+    <div className="wrapper">
       <Editor title={initialState.templateName} />
       <SidePanel component={<PlaceholderSidePanel />} />
-    </>
+    </div>
   );
 }

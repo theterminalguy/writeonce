@@ -1,3 +1,4 @@
+import './index.css';
 import Modal from "../editors/vanilla/components/modal";
 import { increment } from "../../store/features/counter/counterSlice";
 import { store } from "../../store";
