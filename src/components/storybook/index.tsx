@@ -1,18 +1,18 @@
 import './index.css';
-import Modal from "../editors/vanilla/components/modal";
-import { increment } from "../../store/features/counter/counterSlice";
-import { store } from "../../store";
+import ConfirmModal from '../editors/vanilla/components/modal/confirm/index';
 export const Storybook = () => {
 
   return (
     <div className="storybook">
-      <Modal
+      <ConfirmModal
         id={"modal"}
-        title="Do you want to replace this placeholder?"
-        hasInput={false}
+        message="Do you want to replace this placeholder?"
         defaultDisplay="block"
-        handleOk={() => store.dispatch(increment())}
-        handleCancel={() => console.log("cancel")}
+        config={{
+          controller: "confirm-modal",
+          onYes: "onYes",
+          onNo: "onNo",
+        }}
       />
     </div>
   );
