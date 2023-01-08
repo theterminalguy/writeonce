@@ -1,17 +1,11 @@
-import { Application, Controller } from "@hotwired/stimulus";
-
-class HelloController extends Controller {
-  onYes() {
-    console.log("Yes");
-  }
-  onNo() {
-    console.log("No");
-  }
-}
+import { Application } from "@hotwired/stimulus";
+import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers"
 
 interface Window {
   Stimulus: Application;
 }
 declare var window: Window;
+
+const context = require.context("./controllers", true, /\.ts$/)
 window.Stimulus = Application.start();
-window.Stimulus.register("hello", HelloController);
+window.Stimulus.load(definitionsFromContext(context))
