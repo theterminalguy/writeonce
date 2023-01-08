@@ -6,14 +6,13 @@ export default function Error404Page() {
   return (
     <div className="error-404-page">
       <h1>Page Not Found </h1>
-      <p>Here's a short poem for the one who wanders:</p>
+      <p>For the one who wanders:</p>
       <blockquote>
-        You've traveled far and you've traveled wide Searching around, you've
-        desperately tried To find what you seek, no matter the cost I'm sorry to
-        say — it looks like you're lost
+        I think you travel to search and you come back home to find yourself there.
       </blockquote>
+        <p><cite>-- Chiamanda Ngozi Adichie</cite></p>
         <p>
-        Why not head on back to the <Link to="/">homepage</Link>
+        <Link to="/">Take me home</Link>
         </p>
     </div>
   );
