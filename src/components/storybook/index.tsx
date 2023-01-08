@@ -10,7 +10,7 @@ export const Storybook = () => {
         message="Do you want to replace this placeholder?"
         defaultDisplay="block"
         config={{
-          controller: "confirm-modal",
+          controller: "hello",
           onYes: "onYes",
           onNo: "onNo",
         }}
