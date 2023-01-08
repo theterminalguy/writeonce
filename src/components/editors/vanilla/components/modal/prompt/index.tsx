@@ -1,15 +1,6 @@
 import { useState } from "react";
 
-import "./index.css";
-
-type ModalProps = {
-  id: string;
-  title: string;
-  hasInput?: boolean;
-  defaultDisplay?: "none" | "block" | "inline" | "inline-block";
-  handleOk: () => void;
-  handleCancel: (e: React.MouseEvent<HTMLButtonElement>) => void;
-};
+import "../index.css";
 
 export default function Modal({
   id,
@@ -67,3 +58,12 @@ export const $closeModal = (modalId: string): boolean => {
   spanError.style.display = "none";
   return true;
 }
+
+type ModalProps = {
+  id: string;
+  title: string;
+  hasInput?: boolean;
+  defaultDisplay?: "none" | "block" | "inline" | "inline-block";
+  handleOk: () => void;
+  handleCancel: (e: React.MouseEvent<HTMLButtonElement>) => void;
+};

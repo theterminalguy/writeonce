@@ -3,7 +3,7 @@ import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
 
 import "./index.css";
-import Modal, { $closeModal, $getModal } from "../../components/modal";
+import Modal, { $closeModal, $getModal } from "../../components/modal/prompt";
 import Placeholder, {
   $getPlaceholder,
   $getPlaceholderOriginalText,

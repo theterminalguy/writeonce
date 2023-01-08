@@ -1,5 +1,6 @@
+import ConfirmModal from '../editors/vanilla/components/modal/confirm';
 import './index.css';
-import ConfirmModal from '../editors/vanilla/components/modal/confirm/index';
+
 export const Storybook = () => {
 
   return (
