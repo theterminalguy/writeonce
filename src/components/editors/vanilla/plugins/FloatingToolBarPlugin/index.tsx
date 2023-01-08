@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
+
 import "./index.css";
 import Modal, { $closeModal, $getModal } from "../../components/modal";
 import Placeholder, {
@@ -8,10 +9,15 @@ import Placeholder, {
   $getPlaceholderOriginalText,
   $placeholdify,
   $undoPlaceholdify,
+  $isPlaceholderNameUnique,
+  $mergePlaceholders,
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../../../../store/index";
-import { addPlaceholder, deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import {
+  addPlaceholder,
+  deletePlaceholder,
+} from "../../../../../store/features/placeholder/placeholderSlice";
 import { Events } from "../../../../events";
 
 export default function FloatingToolBarPlugin() {
@@ -129,15 +135,34 @@ export default function FloatingToolBarPlugin() {
     if (!placeholder) {
       return;
     }
-    const placeholderName = input.value;
+
+    const placeholderName = input.value.trim();
+    if (!$isPlaceholderNameUnique(placeholderName)) {
+      // show a modal asking if they'd like to merge the placeholders
+      const shouldMergePlaceholder = window.confirm(
+        `A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`
+      );
+      if (shouldMergePlaceholder) {
+        $mergePlaceholders(uniqueId, placeholderName);
+        setRendered(!rendered);
+        $closeModal(uniqueId);
+        return;
+      } else {
+        modal.classList.add("vanilla__modal-error");
+        const spanError = modal.querySelector(
+          "span.vanilla__error-message"
+        ) as HTMLSpanElement;
+        spanError.style.display = "block";
+        spanError.innerText = `"${placeholderName}" already in use. Please provide a new name or merge the placeholders.`;
+        input.classList.add("vanilla__error");
+        input.focus();
+        return;
+      }
+    }
     placeholder.innerText = $placeholdify(placeholderName);
-
     addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
-
-    // set the caret after the last placeholder
     $setCaretAfterPlaceholder(placeholder);
     $closeModal(uniqueId);
-    // re-render component
     setRendered(!rendered);
   };
 
@@ -234,7 +259,7 @@ function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
     "div.vanilla__placeholder-side-panel"
   ) as HTMLDivElement;
   const htmlString = ReactDOMServer.renderToStaticMarkup(
-    <PlaceholderItem placeholderId={id} placeholderName={name} />
+    <PlaceholderItem placeholderId={id} placeholderName={name} count={1} />
   );
   placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
   // publish a custom event

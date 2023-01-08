@@ -1,4 +1,9 @@
 import "./index.css";
+import {
+  incrementPlaceholderOccurrences,
+  selectPlaceholderByName,
+} from "../../../../../store/features/placeholder/placeholderSlice";
+import { store } from "../../../../../store";
 
 type PlaceholderProps = {
   id: string;
@@ -85,4 +90,44 @@ export function $getPlaceholderOriginalText(
     return null;
   }
   return placeholder.getAttribute("data-placeholder-original-text");
+}
+
+export function $isPlaceholderNameUnique(name: string): boolean {
+  const placeholder = selectPlaceholderByName(store.getState(), name);
+  return placeholder === undefined;
+}
+
+/**
+ * @param id - id of the new placeholder
+ * @param name - name of the new placeholder
+ * @returns - true if the placeholder was successfully merged, false otherwise
+ *
+ * @description
+ * This function merges the placeholder with the same name as the placeholder with the given id. The id of the new placeholder,
+ * is ignored and the id of the existing placeholder is used.
+ */
+export function $mergePlaceholders(id: string, name: string) {
+  let newPlaceholder = $getPlaceholder(id);
+  if (!newPlaceholder) {
+    return false;
+  }
+  const data = selectPlaceholderByName(store.getState(), name);
+  if (!data) {
+    return false;
+  }
+  const prevPlaceholder = $getPlaceholder(data.id);
+  if (!prevPlaceholder) {
+    return false;
+  }
+  const clone = prevPlaceholder.cloneNode(true) as HTMLSpanElement;
+  newPlaceholder.parentNode?.replaceChild(clone, newPlaceholder);
+  store.dispatch(incrementPlaceholderOccurrences(data.id));
+  // update badge count
+  const badge = document.querySelector(
+    `span.vanilla__placheholder-count-badge-${data.id}`
+  ) as HTMLSpanElement | null;
+  if (badge) {
+    // convert the innerText to a number and increment it by 1
+    badge.innerText = `${Number(badge.innerText) + 1}`;
+  }
 }

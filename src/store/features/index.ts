@@ -6,8 +6,10 @@ import placeholderReducer from "./placeholder/placeholderSlice";
 
 const rootReducer = combineReducers({
   counter: counterReducer,
-  editor: editorReducer,
-  placeholders: placeholderReducer,
+  editorState: combineReducers({
+    editor: editorReducer,
+    placeholders: placeholderReducer,
+  }),
 });
 
 export default rootReducer;

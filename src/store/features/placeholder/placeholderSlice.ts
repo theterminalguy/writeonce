@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../..";
 
 export interface PlaceholderState {
   id: string;
@@ -8,6 +9,7 @@ export interface PlaceholderState {
   required: boolean;
   default: string;
   description: string;
+  occurrences: number;
 }
 
 export interface PlaceholderPayload {
@@ -18,6 +20,7 @@ export interface PlaceholderPayload {
   required?: boolean;
   default?: string;
   description?: string;
+  occurrences?: number;
 }
 
 export interface PlaceholderUpdatePayload {
@@ -28,6 +31,7 @@ export interface PlaceholderUpdatePayload {
   required?: boolean;
   default?: string;
   description?: string;
+  occurrences?: number;
 }
 
 export const initialState: PlaceholderState[] = [];
@@ -46,6 +50,7 @@ export const placeholdersSlice = createSlice({
         required: action.payload.required || false,
         default: action.payload.default || "",
         description: action.payload.description || "",
+        occurrences: action.payload.occurrences || 1,
       });
     },
     deletePlaceholder(state, action: PayloadAction<string>) {
@@ -75,11 +80,33 @@ export const placeholdersSlice = createSlice({
       if (action.payload.description) {
         placeholder.description = action.payload.description;
       }
+      if (action.payload.occurrences) {
+        placeholder.occurrences = action.payload.occurrences;
+      }
+    },
+    incrementPlaceholderOccurrences(state, action: PayloadAction<string>) {
+      const index = state.findIndex(
+        (placeholder) => placeholder.id === action.payload
+      );
+      state[index].occurrences++;
     },
   },
 });
 
-export const { addPlaceholder, deletePlaceholder, updatePlaceholder } =
-  placeholdersSlice.actions;
+export const {
+  addPlaceholder,
+  deletePlaceholder,
+  updatePlaceholder,
+  incrementPlaceholderOccurrences,
+} = placeholdersSlice.actions;
+
+export const selectPlaceholderByName = (
+  state: RootState,
+  name: string
+): PlaceholderUpdatePayload | undefined => {
+  return state.editorState.placeholders.find(
+    (placeholder) => placeholder.name === name
+  );
+};
 
 export default placeholdersSlice.reducer;
