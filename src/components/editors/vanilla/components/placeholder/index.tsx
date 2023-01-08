@@ -59,26 +59,39 @@ export const $getPlaceholder = (
   ) as HTMLSpanElement | null;
 };
 
+export const $getAllPlaceholders = (
+  placeholderId: string
+): NodeListOf<HTMLSpanElement> => {
+  return document.querySelectorAll(
+    `span.vanilla__placeholder-${placeholderId}`
+  ) as NodeListOf<HTMLSpanElement>;
+};
+
 export const $placeholdify = (input: string): string => `{{.${input}}}`;
 
 export const $undoPlaceholdify = (uniqueId: string): boolean => {
   // undo the placeholder creation
-  const placeholder = $getPlaceholder(uniqueId);
-  if (!placeholder) {
-    // TODO: show error to the user
-    console.error("Placeholder not found");
+  const placeholders = $getAllPlaceholders(uniqueId);
+  if (placeholders.length === 0) {
     return false;
   }
-  const originalText = placeholder.getAttribute(
-    "data-placeholder-original-text"
-  );
-  if (!originalText) {
-    // TODO: show error to the user
-    console.error("Original text not found");
-    return false;
-  }
-  const textNode = document.createTextNode(originalText);
-  placeholder.parentNode?.replaceChild(textNode, placeholder);
+  placeholders.forEach((placeholder) => {
+    if (!placeholder) {
+      // TODO: show error to the user
+      console.error("Placeholder not found");
+      return false;
+    }
+    const originalText = placeholder.getAttribute(
+      "data-placeholder-original-text"
+    );
+    if (!originalText) {
+      // TODO: show error to the user
+      console.error("Original text not found");
+      return false;
+    }
+    const textNode = document.createTextNode(originalText);
+    placeholder.parentNode?.replaceChild(textNode, placeholder);
+  });
   return true;
 };
 
