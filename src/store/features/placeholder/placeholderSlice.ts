@@ -89,7 +89,7 @@ export const placeholdersSlice = createSlice({
         (placeholder) => placeholder.id === action.payload
       );
       state[index].occurrences++;
-    },
+    }
   },
 });
 

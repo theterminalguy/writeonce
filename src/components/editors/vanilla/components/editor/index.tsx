@@ -7,10 +7,15 @@ import {
   setTemplateName,
 } from "../../../../../store/features/editor/editorSlice";
 import { store } from "../../../../../store";
+import { useSelector } from "react-redux";
+import { PlaceholderState } from "../../../../../store/features/placeholder/placeholderSlice";
+import { setFlow } from "../../../../../store/features/quickflow/quickflowSlice";
 
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
 export default function Editor({ title }: { title: string }) {
+  const placeholder: PlaceholderState[] = useSelector((state: any) => state.editorState["placeholders"]);
+
   useEffect(() => {
     // focus the editor on load
     const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
@@ -39,7 +44,12 @@ export default function Editor({ title }: { title: string }) {
     };
   });
 
+  const getQuickFlow = () => {
+    store.dispatch(setFlow({componentName: "QuickflowSidePanel"}))
+  }
+
   return (
+    <>
     <div className="vanilla__editor-container">
       <h1
         contentEditable="true"
@@ -56,5 +66,7 @@ export default function Editor({ title }: { title: string }) {
       ></div>
       <FloatingToolBarPlugin />
     </div>
+    <button className="vanilla__floating-toolbar-button" disabled={!placeholder.length} onClick={getQuickFlow}>Use this template</button>
+    </>
   );
 }
