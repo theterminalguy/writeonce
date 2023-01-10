@@ -1,13 +1,14 @@
 import "./index.css";
 import FloatingToolBarPlugin from "../../plugins/FloatingToolBarPlugin";
 import { useState } from "react";
-
+import { store } from "../../../../../store";
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
 export default function Editor() {
   const [curState, setCurState] = useState(1)
   const tab = (index: number) => {
     setCurState(index)
+    console.log(store.getState());
   }
   return (
     <div className="vanilla__editor-container">
