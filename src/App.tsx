@@ -5,6 +5,7 @@ import VanillaEditor from "./components/editors/vanilla";
 import { Storybook } from "./components/storybook";
 import HomePage from './components/HomePage';
 import Error404Page from "./components/Error404Page";
+import Quickflow from "./components/editors/vanilla/components/quickflow";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="editor" element={<VanillaEditor />} />
         <Route path="story" element={<Storybook />} />
+        <Route path="quickflow" element={<Quickflow />} />
         <Route path="*" element={<Error404Page />} />
       </Routes>
     </BrowserRouter>
