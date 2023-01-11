@@ -7,10 +7,10 @@ import { setFlow } from "../../../../../store/features/quickflow/quickflowSlice"
 import Field from "../field";
 
 export default function QuickflowSidePanel() {
-  const [curState, setCurState] = useState(1)
+  const [tab, setTab] = useState(1)
   const placeholders: PlaceholderState[] = useSelector((state: any) => state.editorState["placeholders"]);
-  const tab = (index: number) => {
-    setCurState(index)
+  const setTabPanel = (index: number) => {
+    setTab(index)
   }
   const setSideBarComponent = () => {
     store.dispatch(setFlow({ componentName: "PlaceholderSidePanel" }))
@@ -23,20 +23,44 @@ export default function QuickflowSidePanel() {
           <div>
             <button onClick={setSideBarComponent}>&laquo; Back</button>
             <div className="vanilla__placeholder-item vanilla__placeholder-item-Y5ei-Cn52i">
-              <div className="vanilla__placeholder-item-header" style={{ display: "flex" }}>
-                <div className="vanilla__placeholder-item-name" onClick={() => tab(1)}>Data</div>
-                <div className="vanilla__placeholder-item-name" onClick={() => tab(2)} style={{ paddingLeft: "40px" }} >Pipe</div>
+              <div className="tab">
+                <button className={"tablinks " + (tab === 1 ? "active": "") } onClick={() => setTabPanel(1)}>Data</button>
+                <button className={"tablinks " + (tab === 2 ? "active": "") } onClick={() => setTabPanel(2)}>Pipe</button>
               </div>
-              <div style={{ display: curState === 1 ? "block" : "none" }}>
+              <div style={{ display: tab === 1 ? "block" : "none" }}>
                 {placeholders.map((placeholder: PlaceholderState) => {
                   return (
                     <Field args={placeholder} />
                   )
                 })}
               </div>
-              <div style={{ display: curState === 2 ? "block" : "none" }}>
-                <div>
-                  Pipe here
+              <div style={{ display: tab === 2 ? "block" : "none" }}>
+                <div className="vanilla__placeholder-field" id="vanilla__field">
+                  <label>Active Pipe</label>
+                  <select className="vanilla__form-control">
+                    <option value="">select pipe</option>
+                    <option value="">PDF to Email</option>
+                    <option value="">Slack</option>
+                  </select>
+                </div>
+                <h4>Pipe Settings</h4>
+                <div className="vanilla__placeholder-field" id="vanilla__field">
+                  <label>From GMail</label>
+                  <input type="text" className="vanilla__form-control" />
+                </div>
+                <div className="vanilla__placeholder-field" id="vanilla__field">
+                  <label>To GMail</label>
+                  <input type="text" className="vanilla__form-control" />
+                </div>
+                <div className="vanilla__placeholder-field" id="vanilla__field">
+                  <label>Attachment As</label>
+                  <select className="vanilla__form-control">
+                    <option value="">select</option>
+                    <option value="">PDF</option>
+                  </select>
+                </div>
+                <div className="vanilla__placeholder-field" id="vanilla__field">
+                  <button className="vanilla__floating-toolbar-button quickflow__sidebar-button">Run</button>
                 </div>
               </div>
             </div>
@@ -44,6 +68,6 @@ export default function QuickflowSidePanel() {
 
         </div>
       </div>
-    </div>
+    </div >
   );
 }
