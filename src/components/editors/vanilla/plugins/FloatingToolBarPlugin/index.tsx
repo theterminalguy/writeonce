@@ -38,6 +38,15 @@ export default function FloatingToolBarPlugin() {
     const range = selection.getRangeAt(0);
     const selectionRect = range.getBoundingClientRect();
     const selectedText = selection.toString();
+
+    // in a service worker, let's find all occurrences of the selected text
+    // both the once that match exactly case sensitive and case insensitive
+    // we'll give the user a heads up that there are other occurrences of the
+    // same text in the document. We will tell them how many are an exact match
+    // and how many are case insensitive matches.
+    // An example message would be:
+    // "There are 3 other occurrences of this text in the document. 2 of them are an exact match and 1 is a case insensitive match."
+
     if (selectedText !== "") {
       floatingToolBar.style.display = "block";
       floatingToolBar.style.left = selectionRect.left + 40 + "px";
