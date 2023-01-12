@@ -1,7 +1,8 @@
 import "./index.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { PlaceholderState } from "../../../../../store/features/placeholder/placeholderSlice";
+import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import { store } from "../../../../../store";
 
 export default function QuickflowSidePanel() {
   const [tab, setTab] = useState(1)
@@ -9,12 +10,28 @@ export default function QuickflowSidePanel() {
   const setTabPanel = (index: number) => {
     setTab(index)
   }
+  useEffect(() => {
+    const placeholderFields = document.querySelectorAll(".quickflow__placeholder-type") as NodeListOf<HTMLElement>;
+    const placeholderControls = Array.from(placeholderFields);
+    for (let control of placeholderControls) {
+      control.addEventListener("focusout", function (e) {
+        e.stopPropagation();
+        const target = e.target as HTMLElement;
+        const input = target as HTMLInputElement;
+        const placeholder: any = input.getAttribute('data-placeholder');
+        const data = JSON.parse(placeholder);
+        store.dispatch(
+          updatePlaceholder({ id: data.id, default: input.value })
+        );
+      });
+    }
+  })
   return (
     <div className="vanilla__sidepanel">
       <div className="vanilla__sidepanel">
         <div className="vanilla__placeholder-side-panel">
           <div>
-            <div className="vanilla__placeholder-item vanilla__placeholder-item-Y5ei-Cn52i">
+            <div>
               <div className="tab">
                 <button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
                 <button className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
@@ -22,9 +39,12 @@ export default function QuickflowSidePanel() {
               <div style={{ display: tab === 1 ? "block" : "none" }}>
                 {placeholders.map((placeholder: PlaceholderState) => {
                   return (
-                    <div className="vanilla__placeholder-field" id="vanilla__field">
-                      <label>{placeholder.name}</label>
-                      <input type={placeholder.dataType === 'string' ? 'text' : placeholder.dataType} id="placeholder-type-Y5ei-Cn52i" className="vanilla__form-control vanilla__form-control-Y5ei-Cn52i" name="dataType" />
+                    <div className="vanilla__placeholder-field" id="vanilla__field" key={placeholder.id}>
+                      <label className="quickflow__sidebar-label">{placeholder.name}</label>
+                      {placeholder.description !== "" ?
+                        <p className="quickflow__sidebar-p">-{placeholder.description}</p>
+                        : null}
+                      <input defaultValue={placeholder.default} type={placeholder.dataType === 'string' ? 'text' : placeholder.dataType} id="" className="vanilla__form-controlx quickflow__placeholder-type" data-placeholder={JSON.stringify(placeholder)} />
                     </div>
                   )
                 })}

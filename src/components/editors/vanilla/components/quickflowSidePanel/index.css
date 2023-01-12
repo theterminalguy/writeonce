@@ -29,3 +29,14 @@ button.quickflow__sidebar-button {
   .tab button.active {
     background-color: #ccc;
   }
+
+label.quickflow__sidebar-label {
+  font-weight: bold;
+}
+
+p.quickflow__sidebar-p {
+  font-style: italic;
+  margin: 0px;
+  font-size: 12px;
+  padding-left: 20px;
+}
