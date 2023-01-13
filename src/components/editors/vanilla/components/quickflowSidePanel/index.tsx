@@ -20,6 +20,9 @@ export default function QuickflowSidePanel() {
         const input = target as HTMLInputElement;
         const placeholder: any = input.getAttribute('data-placeholder');
         const data = JSON.parse(placeholder);
+        if(data.required && input.value === "") {
+          return input.focus();
+        }
         store.dispatch(
           updatePlaceholder({ id: data.id, default: input.value })
         );
@@ -40,7 +43,7 @@ export default function QuickflowSidePanel() {
                 {placeholders.map((placeholder: PlaceholderState) => {
                   return (
                     <div className="vanilla__placeholder-field" id="vanilla__field" key={placeholder.id}>
-                      <label className="quickflow__sidebar-label">{placeholder.name}</label>
+                      <label className="quickflow__sidebar-label">{placeholder.name} <span className="quickflow__sidebar-required">{placeholder.required ? "*" : null}</span></label>
                       {placeholder.description !== "" ?
                         <p className="quickflow__sidebar-p">-{placeholder.description}</p>
                         : null}

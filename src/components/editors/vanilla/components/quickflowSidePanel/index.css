@@ -40,3 +40,7 @@ p.quickflow__sidebar-p {
   font-size: 12px;
   padding-left: 20px;
 }
+
+span.quickflow__sidebar-required {
+  color: red;
+}

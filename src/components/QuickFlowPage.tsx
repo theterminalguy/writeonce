@@ -1,4 +1,3 @@
-import { EditorState } from "../store/features/editor/editorSlice";
 import QuickflowSidePanel from "./editors/vanilla/components/quickflowSidePanel";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
