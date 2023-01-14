@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import "../index.css";
+import { ModalType } from "../constants";
 
 interface StimulusConfig {
   controller: string;
@@ -30,6 +31,8 @@ export default function ConfirmModal({
         error ? "vanilla__modal-error" : ""
       } vanilla__modal-${id}`}
       style={{ display: defaultDisplay }}
+      data-modal-id={id}
+      data-modal-type={ModalType.Confirm}
       data-controller={config.controller}
     >
       <div className="vanilla__modal-content">

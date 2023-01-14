@@ -1,3 +1,3 @@
-export const Events = {
+export const CustomEvents = {
     PlaceholderAdded: 'placeholder-added',
 };

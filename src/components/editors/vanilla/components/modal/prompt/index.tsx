@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 import "../index.css";
+import { ModalType } from "../constants";
 
-export default function Modal({
+export default function PromptModal({
   id,
   title,
   hasInput = true,
@@ -16,6 +17,8 @@ export default function Modal({
   return (
     <div className={`vanilla__modal ${error ? "vanilla__modal-error" : ""} vanilla__modal-${id}`}
       style={{ display: defaultDisplay }}
+      data-modal-id={id}
+      data-modal-type={ModalType.Prompt}
     >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{title}</label>

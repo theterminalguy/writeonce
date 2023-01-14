@@ -3,7 +3,10 @@ import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
 
 import "./index.css";
-import Modal, { $closeModal, $getModal } from "../../components/modal/prompt";
+import PromptModal, {
+  $closeModal,
+  $getModal,
+} from "../../components/modal/prompt";
 import Placeholder, {
   $getPlaceholder,
   $getPlaceholderOriginalText,
@@ -18,7 +21,9 @@ import {
   addPlaceholder,
   deletePlaceholder,
 } from "../../../../../store/features/placeholder/placeholderSlice";
-import { Events } from "../../../../events";
+import { CustomEvents as Events } from "../../../../custom-events";
+import ConfirmModal from "../../components/modal/confirm";
+import { $replaceModal } from "../../components/modal";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
@@ -147,6 +152,22 @@ export default function FloatingToolBarPlugin() {
 
     const placeholderName = input.value.trim();
     if (!$isPlaceholderNameUnique(placeholderName)) {
+      const shouldMergePlaceholderModal = ReactDOMServer.renderToStaticMarkup(
+        <ConfirmModal
+          id={"confirm-placeholder-merge"}
+          message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
+          defaultDisplay="block"
+          config={{
+            controller: "placeholders--confirmPlaceholderMerge",
+            onYes: "onYes",
+            onNo: "onNo",
+          }}
+        />
+      );
+      $replaceModal(modal, shouldMergePlaceholderModal);
+      return;
+    }
+    /*if (!$isPlaceholderNameUnique(placeholderName)) {
       // show a modal asking if they'd like to merge the placeholders
       const shouldMergePlaceholder = window.confirm(
         `A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`
@@ -167,7 +188,7 @@ export default function FloatingToolBarPlugin() {
         input.focus();
         return;
       }
-    }
+    }*/
     placeholder.innerText = $placeholdify(placeholderName);
     addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
     $setCaretAfterPlaceholder(placeholder);
@@ -215,7 +236,7 @@ export default function FloatingToolBarPlugin() {
           U
         </button>
       </div>
-      <Modal
+      <PromptModal
         id={uniqueId}
         title="Enter a name"
         handleOk={handleModalOk}
