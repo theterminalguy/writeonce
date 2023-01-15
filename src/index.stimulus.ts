@@ -6,6 +6,6 @@ interface Window {
 }
 declare var window: Window;
 
-const context = require.context("./controllers", true, /\.ts$/)
+const context = require.context("./controllers", true, /\.(ts|js)$/)
 window.Stimulus = Application.start();
 window.Stimulus.load(definitionsFromContext(context))

@@ -157,16 +157,17 @@ export default function FloatingToolBarPlugin() {
           message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
           defaultDisplay="block"
           config={{
-            controller: "placeholders--confirmPlaceholderMerge",
+            controller: "placeholders--confirm-placeholder-merge",
             onYes: "onYes",
             onNo: "onNo",
+            data: {
+              "placeholder-id": uniqueId,
+              "placeholder-name": placeholderName,
+            }
           }}
         />
       );
-      $replaceModal(modal, newModal, newModalId, {
-        placeholderId: uniqueId,
-        placeholderName,
-      });
+      $replaceModal(modal, newModal, newModalId);
       return;
     }
     /*if (!$isPlaceholderNameUnique(placeholderName)) {

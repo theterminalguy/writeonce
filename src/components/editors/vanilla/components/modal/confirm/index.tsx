@@ -7,6 +7,7 @@ interface StimulusConfig {
   controller: string;
   onYes: string;
   onNo: string;
+  data?: Record<string, string>;
 }
 
 type ModalProps = {
@@ -25,6 +26,17 @@ export default function ConfirmModal({
   const [error] = useState(false);
   const htmlId = `title-${id}`;
 
+  let dataAttributes = {};
+  const data = config.data;
+  if (data) {
+    Object.keys(data).forEach((key) => {
+      dataAttributes = {
+        ...dataAttributes,
+        [`data-${config.controller}-${key}-value`]: data[key],
+      };
+    });
+  }
+
   return (
     <div
       className={`vanilla__modal ${
@@ -34,6 +46,7 @@ export default function ConfirmModal({
       data-modal-id={id}
       data-modal-type={ModalType.Confirm}
       data-controller={config.controller}
+      {...dataAttributes}
     >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{message}</label>

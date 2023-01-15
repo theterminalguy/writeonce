@@ -4,7 +4,6 @@ export function $replaceModal(
   oldModal: HTMLElement,
   newModal: string,
   newModalId: string,
-  props?: any
 ) {
   if (!oldModal.classList.contains("vanilla__modal")) {
     throw new Error("oldModal is not a modal");
@@ -29,12 +28,6 @@ export function $replaceModal(
   nm.style.left = left;
   nm.style.top = top;
   nm.style.display = "block";
-  // add the props to the new modal as data attributes
-  if (props) {
-    Object.keys(props).forEach((key) => {
-      nm.setAttribute(`data-modal-var-${key}`, props[key]);
-    });
-  }
 }
 
 export function $closeModal(modalId: string): boolean {
