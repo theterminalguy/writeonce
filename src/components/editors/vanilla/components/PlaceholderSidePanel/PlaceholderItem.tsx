@@ -85,7 +85,8 @@ export default function PlaceholderItem({
         <div className="vanilla__info-message">
           Found <strong>3</strong> other occurrences of the orignal text,{" "}
           <strong>2</strong> are of exact match and <strong>1</strong> is a case insensitive
-          match.
+          match. <button type="button">Take action</button> 
+          <button type="button">It's fine, let it be</button>
         </div>
       </div>
     </div>

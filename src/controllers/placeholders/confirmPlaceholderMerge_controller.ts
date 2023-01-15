@@ -9,6 +9,8 @@ export default class ConfirmPlaceholderMergeController extends Controller {
 
   onYes() {
     console.log("yes... merging placeholders");
+    // log the current modal
+    console.log(this.targets.element);
   }
 
   onNo() {

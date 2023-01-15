@@ -19,6 +19,10 @@ export default function PromptModal({
       style={{ display: defaultDisplay }}
       data-modal-id={id}
       data-modal-type={ModalType.Prompt}
+      // add a target to the modal so that we can use event delegation
+      // conditionall add attribute to the modal
+      // if the modal is a prompt modal
+      {...(hasInput && { "data-modal-has-input": true })} 
     >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{title}</label>
@@ -38,28 +42,26 @@ export default function PromptModal({
   );
 }
 
-export const $getModal = (modalId: string): HTMLDivElement | null => {
-  return document.querySelector(
-    `div.vanilla__modal-${modalId}`
-  ) as HTMLDivElement | null;
-};
-
-export const $closeModal = (modalId: string): boolean => {
-  const modal = $getModal(modalId);
-  if(!modal) return false;
-
-  modal.style.display = "none";
-  if (modal.classList.contains("vanilla__modal-error")) {
-    modal.classList.remove("vanilla__modal-error");
+export function $addErrorToPromptModal(
+  modal: HTMLElement,
+  errorMessage: string
+) {
+  const modalType = modal.getAttribute("data-modal-type");
+  if (!modalType) {
+    throw new Error("modalType is undefined");
   }
+  if (modalType !== ModalType.Prompt) {
+    throw new Error("modalType is not Prompt");
+  }
+  modal.classList.add("vanilla__modal-error");
   const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
-  input.value = "";
-  input.classList.remove("vanilla__error");
   const spanError = modal.querySelector(
     "span.vanilla__error-message"
   ) as HTMLSpanElement;
-  spanError.style.display = "none";
-  return true;
+  spanError.style.display = "block";
+  spanError.innerText = errorMessage;
+  input.classList.add("vanilla__error");
+  input.focus();
 }
 
 type ModalProps = {

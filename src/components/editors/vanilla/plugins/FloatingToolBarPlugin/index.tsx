@@ -3,10 +3,8 @@ import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
 
 import "./index.css";
-import PromptModal, {
-  $closeModal,
-  $getModal,
-} from "../../components/modal/prompt";
+import { $closeModal, $getModal } from "../../components/modal/helpers";
+import PromptModal from "../../components/modal/prompt";
 import Placeholder, {
   $getPlaceholder,
   $getPlaceholderOriginalText,
@@ -23,7 +21,7 @@ import {
 } from "../../../../../store/features/placeholder/placeholderSlice";
 import { CustomEvents as Events } from "../../../../custom-events";
 import ConfirmModal from "../../components/modal/confirm";
-import { $replaceModal } from "../../components/modal";
+import { $replaceModal } from "../../components/modal/helpers";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
@@ -152,9 +150,10 @@ export default function FloatingToolBarPlugin() {
 
     const placeholderName = input.value.trim();
     if (!$isPlaceholderNameUnique(placeholderName)) {
-      const shouldMergePlaceholderModal = ReactDOMServer.renderToStaticMarkup(
+      const newModalId = "confirm-placeholder-merge";
+      const newModal = ReactDOMServer.renderToStaticMarkup(
         <ConfirmModal
-          id={"confirm-placeholder-merge"}
+          id={newModalId}
           message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
           defaultDisplay="block"
           config={{
@@ -164,7 +163,10 @@ export default function FloatingToolBarPlugin() {
           }}
         />
       );
-      $replaceModal(modal, shouldMergePlaceholderModal);
+      $replaceModal(modal, newModal, newModalId, {
+        placeholderId: uniqueId,
+        placeholderName,
+      });
       return;
     }
     /*if (!$isPlaceholderNameUnique(placeholderName)) {
