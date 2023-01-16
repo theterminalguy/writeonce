@@ -3,7 +3,7 @@ import { ModalType } from "./constants";
 export function $replaceModal(
   oldModal: HTMLElement,
   newModal: string,
-  newModalId: string,
+  newModalId: string
 ) {
   if (!oldModal.classList.contains("vanilla__modal")) {
     throw new Error("oldModal is not a modal");
@@ -17,10 +17,9 @@ export function $replaceModal(
   if (!modalId) {
     throw new Error("modalId is undefined");
   }
-  // close the modal
+
   $closeModal(modalId);
   document.body.insertAdjacentHTML("beforeend", newModal);
-
   const nm = $getModal(newModalId);
   if (!nm) {
     throw new Error("new modal is undefined");
@@ -63,4 +62,33 @@ export function $getModal(modalId: string): HTMLDivElement | null {
   return document.querySelector(
     `div.vanilla__modal-${modalId}`
   ) as HTMLDivElement | null;
+}
+
+export function $showModal(
+  modalId: string,
+  left: number,
+  top: number,
+  promptText?: string
+): HTMLElement{
+  const modal = document.querySelector(
+    `div.vanilla__modal-${modalId}`
+  ) as HTMLElement;
+  if (!modal) {
+    throw new Error(`modal ${modalId} not found`);
+  }
+  modal.style.left = `${left}px`;
+  modal.style.top = `${top}px`;
+  modal.style.display = "block";
+
+  const modalType = modal.getAttribute("data-modal-type");
+  if (!modalType) {
+    throw new Error("modalType is undefined");
+  }
+
+  if (modalType === ModalType.Prompt) {
+    const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
+    input.value = promptText || "";
+    input.focus();
+  }
+  return modal;
 }

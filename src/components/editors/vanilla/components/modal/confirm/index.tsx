@@ -26,7 +26,9 @@ export default function ConfirmModal({
   const [error] = useState(false);
   const htmlId = `title-${id}`;
 
-  let dataAttributes = {};
+  let dataAttributes = {
+    [`data-${config.controller}-modal-id-value`]: id,
+  };
   const data = config.data;
   if (data) {
     Object.keys(data).forEach((key) => {

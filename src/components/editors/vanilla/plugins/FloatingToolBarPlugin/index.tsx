@@ -3,7 +3,11 @@ import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
 
 import "./index.css";
-import { $closeModal, $getModal } from "../../components/modal/helpers";
+import {
+  $closeModal,
+  $getModal,
+  $showModal,
+} from "../../components/modal/helpers";
 import PromptModal from "../../components/modal/prompt";
 import Placeholder, {
   $getPlaceholder,
@@ -11,7 +15,6 @@ import Placeholder, {
   $placeholdify,
   $undoPlaceholdify,
   $isPlaceholderNameUnique,
-  $mergePlaceholders,
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../../../../store/index";
@@ -19,7 +22,7 @@ import {
   addPlaceholder,
   deletePlaceholder,
 } from "../../../../../store/features/placeholder/placeholderSlice";
-import { CustomEvents as Events } from "../../../../custom-events";
+import { CustomEvents as Events } from "../../../../../custom-events";
 import ConfirmModal from "../../components/modal/confirm";
 import { $replaceModal } from "../../components/modal/helpers";
 
@@ -82,6 +85,9 @@ export default function FloatingToolBarPlugin() {
     const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
     editor.addEventListener("mouseup", showFloatingToolBar);
     document.addEventListener(Events.PlaceholderAdded, handlePlaceholderAdd);
+    document.addEventListener(Events.RerenderFloatingToolbar, () =>
+      setRendered(!rendered)
+    );
     return () => {
       editor.removeEventListener("mouseup", showFloatingToolBar);
       document.removeEventListener(
@@ -89,7 +95,7 @@ export default function FloatingToolBarPlugin() {
         handlePlaceholderAdd
       );
     };
-  }, []);
+  }, [rendered]);
 
   const makeBold = () => document.execCommand("bold");
   const makeItalic = () => document.execCommand("italic");
@@ -163,35 +169,13 @@ export default function FloatingToolBarPlugin() {
             data: {
               "placeholder-id": uniqueId,
               "placeholder-name": placeholderName,
-            }
+            },
           }}
         />
       );
       $replaceModal(modal, newModal, newModalId);
       return;
     }
-    /*if (!$isPlaceholderNameUnique(placeholderName)) {
-      // show a modal asking if they'd like to merge the placeholders
-      const shouldMergePlaceholder = window.confirm(
-        `A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`
-      );
-      if (shouldMergePlaceholder) {
-        $mergePlaceholders(uniqueId, placeholderName);
-        setRendered(!rendered);
-        $closeModal(uniqueId);
-        return;
-      } else {
-        modal.classList.add("vanilla__modal-error");
-        const spanError = modal.querySelector(
-          "span.vanilla__error-message"
-        ) as HTMLSpanElement;
-        spanError.style.display = "block";
-        spanError.innerText = `"${placeholderName}" already in use. Please provide a new name or merge the placeholders.`;
-        input.classList.add("vanilla__error");
-        input.focus();
-        return;
-      }
-    }*/
     placeholder.innerText = $placeholdify(placeholderName);
     addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
     $setCaretAfterPlaceholder(placeholder);
@@ -259,20 +243,10 @@ function isModalVisible(modalId: string) {
 function showRenamePlaceholderModal(
   selection: Selection,
   selectedText: string,
-  moadalId: string
+  modalId: string
 ) {
   const { left, top } = $getSelectionRect(selection);
-  const modal = document.querySelector(
-    `div.vanilla__modal-${moadalId}`
-  ) as HTMLElement;
-  modal.style.display = "block";
-  modal.style.left = left - 32 + "px";
-  modal.style.top = top + 30 + "px";
-
-  // set focus on the input
-  const input = modal.querySelector('input[type="text"]') as HTMLInputElement;
-  input.value = selectedText;
-  input.focus();
+  $showModal(modalId, left - 32, top + 30, selectedText);
 }
 
 function onPlaceholderSidepanelDelete(placeholderId: string) {

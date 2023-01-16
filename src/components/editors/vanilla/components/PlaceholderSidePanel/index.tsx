@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./index.css";
-import { CustomEvents as Events } from "../../../../custom-events";
+import { CustomEvents as Events } from "../../../../../custom-events";
 import { store } from "../../../../../store";
 import { updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 

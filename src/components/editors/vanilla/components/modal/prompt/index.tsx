@@ -44,6 +44,7 @@ export default function PromptModal({
 
 export function $addErrorToPromptModal(
   modal: HTMLElement,
+  inputVal: string,
   errorMessage: string
 ) {
   const modalType = modal.getAttribute("data-modal-type");
@@ -61,6 +62,7 @@ export function $addErrorToPromptModal(
   spanError.style.display = "block";
   spanError.innerText = errorMessage;
   input.classList.add("vanilla__error");
+  input.value = inputVal;
   input.focus();
 }
 
