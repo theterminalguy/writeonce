@@ -1,9 +1,9 @@
 import QuickflowSidePanel from "./editors/vanilla/components/quickflowSidePanel";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { store } from "../store";
 
 export default function Quickflow() {
-  const payload: any = useSelector((state: any) => state.editorState);
+  const payload: any = store.getState()?.editorState;
   const editor = payload?.editor
 
   const replacePlaceholder = (data: any, placeholder: any) => {
@@ -35,3 +35,4 @@ export default function Quickflow() {
     </div>
   )
 }
+

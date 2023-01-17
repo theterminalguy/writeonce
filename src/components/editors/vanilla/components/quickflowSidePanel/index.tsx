@@ -1,12 +1,12 @@
 import "./index.css";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
 
 export default function QuickflowSidePanel() {
   const [tab, setTab] = useState(1)
-  const placeholders: PlaceholderState[] = useSelector((state: any) => state.editorState["placeholders"]);
+  const placeholders: any = store.getState()?.editorState?.placeholders;
+
   const setTabPanel = (index: number) => {
     setTab(index)
   }
@@ -21,10 +21,15 @@ export default function QuickflowSidePanel() {
         const input = target as HTMLInputElement;
         const placeholder: any = input.getAttribute('data-placeholder');
         const data = JSON.parse(placeholder);
-    
+  
         if (data.required && input.value === "") {
-          return input.focus();
+          input.focus();
+          return;
         }
+        let placholderSelected = `.vanilla__placeholder-${data.id}`;
+        const elem = document.querySelectorAll(placholderSelected) as any;
+        Array.from(elem).filter((value: any) => value.innerText = input.value === "" ? "[ - ]" : input.value);
+     
         store.dispatch(
           updatePlaceholder({ id: data.id, default: input.value })
         );
