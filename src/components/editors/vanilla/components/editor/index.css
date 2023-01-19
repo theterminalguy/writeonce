@@ -1,0 +1,38 @@
+div.vanilla__editor {
+  width: 80%;
+  height: 600px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  overflow: auto;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s,
+    -webkit-box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.vanilla__editor-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+}
+
+div.vanilla__editor-container h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+  max-width: 82%;
+  height: 100%;
+}
+
+div.vanilla__editor[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  pointer-events: none;
+  display: block; /* For Firefox */
+}
