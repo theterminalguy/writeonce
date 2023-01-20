@@ -8,7 +8,7 @@ import Menu from "../menu";
 import "./index.css";
 
 
-export default function Marketplace() {
+export default function Marketplace(): JSX.Element {
     const [selectedPipe, setSelectedPipe] = useState({
         imageUrl: "",
         title: "",

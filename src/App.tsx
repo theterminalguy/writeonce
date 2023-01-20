@@ -8,7 +8,7 @@ import Marketplace from "./components/marketplace";
 import QuickflowPage from "./components/QuickFlowPage";
 import Error404Page from "./components/Error404Page";
 
-function App() {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>

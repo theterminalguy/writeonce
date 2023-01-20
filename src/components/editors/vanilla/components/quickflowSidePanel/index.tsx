@@ -14,7 +14,7 @@ export default function QuickflowSidePanel() {
     const placeholderFields = document.querySelectorAll(".quickflow__placeholder-type") as NodeListOf<HTMLElement>;
     const placeholderControls = Array.from(placeholderFields);
   
-    for (let control of placeholderControls) {
+    for (const control of placeholderControls) {
       control.addEventListener("change", function (e) {
         e.stopPropagation();
         const target = e.target as HTMLElement;
@@ -26,7 +26,7 @@ export default function QuickflowSidePanel() {
           input.focus();
           return;
         }
-        let placholderSelected = `.vanilla__placeholder-${data.id}`;
+        const placholderSelected = `.vanilla__placeholder-${data.id}`;
         const elem = document.querySelectorAll(placholderSelected) as any;
         Array.from(elem).filter((value: any) => value.innerText = input.value === "" ? "[ - ]" : input.value);
      

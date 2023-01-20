@@ -1,0 +1,21 @@
+
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+//    "no-console": "error",
+//    "@typescript-eslint/explicit-function-return-type": ["warn", {
+//      "allowExpressions": true,
+//      "allowTypedFunctionExpressions": true
+//    }],
+//    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
+}

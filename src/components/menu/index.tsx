@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./index.css";
 
 
-export default function Menu() {
+export default function Menu(): JSX.Element {
 
     return (
         <div className={"menu"}>

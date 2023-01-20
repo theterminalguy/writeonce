@@ -120,7 +120,7 @@ export function $isPlaceholderNameUnique(name: string): boolean {
  * is ignored and the id of the existing placeholder is used.
  */
 export function $mergePlaceholders(id: string, name: string) {
-  let newPlaceholder = $getPlaceholder(id);
+  const newPlaceholder = $getPlaceholder(id);
   if (!newPlaceholder) {
     return false;
   }
