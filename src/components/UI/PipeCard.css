@@ -28,12 +28,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: flex-end;
 }
 
 .card__title > button {
     padding: 5px;
     cursor: pointer;
     margin-bottom: 5px;
+    width: 100px;
 }
 .card__upper{
     display: flex;
