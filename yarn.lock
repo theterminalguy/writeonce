@@ -2809,6 +2809,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-csv@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@types/react-csv@npm:1.1.3"
+  dependencies:
+    "@types/react": "*"
+  checksum: 1b4b131bf79ab8fcf973dc26c9ed6cfca6e09d6abf4ce1d32b4caaba6a069beb6435b77048ce496820a7c3add0f137b5358b6d4f29d2fbd676c7b000d0345673
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:^18.0.0":
   version: 18.0.10
   resolution: "@types/react-dom@npm:18.0.10"
@@ -10532,6 +10541,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-csv@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "react-csv@npm:2.2.2"
+  checksum: a6ffabd67fc9ba1478b003977923cfa3ccdd9553ac5edcc3824b4a5ea849b87cb2acfcc0781b0cd0a259bf56e6a7dfd35cfc307576aa51819fc5a32b03118fab
+  languageName: node
+  linkType: hard
+
 "react-dev-utils@npm:^12.0.1":
   version: 12.0.1
   resolution: "react-dev-utils@npm:12.0.1"
@@ -13063,6 +13079,7 @@ __metadata:
     "@types/jest": ^27.0.1
     "@types/node": ^16.7.13
     "@types/react": ^18.0.0
+    "@types/react-csv": ^1.1.3
     "@types/react-dom": ^18.0.0
     "@types/redux-logger": ^3.0.9
     "@types/shortid": ^0.0.29
@@ -13070,6 +13087,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.48.2
     eslint: ^8.32.0
     react: ^18.2.0
+    react-csv: ^2.2.2
     react-dom: ^18.2.0
     react-router-dom: ^6.6.1
     react-scripts: 5.0.1

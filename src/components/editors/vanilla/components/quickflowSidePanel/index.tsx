@@ -12,7 +12,7 @@ export default function QuickflowSidePanel() {
   const [exportData, setExportData] = useState([]);
 
   const headers: any = [];
-  let columns: any = {}
+  const columns: any = {}
 
   const setTabPanel = (index: number) => {
     setTab(index)
@@ -37,7 +37,7 @@ export default function QuickflowSidePanel() {
           input.focus();
           return;
         }
-        let placholderSelected = `.vanilla__placeholder-${data.id}`;
+        const placholderSelected = `.vanilla__placeholder-${data.id}`;
         const elem = document.querySelectorAll(placholderSelected) as any;
         Array.from(elem).filter((value: any) => value.innerText = input.value === "" ? "[ - ]" : input.value);
 
@@ -58,7 +58,7 @@ export default function QuickflowSidePanel() {
     columns[placeholder.name] = placeholder.default;
   }
 
-  let data: any = [columns];
+  const data: any = [columns];
 
   const handleDownload = () => {
     setExportData(data);
