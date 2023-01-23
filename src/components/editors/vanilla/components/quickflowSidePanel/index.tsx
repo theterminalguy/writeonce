@@ -12,7 +12,7 @@ export default function QuickflowSidePanel() {
   const [exportData, setExportData] = useState([]);
 
   const headers: any = [];
-  let columns: any = {}
+  const columns: any = {}
 
   const setTabPanel = (index: number) => {
     setTab(index)
@@ -24,7 +24,8 @@ export default function QuickflowSidePanel() {
   const init = () => {
     const placeholderFields = document.querySelectorAll(".quickflow__placeholder-type") as NodeListOf<HTMLElement>;
     const placeholderControls = Array.from(placeholderFields);
-    for (let control of placeholderControls) {
+  
+    for (const control of placeholderControls) {
       control.addEventListener("change", function (e) {
         e.stopPropagation();
         const target = e.target as HTMLElement;
@@ -36,7 +37,7 @@ export default function QuickflowSidePanel() {
           input.focus();
           return;
         }
-        let placholderSelected = `.vanilla__placeholder-${data.id}`;
+        const placholderSelected = `.vanilla__placeholder-${data.id}`;
         const elem = document.querySelectorAll(placholderSelected) as any;
         Array.from(elem).filter((value: any) => value.innerText = input.value === "" ? "[ - ]" : input.value);
 
@@ -49,7 +50,7 @@ export default function QuickflowSidePanel() {
     }
   }
 
-  for(let placeholder of placeholders) {
+  for(const placeholder of placeholders) {
     const header = {
       label: placeholder.name, key: placeholder.name,
     }
@@ -57,7 +58,7 @@ export default function QuickflowSidePanel() {
     columns[placeholder.name] = placeholder.default;
   }
 
-  let data: any = [columns];
+  const data: any = [columns];
 
   const handleDownload = () => {
     setExportData(data);
@@ -73,7 +74,7 @@ export default function QuickflowSidePanel() {
         <div style={{ display: tab === 1 ? "block" : "none" }}>
           <div style={{ margin: "10px 0px" }}>
             <p className="quickflow__sidebar-instruction">Click below to export your placeholders as CSV file.</p>
-            <CSVLink filename={`${editor.templateName} placeholder.csv`} className={"quickflow__sidebar-link"} headers={headers} data={exportData} onClick={handleDownload}>Download</CSVLink> 
+            <CSVLink filename={`${editor.templateName} placeholder.csv`} className={"quickflow__sidebar-link"} headers={headers} data={exportData} onClick={handleDownload}>Download</CSVLink>
           </div>
           <hr />
           {placeholders.map((placeholder: PlaceholderState) => {

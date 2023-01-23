@@ -15,12 +15,12 @@ export default function Quickflow() {
 
   useEffect(() => {
     const placeholders = payload?.placeholders;
-    for (let placeholder of placeholders) {
-      let placholderSelected = `.vanilla__placeholder-${placeholder["id"]}`
-      const nodes: any = document.querySelectorAll(placholderSelected)
+    for (const placeholder of placeholders) {
+      const placholderSelected = `.vanilla__placeholder-${placeholder["id"]}`
+      const nodes: NodeListOf<HTMLBodyElement> = document.querySelectorAll(placholderSelected)
       const nodeList = Array.from(nodes);
       // TODO: We might need to improve this O^2
-      for (let value of nodeList) {
+      for (const value of nodeList) {
         replacePlaceholder(value, placeholder)
       }
     }

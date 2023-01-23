@@ -36,7 +36,9 @@ export default function Editor({ title }: { title: string }) {
     });
 
     return () => {
-      editor.removeEventListener("focusout", () => {});
+      editor.removeEventListener("focusout", () => {
+        console.log("removed");
+      });
     };
   });
   const navigate = useNavigate();
