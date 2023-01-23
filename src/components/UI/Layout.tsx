@@ -2,7 +2,6 @@
 import React, {useState} from "react";
 import SplitPane, { Pane } from 'split-pane-react';
 import 'split-pane-react/esm/themes/default.css'
-// import "./index.css";
 
 interface LayoutProps {
     children: Array<React.ReactNode>;
