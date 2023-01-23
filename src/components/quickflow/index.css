@@ -1,0 +1,9 @@
+
+.vanilla__quickflow__wrapper {
+    border-top: 1px solid #F5F5F5;
+}
+
+.vanilla__quickflow__preview-title{
+    text-align: center;
+    min-width: 100%;
+}

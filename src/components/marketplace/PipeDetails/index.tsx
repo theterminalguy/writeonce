@@ -15,11 +15,11 @@ export default function PipeDetails(props: PipeDetailsProps) {
     return (
         <>
             {props.pipe.imageUrl &&
-                <div className={"detail"}>
+                <div className={"vanilla__detail"}>
                     <div >
                         <img src={props.pipe.imageUrl} alt={props.pipe.title} width="110" height="110"/>
                     </div>
-                    <div className={"detail__title"}>
+                    <div className={"vanilla__detail__title"}>
                         {props.pipe.title}
                     </div>
                     {props.pipe.summary}

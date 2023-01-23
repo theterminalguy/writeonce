@@ -32,9 +32,9 @@ export default function PipeCard(props: PipeCardProps){
     }
     return (
         <>
-            <div className="card">
-                <div className={"card__upper"}>
-                    <div className={"card__image"}>
+            <div className="vanilla__card">
+                <div className={"vanilla__card__upper"}>
+                    <div className={"vanilla__card__image"}>
                         <img
                             src={props.imageUrl}
                             alt={props.title}
@@ -42,13 +42,13 @@ export default function PipeCard(props: PipeCardProps){
                             height="110"
                         />
                     </div>
-                    <div className={"card__title"}>
+                    <div className={"vanilla__card__title"}>
                         <p> {props.title} </p>
                         <button> Install </button>
                         <button onClick={handleClick}> Details </button>
                     </div>
                 </div>
-                <div className={"card__summary"}>
+                <div className={"vanilla__card__summary"}>
                     {props.summary}
                 </div>
             </div>

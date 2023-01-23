@@ -1,12 +1,12 @@
 
-.card {
+.vanilla__card {
     display: flex;
     flex-direction: column;
     padding: 20px;
     height: 270px;
 }
 
-.card__summary {
+.vanilla__card__summary {
     font-size: 15px;
     max-width: 100%;
     margin-top: 50px;
@@ -14,29 +14,30 @@
     text-align: left;
 }
 
-.card__summary > p {
+.vanilla__card__summary > p {
     margin: 3px;
     height: 100%;
 }
 
-.card__image {
+.vanilla__card__image {
     margin-top: 30px;
 }
 
-.card__title{
+.vanilla__card__title{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+    font-size: 18px;
 }
 
-.card__title > button {
+.vanilla__card__title > button {
     padding: 5px;
     cursor: pointer;
     margin-bottom: 5px;
     width: 100px;
 }
-.card__upper{
+.vanilla__card__upper{
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -4,7 +4,6 @@ import PipeListings from "./PipeListings"
 import PipeDetails from "./PipeDetails"
 import 'split-pane-react/esm/themes/default.css'
 import Layout from "../UI/Layout";
-import Menu from "../menu";
 import "./index.css";
 
 
@@ -25,11 +24,10 @@ export default function Marketplace(): JSX.Element {
 
     return (
         <>
-            <div className="wrapper">
+            <div className="vanilla__wrapper">
                 <Layout>
-                    <div> <Menu /> </div>
-                    <div className={"scroll"}> <PipeListings displayPipeDetails={displayPipeDetails}/> </div>
-                    <div> <PipeDetails pipe={selectedPipe}/> </div>
+                    <div className={"vanilla__scroll"}> <PipeListings displayPipeDetails={displayPipeDetails}/> </div>
+                    <PipeDetails pipe={selectedPipe}/>
                 </Layout>
             </div>
         </>

@@ -1,5 +1,5 @@
 
-.pipe__container {
+.vanilla__pipe__container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -9,7 +9,7 @@
     padding: 50px 15px;
 }
 
-.pipe__container > div {
+.vanilla__pipe__container > div {
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
     padding: 20px 0;
@@ -20,7 +20,7 @@
     box-shadow: 1px 1px 1px 0.5px #ccc;
 }
 
-.pipe__container > div:hover {
+.vanilla__pipe__container > div:hover {
     box-shadow: 1px 1px 2px 3px #ccc;
     cursor: pointer;
 }

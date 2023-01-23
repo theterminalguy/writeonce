@@ -65,11 +65,11 @@ div.quickflow__sidepanel {
   position: absolute;
   top: 0;
   right: 0;
-  width: 300px;
+  width: 90%;
   height: 100%;
-  background-color: #f1f1f1;
-  border-left: 1px solid #ccc;
-  padding: 10px;
+  padding: 20px;
+  margin-left: 300px;
+  margin-right: auto;
   overflow: auto;
 }
 
@@ -119,7 +119,7 @@ div.quickflow__preview-container h1 {
   max-width: 82%;
 }
 
-div.quickflow__preview {
+div.vanilla__quickflow__preview {
   width: 80%;
   height: 500px;
   padding: 6px 12px;
@@ -131,6 +131,8 @@ div.quickflow__preview {
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .quickflow__sidebar-link {
