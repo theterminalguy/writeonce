@@ -22,13 +22,19 @@ export default function Modal({
   const [error] = useState(false);
   const htmlId = `title-${id}`;
 
+  function handleEnterPress(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      handleOk()
+    }
+  }
+
   return (
     <div className={`vanilla__modal ${error ? "vanilla__modal-error" : ""} vanilla__modal-${id}`}
       style={{ display: defaultDisplay }}
     >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{title}</label>
-        {hasInput && <input type="text" id={htmlId} name={htmlId} required /> }
+        {hasInput && <input type="text" id={htmlId} name={htmlId} onKeyUp={handleEnterPress} required />}
         {error && <span className="vanilla__error-message">Required</span>}
         <span className="vanilla__error-message">Required</span>
         <div className="vanilla__modal-buttons">
