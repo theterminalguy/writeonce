@@ -1,5 +1,5 @@
 
-.menu{
+.vanilla__menu{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,13 +8,13 @@
     text-decoration: none;
 }
 
-.menu__logo{
+.vanilla__menu__logo{
     font-size: 24px;
     margin-bottom: 50px;
     margin-top: 10px;
 }
 
-.menu__link {
+.vanilla__menu__link {
     text-decoration: none;
     border: 1px solid #ccc;
     padding: 5px 20px;
@@ -22,6 +22,6 @@
     min-width: 70px;
 }
 
-.menu__link:hover {
+.vanilla__menu__link:hover {
     background-color: #ccc;
 }

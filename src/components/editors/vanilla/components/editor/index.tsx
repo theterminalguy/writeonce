@@ -61,7 +61,7 @@ export default function Editor({ title }: { title: string }) {
       ></div>
       <FloatingToolBarPlugin />
     </div>
-    <button className="vanilla__floating-toolbar-button" onClick={() => navigate('/quickflow')}>Use this template</button>
+    <button className="vanilla__floating-toolbar-button-base" onClick={() => navigate('/quickflow')}>Use this template</button>
     </>
   );
 }

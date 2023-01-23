@@ -13,7 +13,7 @@ import Placeholder, {
   $mergePlaceholders,
 } from "../../components/placeholder";
 import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
-import { store } from "../../../../../store/index";
+import { store } from "../../../../../store";
 import {
   addPlaceholder,
   deletePlaceholder,
@@ -40,8 +40,9 @@ export default function FloatingToolBarPlugin() {
     const selectedText = selection.toString();
     if (selectedText !== "") {
       floatingToolBar.style.display = "block";
-      floatingToolBar.style.left = selectionRect.left + 40 + "px";
-      floatingToolBar.style.top = selectionRect.top - 60 + "px";
+      console.log("select: ", selectionRect);
+      floatingToolBar.style.left = selectionRect.left - 200 + "px";
+      floatingToolBar.style.top = selectionRect.top + 20 +"px";
     } else {
       floatingToolBar.style.display = "none";
     }
@@ -233,8 +234,8 @@ function showRenamePlaceholderModal(
     `div.vanilla__modal-${moadalId}`
   ) as HTMLElement;
   modal.style.display = "block";
-  modal.style.left = left - 32 + "px";
-  modal.style.top = top + 30 + "px";
+  modal.style.left = left - 200 + "px";
+  modal.style.top = top + 70 + "px";
 
   // set focus on the input
   const input = modal.querySelector('input[type="text"]') as HTMLInputElement;

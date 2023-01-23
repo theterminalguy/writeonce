@@ -1,18 +1,18 @@
 
-.detail{
+.vanilla__detail{
     display: flex;
     flex-direction: column;
     padding: 20px;
     margin: 0 auto;
 }
 
-.detail__title{
+.vanilla__detail__title{
     font-size: 20px;
     font-weight: bold;
     margin-top: 10px;
 }
 
-.detail button {
+.vanilla__detail button {
     padding: 10px;
     width: 200px;
     cursor: pointer;

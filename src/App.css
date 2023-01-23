@@ -3,10 +3,11 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #fff;
 }
 
 div.wrapper {
-  margin: 0 auto;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: auto;
 }

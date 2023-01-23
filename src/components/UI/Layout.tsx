@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import SplitPane, { Pane } from 'split-pane-react';
 import 'split-pane-react/esm/themes/default.css'
+import Menu from "../menu"
 
 interface LayoutProps {
     children: Array<React.ReactNode>;
@@ -22,8 +23,8 @@ export default function Layout(props: LayoutProps) {
     }
 
     const dragging = drag ?
-        {background: '#E0E0E0', borderLeft: '1px solid #00CCFF', height: window.innerHeight} :
-        {background: '#E0E0E0', borderLeft: '1px solid #696969', height: window.innerHeight};
+        {background: '#f1f1f1', borderLeft: '1px solid #00CCFF', height: window.innerHeight} :
+        {background: '#f1f1f1', borderLeft: '1px solid #696969', height: window.innerHeight};
 
     return (
         <>
@@ -38,15 +39,17 @@ export default function Layout(props: LayoutProps) {
                 >
                     <Pane minSize={200} maxSize={200}>
                         <div style={menu}>
-                            {props.children[0]}
+                            <Menu />
                         </div>
                     </Pane>
                     <div style={middle}>
-                        {props.children[1]}
+                        {props.children[0]}
                     </div>
-                    <div style={dragging}>
-                        {props.children[2]}
-                    </div>
+                    <Pane minSize={300} maxSize={800}>
+                        <div style={dragging}>
+                            {props.children[1]}
+                        </div>
+                    </Pane>
                 </SplitPane>
             </div>
         </>
