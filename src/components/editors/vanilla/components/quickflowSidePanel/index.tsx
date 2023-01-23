@@ -2,15 +2,26 @@ import "./index.css";
 import { useEffect, useState } from "react";
 import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
+import { CSVLink } from "react-csv";
 
 export default function QuickflowSidePanel() {
   const [tab, setTab] = useState(1)
   const placeholders: any = store.getState()?.editorState?.placeholders;
+  const payload: any = store.getState()?.editorState;
+  const editor = payload?.editor
+  const [exportData, setExportData] = useState([]);
+
+  const headers: any = [];
+  let columns: any = {}
 
   const setTabPanel = (index: number) => {
     setTab(index)
   }
   useEffect(() => {
+    init();
+  })
+
+  const init = () => {
     const placeholderFields = document.querySelectorAll(".quickflow__placeholder-type") as NodeListOf<HTMLElement>;
     const placeholderControls = Array.from(placeholderFields);
   
@@ -21,21 +32,38 @@ export default function QuickflowSidePanel() {
         const input = target as HTMLInputElement;
         const placeholder: any = input.getAttribute('data-placeholder');
         const data = JSON.parse(placeholder);
-  
+
         if (data.required && input.value === "") {
           input.focus();
           return;
         }
-        const placholderSelected = `.vanilla__placeholder-${data.id}`;
+        let placholderSelected = `.vanilla__placeholder-${data.id}`;
         const elem = document.querySelectorAll(placholderSelected) as any;
         Array.from(elem).filter((value: any) => value.innerText = input.value === "" ? "[ - ]" : input.value);
-     
+
+        columns[data.name] = input.value;
+
         store.dispatch(
           updatePlaceholder({ id: data.id, default: input.value })
         );
       });
     }
-  })
+  }
+
+  for(const placeholder of placeholders) {
+    const header = {
+      label: placeholder.name, key: placeholder.name,
+    }
+    headers.push(header)
+    columns[placeholder.name] = placeholder.default;
+  }
+
+  let data: any = [columns];
+
+  const handleDownload = () => {
+    setExportData(data);
+  }
+
   return (
     <div className="quickflow__sidepanel">
       <div>
@@ -44,6 +72,11 @@ export default function QuickflowSidePanel() {
           <button className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
         </div>
         <div style={{ display: tab === 1 ? "block" : "none" }}>
+          <div style={{ margin: "10px 0px" }}>
+            <p className="quickflow__sidebar-instruction">Click below to export your placeholders as CSV file.</p>
+            <CSVLink filename={`${editor.templateName} placeholder.csv`} className={"quickflow__sidebar-link"} headers={headers} data={exportData} onClick={handleDownload}>Download</CSVLink>
+          </div>
+          <hr />
           {placeholders.map((placeholder: PlaceholderState) => {
             return (
               <div className="quickflow__placeholder-field" id="quickflow__field" key={placeholder.id}>
