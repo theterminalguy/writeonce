@@ -13,6 +13,7 @@ export default function QuickflowSidePanel() {
 
   const headers: any = [];
   const columns: any = {}
+  const MAX_PLACEHOLDER = 10;
 
   const setTabPanel = (index: number) => {
     setTab(index)
@@ -61,6 +62,11 @@ export default function QuickflowSidePanel() {
   const data: any = [columns];
 
   const handleDownload = () => {
+    if(placeholders.length > MAX_PLACEHOLDER) {
+      alert("Maximum placeholder is 10");
+      return false;
+    }
+  
     setExportData(data);
   }
 
