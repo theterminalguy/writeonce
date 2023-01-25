@@ -23,7 +23,7 @@ export default function PipeDetails(props: PipeDetailsProps) {
                         {props.pipe.title}
                     </div>
                     {props.pipe.summary}
-                    <button> Install </button>
+                    <button className="vanilla__detail__btn"> Install </button>
                 </div>
             }
         </>
