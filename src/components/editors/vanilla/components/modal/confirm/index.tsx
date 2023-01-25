@@ -3,20 +3,6 @@ import { useState } from "react";
 import "../index.css";
 import { ModalType } from "../constants";
 
-interface StimulusConfig {
-  controller: string;
-  onYes: string;
-  onNo: string;
-  data?: Record<string, string>;
-}
-
-type ModalProps = {
-  id: string;
-  message: string;
-  config: StimulusConfig;
-  defaultDisplay?: "none" | "block" | "inline" | "inline-block";
-};
-
 export default function ConfirmModal({
   id,
   message,
@@ -71,3 +57,17 @@ export default function ConfirmModal({
     </div>
   );
 }
+
+interface StimulusConfig {
+  controller: string;
+  onYes: string;
+  onNo: string;
+  data?: Record<string, string>;
+}
+
+type ModalProps = {
+  id: string;
+  message: string;
+  config: StimulusConfig;
+  defaultDisplay?: "none" | "block" | "inline" | "inline-block";
+};

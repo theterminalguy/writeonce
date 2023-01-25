@@ -69,7 +69,7 @@ export function $showModal(
   left: number,
   top: number,
   promptText?: string
-): HTMLElement{
+): HTMLElement {
   const modal = document.querySelector(
     `div.vanilla__modal-${modalId}`
   ) as HTMLElement;
@@ -91,4 +91,25 @@ export function $showModal(
     input.focus();
   }
   return modal;
+}
+
+export function $renderModal(modal: string): void {
+  document.body.insertAdjacentHTML("beforeend", modal);
+}
+
+export function $renderAndShowModal(
+  modal: string,
+  modalId: string,
+  left: number,
+  top: number,
+  promptText?: string
+): HTMLElement {
+  $renderModal(modal);
+  return $showModal(modalId, left, top, promptText);
+}
+
+export function $removeModal(modalId: string): void {
+  const modal = $getModal(modalId);
+  if (!modal) return;
+  modal.remove();
 }

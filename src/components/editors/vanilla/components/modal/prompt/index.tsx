@@ -6,34 +6,49 @@ import { ModalType } from "../constants";
 export default function PromptModal({
   id,
   title,
-  hasInput = true,
+  config,
   defaultDisplay = "none",
-  handleOk,
-  handleCancel,
 }: ModalProps) {
   const [error] = useState(false);
   const htmlId = `title-${id}`;
 
+  let dataAttributes = {
+    [`data-${config.controller}-modal-id-value`]: id,
+  };
+  const data = config.data;
+  if (data) {
+    Object.keys(data).forEach((key) => {
+      dataAttributes = {
+        ...dataAttributes,
+        [`data-${config.controller}-${key}-value`]: data[key],
+      };
+    });
+  }
   return (
-    <div className={`vanilla__modal ${error ? "vanilla__modal-error" : ""} vanilla__modal-${id}`}
+    <div
+      className={`vanilla__modal ${
+        error ? "vanilla__modal-error" : ""
+      } vanilla__modal-${id}`}
       style={{ display: defaultDisplay }}
       data-modal-id={id}
       data-modal-type={ModalType.Prompt}
-      // add a target to the modal so that we can use event delegation
-      // conditionall add attribute to the modal
-      // if the modal is a prompt modal
-      {...(hasInput && { "data-modal-has-input": true })} 
+      {...dataAttributes}
     >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{title}</label>
-        {hasInput && <input type="text" id={htmlId} name={htmlId} required /> }
-        {error && <span className="vanilla__error-message">Required</span>}
+        <input type="text" id={htmlId} name={htmlId} required />
         <span className="vanilla__error-message">Required</span>
         <div className="vanilla__modal-buttons">
-          <button type="button" onClick={handleOk}>
+          <button
+            type="button"
+            data-action={`click->${config.controller}#${config.onYes}`}
+          >
             OK
           </button>
-          <button type="button" onClick={handleCancel}>
+          <button
+            type="button"
+            data-action={`click->${config.controller}#${config.onNo}`}
+          >
             Cancel
           </button>
         </div>
@@ -69,8 +84,13 @@ export function $addErrorToPromptModal(
 type ModalProps = {
   id: string;
   title: string;
-  hasInput?: boolean;
+  config: StimulusConfig;
   defaultDisplay?: "none" | "block" | "inline" | "inline-block";
-  handleOk: () => void;
-  handleCancel: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
+
+interface StimulusConfig {
+  controller: string;
+  onYes: string;
+  onNo: string;
+  data?: Record<string, string>;
+}

@@ -6,6 +6,7 @@ import "./index.css";
 import {
   $closeModal,
   $getModal,
+  $renderAndShowModal,
   $showModal,
 } from "../../components/modal/helpers";
 import PromptModal from "../../components/modal/prompt";
@@ -223,20 +224,18 @@ export default function FloatingToolBarPlugin() {
           U
         </button>
       </div>
-      <PromptModal
-        id={uniqueId}
-        title="Enter a name"
-        handleOk={handleModalOk}
-        handleCancel={handleModalCancel}
-      />
+      {/* <PromptModal id={uniqueId} title="Enter a name" /> */}
     </>
   );
 }
 
-function isModalVisible(modalId: string) {
+function isModalVisible(modalId: string): boolean {
   const modal = document.querySelector(
     `div.vanilla__modal-${modalId}`
   ) as HTMLElement;
+  if (!modal) {
+    return false;
+  }
   return modal.style.display === "block";
 }
 
@@ -246,7 +245,21 @@ function showRenamePlaceholderModal(
   modalId: string
 ) {
   const { left, top } = $getSelectionRect(selection);
-  $showModal(modalId, left - 32, top + 30, selectedText);
+  const newLeft = left - 32;
+  const newTop = top + 30;
+  const modal = ReactDOMServer.renderToStaticMarkup(
+    <PromptModal
+      id={modalId}
+      title="Enter a name"
+      config={{
+        controller: "placeholders--rename-placeholder",
+        onYes: "onOk",
+        onNo: "onCancel",
+      }}
+    />
+  );
+
+  $renderAndShowModal(modal, modalId, newLeft, newTop, selectedText);
 }
 
 function onPlaceholderSidepanelDelete(placeholderId: string) {
