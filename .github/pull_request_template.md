@@ -1,4 +1,4 @@
-**Linear Ticket**: [WRT-xx](https://10hourlabs.atlassian.net/browse/MD-xx)
+**Linear Ticket**: [WRT-xx](https://linear.app/wrt/issue/WRT-xx)
 
 ## Issue Summary
 
