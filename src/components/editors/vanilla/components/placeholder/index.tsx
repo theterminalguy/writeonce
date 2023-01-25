@@ -69,9 +69,9 @@ export const $getAllPlaceholders = (
 
 export const $placeholdify = (input: string): string => `{{.${input}}}`;
 
-export const $undoPlaceholdify = (uniqueId: string): boolean => {
+export const $undoPlaceholdify = (placeholderId: string): boolean => {
   // undo the placeholder creation
-  const placeholders = $getAllPlaceholders(uniqueId);
+  const placeholders = $getAllPlaceholders(placeholderId);
   if (placeholders.length === 0) {
     return false;
   }

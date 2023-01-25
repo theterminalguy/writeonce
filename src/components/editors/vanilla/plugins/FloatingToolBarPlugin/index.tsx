@@ -3,29 +3,12 @@ import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
 
 import "./index.css";
-import {
-  $closeModal,
-  $getModal,
-  $renderAndShowModal,
-  $showModal,
-} from "../../components/modal/helpers";
+import { $renderAndShowModal } from "../../components/modal/helpers";
 import PromptModal from "../../components/modal/prompt";
-import Placeholder, {
-  $getPlaceholder,
-  $getPlaceholderOriginalText,
-  $placeholdify,
-  $undoPlaceholdify,
-  $isPlaceholderNameUnique,
-} from "../../components/placeholder";
-import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
+import Placeholder, { $undoPlaceholdify } from "../../components/placeholder";
 import { store } from "../../../../../store/index";
-import {
-  addPlaceholder,
-  deletePlaceholder,
-} from "../../../../../store/features/placeholder/placeholderSlice";
+import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import { CustomEvents as Events } from "../../../../../custom-events";
-import ConfirmModal from "../../components/modal/confirm";
-import { $replaceModal } from "../../components/modal/helpers";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
@@ -130,64 +113,6 @@ export default function FloatingToolBarPlugin() {
     showRenamePlaceholderModal(selection, selectedText, uniqueId);
   };
 
-  const handleModalOk = () => {
-    const modal = $getModal(uniqueId);
-    if (!modal) {
-      console.error("Modal not found");
-      return;
-    }
-    const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
-    // validate placeholder name
-    if (input.value.trim() === "") {
-      // show error
-      modal.classList.add("vanilla__modal-error");
-      const spanError = modal.querySelector(
-        "span.vanilla__error-message"
-      ) as HTMLSpanElement;
-      spanError.style.display = "block";
-      input.classList.add("vanilla__error");
-      input.focus();
-      return;
-    }
-    // replace placeholder with the name
-    const placeholder = $getPlaceholder(uniqueId);
-    if (!placeholder) {
-      return;
-    }
-
-    const placeholderName = input.value.trim();
-    if (!$isPlaceholderNameUnique(placeholderName)) {
-      const newModalId = "confirm-placeholder-merge";
-      const newModal = ReactDOMServer.renderToStaticMarkup(
-        <ConfirmModal
-          id={newModalId}
-          message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
-          defaultDisplay="block"
-          config={{
-            controller: "placeholders--confirm-placeholder-merge",
-            onYes: "onYes",
-            onNo: "onNo",
-            data: {
-              "placeholder-id": uniqueId,
-              "placeholder-name": placeholderName,
-            },
-          }}
-        />
-      );
-      $replaceModal(modal, newModal, newModalId);
-      return;
-    }
-    placeholder.innerText = $placeholdify(placeholderName);
-    addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
-    $setCaretAfterPlaceholder(placeholder);
-    $closeModal(uniqueId);
-    setRendered(!rendered);
-  };
-
-  const handleModalCancel = () => {
-
-  };
-
   return (
     <>
       <div className="vanilla__floating-toolbar">
@@ -222,7 +147,6 @@ export default function FloatingToolBarPlugin() {
           U
         </button>
       </div>
-      {/* <PromptModal id={uniqueId} title="Enter a name" /> */}
     </>
   );
 }
@@ -272,28 +196,6 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
   store.dispatch(deletePlaceholder(placeholderId));
 }
 
-function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
-  const placeholderSidePanel = document.querySelector(
-    "div.vanilla__placeholder-side-panel"
-  ) as HTMLDivElement;
-  const htmlString = ReactDOMServer.renderToStaticMarkup(
-    <PlaceholderItem placeholderId={id} placeholderName={name} count={1} />
-  );
-  placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
-  // publish a custom event
-  const event = new CustomEvent(Events.PlaceholderAdded, {
-    detail: { name, id },
-  });
-  document.dispatchEvent(event);
-  store.dispatch(
-    addPlaceholder({
-      id,
-      name,
-      originalText: $getPlaceholderOriginalText(id) || name,
-    })
-  );
-}
-
 const replaceSelectionWithPlaceholderNode = (
   selection: Selection,
   selectedText: string,
@@ -320,13 +222,4 @@ const $isRangeSelection = (selection: Selection) => {
 const $getSelectionRect = (selection: Selection) => {
   const range = selection.getRangeAt(0);
   return range.getBoundingClientRect();
-};
-
-const $setCaretAfterPlaceholder = (placeholder: HTMLElement) => {
-  const range = document.createRange();
-  range.setStartAfter(placeholder);
-  range.setEndAfter(placeholder);
-  const sel = window.getSelection();
-  sel?.removeAllRanges();
-  sel?.addRange(range);
 };
