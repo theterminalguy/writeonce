@@ -1,7 +1,4 @@
-button.quickflow__sidebar-button {
-    width: 100%;
-    text-align: center;
-  }
+
   
   div.quickflow__tab {
     overflow: hidden;
@@ -9,26 +6,7 @@ button.quickflow__sidebar-button {
     background-color: #f1f1f1;
   }
   
-  /* Style the buttons that are used to open the tab content */
-  div.quickflow__tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-  }
   
-  /* Change background color of buttons on hover */
-  div.quickflow__tab button:hover {
-    background-color: #ddd;
-  }
-  
-  /* Create an active/current tablink class */
-  div.quickflow__tab button.active {
-    background-color: #ccc;
-  }
 
 label.quickflow__sidebar-label {
   font-weight: bold;
@@ -46,20 +24,7 @@ span.quickflow__sidebar-required {
   color: red;
 }
 
-button.quickflow__sidebar-button {
-    width: 100%;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 6px 12px;
-    margin: 5px;
-    cursor: pointer;
-}
 
-button.quickflow__sidebar-button:hover {
-  background: #000;
-  color: #fff;
-}
 
 div.quickflow__sidepanel {
   position: absolute;

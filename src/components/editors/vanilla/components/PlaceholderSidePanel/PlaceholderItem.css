@@ -36,13 +36,7 @@ div.vanilla__placeholder-item-header  {
   padding-bottom: 5px;
 }
 
-div.vanilla__placeholder-item-header button {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 6px 12px;
-  margin: 5px;
-  cursor: pointer;
-}
+
 
 div.vanilla__placeholder-field input,
 select,
