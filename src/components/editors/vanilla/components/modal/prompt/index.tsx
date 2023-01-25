@@ -30,6 +30,7 @@ export default function PromptModal({
         error ? "vanilla__modal-error" : ""
       } vanilla__modal-${id}`}
       style={{ display: defaultDisplay }}
+      data-controller={config.controller}
       data-modal-id={id}
       data-modal-type={ModalType.Prompt}
       {...dataAttributes}

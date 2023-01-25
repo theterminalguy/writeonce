@@ -185,9 +185,7 @@ export default function FloatingToolBarPlugin() {
   };
 
   const handleModalCancel = () => {
-    if (!$closeModal(uniqueId)) return;
-    if (!$undoPlaceholdify(uniqueId)) return;
-    setRendered(!rendered);
+
   };
 
   return (
@@ -253,8 +251,8 @@ function showRenamePlaceholderModal(
       title="Enter a name"
       config={{
         controller: "placeholders--rename-placeholder",
-        onYes: "onOk",
-        onNo: "onCancel",
+        onYes: "onYes",
+        onNo: "onNo",
       }}
     />
   );
