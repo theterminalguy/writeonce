@@ -1,12 +1,25 @@
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { store } from "../../store";
+import Table from "../editors/vanilla/components/dataTable";
+import FileImport from "../editors/vanilla/components/fileImport";
 import "./index.css"
 
 
 export default function Quickflow() {
+    const [tab, setTab] = useState(1)
     const payload: any = store.getState()?.editorState;
     const editor = payload?.editor
+
+    const setTabPanel = (index: number) => {
+        setTab(index)
+    }
+
+    const columns: any = {}
+    
+  for(const placeholder of payload.placeholders) {
+    columns[placeholder.name] = placeholder.default;
+  }
 
     const replacePlaceholder = (data: any, placeholder: any) => {
         data.style.color = "#993300";
@@ -28,9 +41,27 @@ export default function Quickflow() {
         }
     })
     return (
-        <div className="vanilla__quickflow__wrapper">
+        <div className="vanilla__quickflow__wrapper" style={{overflow: "scroll !important"}}>
             <h1 className="vanilla__quickflow__preview-title">{editor.templateName || "New Template"}</h1>
-            <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
+            <div className="quickflow__tab">
+                <button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Content</button>
+                <button className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Data</button>
+            </div>
+            <div style={{ display: tab === 1 ? "block" : "none" }}>
+                <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
+            </div>
+            <div style={{ display: tab === 2 ? "block" : "none", paddingTop: "5px"}}>
+                <div style={{padding: "20px"}}>
+                    <label>What's the end goal?</label>
+                    <select>
+                        <option value={"select"}>select pipe</option>
+                        <option>Gmail</option>
+                    </select>
+                </div>
+                <Table columns={columns} />
+
+                <FileImport />
+            </div>
         </div>
     )
 }
