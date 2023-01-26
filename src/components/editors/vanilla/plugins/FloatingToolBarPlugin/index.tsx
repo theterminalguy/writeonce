@@ -42,7 +42,7 @@ export default function FloatingToolBarPlugin() {
       floatingToolBar.style.display = "block";
       console.log("select: ", selectionRect);
       floatingToolBar.style.left = selectionRect.left - 200 + "px";
-      floatingToolBar.style.top = selectionRect.top + 20 +"px";
+      floatingToolBar.style.top = selectionRect.top + 20 + "px";
     } else {
       floatingToolBar.style.display = "none";
     }
@@ -128,6 +128,16 @@ export default function FloatingToolBarPlugin() {
       ) as HTMLSpanElement;
       spanError.style.display = "block";
       input.classList.add("vanilla__error");
+      input.focus();
+      return;
+    }
+    // Make sure placeholder is valid (begins with a letter and only contains letters, numbers and underscores)
+    const regex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!regex.test(input.value.trim())) {
+      alert(
+        "Placeholder must begin with a letter and only contain letters, numbers and underscores"
+      );
+      input.value = "";
       input.focus();
       return;
     }
