@@ -8,19 +8,3 @@
     align-content: flex-start;
     padding: 50px 15px;
 }
-
-.vanilla__pipe__container > div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    padding: 20px 0;
-    font-size: 30px;
-    width: 300px;
-    height: 300px;
-    margin: 10px;
-    box-shadow: 1px 1px 1px 0.5px #ccc;
-}
-
-.vanilla__pipe__container > div:hover {
-    box-shadow: 1px 1px 2px 3px #ccc;
-    cursor: pointer;
-}
