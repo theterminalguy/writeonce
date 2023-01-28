@@ -4,7 +4,7 @@ import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers"
 interface Window {
   Stimulus: Application;
 }
-declare var window: Window;
+declare let window: Window;
 
 const context = require.context("./controllers", true, /\.(ts|js)$/)
 window.Stimulus = Application.start();

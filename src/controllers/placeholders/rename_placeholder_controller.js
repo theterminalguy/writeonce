@@ -104,4 +104,4 @@ function $setCaretAfterPlaceholder(placeholder) {
   const sel = window.getSelection();
   sel?.removeAllRanges();
   sel?.addRange(range);
-};
+}
