@@ -1,0 +1,61 @@
+.snackbar {
+  min-width: 250px;
+  margin-left: -125px;
+  /* background-color: #333; */
+  background-color: #f1f1f1;
+  color: #333;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  font-size: 17px;
+}
+
+.snackbar.show-top {
+  top: 30px;
+}
+
+.snackbar.show-bottom {
+  bottom: 30px;
+}
+
+.snackbar__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.snackbar__content p {
+  margin: 0;
+}
+
+.snackbar__content button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.snackbar__content button:hover {
+  text-decoration: underline;
+}
+
+.snackbar__content button:focus {
+  outline: none;
+}
+
+.snackar__message {
+  margin-right: 10px;
+}
+
+.snackbar__action {
+  margin-left: 10px;
+}
+
+/* var x = document.getElementById("snackbar");
+x.className = "show";
+setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000); */

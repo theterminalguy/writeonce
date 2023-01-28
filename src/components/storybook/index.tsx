@@ -2,6 +2,7 @@ import PlaceholderItem from '../editors/vanilla/components/PlaceholderSidePanel/
 import ConfirmModal from '../editors/vanilla/components/modal/confirm';
 import './index.css';
 import AlertModal from '../editors/vanilla/components/modal/alert/index';
+import Snackbar from '../snackbar';
 
 export const Storybook = () => {
 
@@ -28,6 +29,12 @@ export const Storybook = () => {
           controller: "hello",
           onOk: "onOk",
         }}
+      />
+
+      <Snackbar 
+        message="Placeholder 1 has been deleted"
+        position="top"
+        animation='animate__fadeOut'
       />
     </div>
   );

@@ -10,6 +10,7 @@ import { store } from "../../../../../store/index";
 import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import { CustomEvents as Events } from "../../../../../custom-events";
 import AlertModal from "../../components/modal/alert/index";
+import Snackbar from "../../../../snackbar";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
@@ -91,10 +92,22 @@ export default function FloatingToolBarPlugin() {
     // if the modal is visible, don't do anything
     if (isModalVisible(uniqueId)) {
       // tell the user to complete the previous action
-      alert("Please complete the previous action");
-      // set focus on the input
-      const input = document.querySelector(
-        `div.vanilla__modal-${uniqueId} input[type="text"]`
+      const appErrorNotification = ReactDOMServer.renderToStaticMarkup(
+        <Snackbar
+          message="⚠️ Please complete the previous action"
+          position="bottom"
+          animation="animate__fadeOutDown animate__delay-5s"
+        />
+      );
+      document.body.insertAdjacentHTML("beforeend", appErrorNotification);
+
+      const activeModal = document.querySelector(
+        `div.vanilla__modal-${uniqueId}`
+      ) as HTMLElement;
+      activeModal.classList.add("animate__animated");
+      activeModal.classList.add("animate__shakeX");
+      const input = activeModal.querySelector(
+        `input[type="text"]`
       ) as HTMLInputElement;
       input.focus();
       return;
