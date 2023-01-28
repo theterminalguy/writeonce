@@ -7,7 +7,7 @@ import {
   setTemplateName,
 } from "../../../../../store/features/editor/editorSlice";
 import { store } from "../../../../../store";
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
@@ -41,7 +41,6 @@ export default function Editor({ title }: { title: string }) {
       });
     };
   });
-  const navigate = useNavigate();
 
   return (
     <>
@@ -61,7 +60,7 @@ export default function Editor({ title }: { title: string }) {
       ></div>
       <FloatingToolBarPlugin />
     </div>
-    <button className="vanilla__floating-toolbar-button-base" onClick={() => navigate('/quickflow')}>Use this template</button>
+      <Link to="/quickflow"><button className="vanilla__floating-toolbar-button-base">Use this template</button></Link>
     </>
   );
 }
