@@ -3,7 +3,7 @@ import { useState } from "react";
 import "../index.css";
 import { ModalType } from "../constants";
 
-export default function ConfirmModal({
+export default function AlertModal({
   id,
   message,
   config,
@@ -32,24 +32,18 @@ export default function ConfirmModal({
       } vanilla__modal-${id}`}
       style={{ display: defaultDisplay }}
       data-modal-id={id}
-      data-modal-type={ModalType.Confirm}
+      data-modal-type={ModalType.Alert}
       data-controller={config.controller}
       {...dataAttributes}
     >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{message}</label>
-        <div className="vanilla__modal-buttons">
+        <div className="vanilla__modal-buttons" style={{ textAlign: "center" }}>
           <button
             type="button"
-            data-action={`click->${config.controller}#${config.onYes}`}
+            data-action={`click->${config.controller}#${config.onOk}`}
           >
-            Yes
-          </button>
-          <button
-            type="button"
-            data-action={`click->${config.controller}#${config.onNo}`}
-          >
-            No
+            Ok
           </button>
         </div>
       </div>
@@ -59,8 +53,7 @@ export default function ConfirmModal({
 
 interface StimulusConfig {
   controller: string;
-  onYes: string;
-  onNo: string;
+  onOk: string;
   data?: Record<string, string>;
 }
 
