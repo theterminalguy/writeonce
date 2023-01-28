@@ -19,6 +19,7 @@ export function $replaceModal(
   }
 
   $closeModal(modalId);
+  $removeModal(newModalId);
   document.body.insertAdjacentHTML("beforeend", newModal);
   const nm = $getModal(newModalId);
   if (!nm) {
