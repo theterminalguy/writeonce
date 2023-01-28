@@ -9,6 +9,7 @@ import Placeholder, { $undoPlaceholdify } from "../../components/placeholder";
 import { store } from "../../../../../store/index";
 import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import { CustomEvents as Events } from "../../../../../custom-events";
+import AlertModal from "../../components/modal/alert/index";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
@@ -103,9 +104,18 @@ export default function FloatingToolBarPlugin() {
       return;
     }
     if ($isSelectionPlaceholder(selection)) {
-      // TODO: show a message to the user
-      // use custom alert
-      alert("You can't nest placeholders");
+      const modal = ReactDOMServer.renderToStaticMarkup(
+        <AlertModal
+          id={uniqueId}
+          message="You can't nest placeholders"
+          config={{
+            controller: "placeholders--alert-modal",
+            onOk: "onOk",
+          }}
+        />
+      );
+      const { left, top } = $getLeftTop(selection);
+      $renderAndShowModal(modal, uniqueId, left, top);
       return;
     }
     const selectedText = selection.toString();
@@ -166,9 +176,7 @@ function showRenamePlaceholderModal(
   selectedText: string,
   modalId: string
 ) {
-  const { left, top } = $getSelectionRect(selection);
-  const newLeft = left - 32;
-  const newTop = top + 30;
+  const { left, top } = $getLeftTop(selection);
   const modal = ReactDOMServer.renderToStaticMarkup(
     <PromptModal
       id={modalId}
@@ -181,7 +189,7 @@ function showRenamePlaceholderModal(
     />
   );
 
-  $renderAndShowModal(modal, modalId, newLeft, newTop, selectedText);
+  $renderAndShowModal(modal, modalId, left, top, selectedText);
 }
 
 function onPlaceholderSidepanelDelete(placeholderId: string) {
@@ -222,4 +230,11 @@ const $isRangeSelection = (selection: Selection) => {
 const $getSelectionRect = (selection: Selection) => {
   const range = selection.getRangeAt(0);
   return range.getBoundingClientRect();
+};
+
+const $getLeftTop = (selection: Selection) => {
+  const { left, top } = $getSelectionRect(selection);
+  const newLeft = left - 32;
+  const newTop = top + 30;
+  return { left: newLeft, top: newTop };
 };
