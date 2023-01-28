@@ -1,0 +1,12 @@
+
+.vanilla__wrapper {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.vanilla__scroll{
+    white-space: nowrap;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

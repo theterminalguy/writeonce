@@ -1,3 +1,6 @@
 div.vanilla__placeholder-side-panel {
     display: block; /* TODO: hide placeholder */
+    width: 300px;
+    margin-right: auto;
+    margin-left: auto;
 }

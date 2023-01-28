@@ -1,20 +1,37 @@
-import SidePanel from "../editors/vanilla/components/sidepanel";
 
-const PlaceholderConfiguartion = () => {
-    return (
-        <div>
-            Placeholder stuff
-        </div>
-    );
-};
+import { useEffect } from "react";
+import { store } from "../../store";
+import "./index.css"
 
-export default function QuickFlow() {
+
+export default function Quickflow() {
+    const payload: any = store.getState()?.editorState;
+    const editor = payload?.editor
+
+    const replacePlaceholder = (data: any, placeholder: any) => {
+        data.style.color = "#993300";
+        data.style.fontWeight = "bold";
+        data.classList.remove("vanilla__placeholder");
+        data.innerText = placeholder.default === "" ? "[ - ]" : placeholder.default;
+    }
+
+    useEffect(() => {
+        const placeholders = payload?.placeholders;
+        for (const placeholder of placeholders) {
+            const placholderSelected = `.vanilla__placeholder-${placeholder["id"]}`
+            const nodes: NodeListOf<HTMLBodyElement> = document.querySelectorAll(placholderSelected)
+            const nodeList = Array.from(nodes);
+            // TODO: We might need to improve this O^2
+            for (const value of nodeList) {
+                replacePlaceholder(value, placeholder)
+            }
+        }
+    })
     return (
-        <div className="wrapper">
-            <div>
-            Vestibulum vel orci hendrerit ligula pharetra volutpat et sed dui. Phasellus vitae feugiat dolor. Mauris eleifend neque ac iaculis aliquet. Nunc malesuada nisi in dictum tristique. Vestibulum mauris eros, varius sed faucibus sed, pellentesque et nunc. Curabitur ultricies blandit urna. Pellentesque ut augue mollis, lacinia dui non, rutrum justo. Nunc et odio dapibus, blandit leo eget, aliquet urna. Etiam lorem dolor, vehicula a purus in, fermentum congue diam. Integer vel urna nec turpis posuere tempor eu lacinia purus. Praesent mattis viverra lacus bibendum fringilla. Nulla commodo posuere ante, at cursus est rhoncus quis. In iaculis viverra neque in blandit. Pellentesque eleifend arcu diam, sed sodales ligula pharetra at. Morbi ac nisl adipiscing sem interdum convallis.            </div>
-            <SidePanel component={<PlaceholderConfiguartion />} />
+        <div className="vanilla__quickflow__wrapper">
+            <h1 className="vanilla__quickflow__preview-title">{editor.templateName || "New Template"}</h1>
+            <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
         </div>
-    );
+    )
 }
 

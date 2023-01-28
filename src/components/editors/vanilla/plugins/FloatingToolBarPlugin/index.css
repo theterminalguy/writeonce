@@ -1,12 +1,10 @@
 div.vanilla__floating-toolbar {
-  display: none; 
-  list-style: none;
+  display: none;
   position: absolute;
-  padding: 3px;
-
+  min-width: 180px;
+  min-height: 40px;
   background-color: #f1f1f1;
   border: 1px solid #ccc;
-  overflow: auto;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   border-radius: 4px;
@@ -22,7 +20,16 @@ button.vanilla__floating-toolbar-button {
   cursor: pointer;
 }
 
-button.vanilla__floating-toolbar-button:hover {
+button.vanilla__floating-toolbar-button-base {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin: 15px 8%;
+  cursor: pointer;
+}
+
+button.vanilla__floating-toolbar-button:hover,
+button.vanilla__floating-toolbar-button-base:hover{
   background: #000;
   color: #fff;
 }

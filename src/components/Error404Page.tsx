@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import "./Error404Page.css";
 
-export default function Error404Page() {
+export default function Error404Page(): JSX.Element {
   return (
     <div className="error-404-page">
       <h1>Page Not Found </h1>

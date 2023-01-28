@@ -1,0 +1,10 @@
+
+.vanilla__pipe__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 50px 15px;
+}
