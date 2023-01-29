@@ -3,22 +3,14 @@ import { generate } from "shortid";
 import ReactDOMServer from "react-dom/server";
 
 import "./index.css";
-import Modal, { $closeModal, $getModal } from "../../components/modal";
-import Placeholder, {
-  $getPlaceholder,
-  $getPlaceholderOriginalText,
-  $placeholdify,
-  $undoPlaceholdify,
-  $isPlaceholderNameUnique,
-  $mergePlaceholders,
-} from "../../components/placeholder";
-import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
-import { store } from "../../../../../store";
-import {
-  addPlaceholder,
-  deletePlaceholder,
-} from "../../../../../store/features/placeholder/placeholderSlice";
-import { Events } from "../../../../events";
+import { $renderAndShowModal } from "../../components/modal/helpers";
+import PromptModal from "../../components/modal/prompt";
+import Placeholder, { $undoPlaceholdify } from "../../components/placeholder";
+import { store } from "../../../../../store/index";
+import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import { CustomEvents as Events } from "../../../../../custom-events";
+import AlertModal from "../../components/modal/alert/index";
+import Snackbar from "../../../../snackbar";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
@@ -38,6 +30,15 @@ export default function FloatingToolBarPlugin() {
     const range = selection.getRangeAt(0);
     const selectionRect = range.getBoundingClientRect();
     const selectedText = selection.toString();
+
+    // in a service worker, let's find all occurrences of the selected text
+    // both the once that match exactly case sensitive and case insensitive
+    // we'll give the user a heads up that there are other occurrences of the
+    // same text in the document. We will tell them how many are an exact match
+    // and how many are case insensitive matches.
+    // An example message would be:
+    // "There are 3 other occurrences of this text in the document. 2 of them are an exact match and 1 is a case insensitive match."
+
     if (selectedText !== "") {
       floatingToolBar.style.display = "block";
       console.log("select: ", selectionRect);
@@ -71,6 +72,9 @@ export default function FloatingToolBarPlugin() {
     const editor = document.querySelector("div.vanilla__editor") as HTMLElement;
     editor.addEventListener("mouseup", showFloatingToolBar);
     document.addEventListener(Events.PlaceholderAdded, handlePlaceholderAdd);
+    document.addEventListener(Events.RerenderFloatingToolbar, () =>
+      setRendered(!rendered)
+    );
     return () => {
       editor.removeEventListener("mouseup", showFloatingToolBar);
       document.removeEventListener(
@@ -78,7 +82,7 @@ export default function FloatingToolBarPlugin() {
         handlePlaceholderAdd
       );
     };
-  }, []);
+  }, [rendered]);
 
   const makeBold = () => document.execCommand("bold");
   const makeItalic = () => document.execCommand("italic");
@@ -89,10 +93,22 @@ export default function FloatingToolBarPlugin() {
     // if the modal is visible, don't do anything
     if (isModalVisible(uniqueId)) {
       // tell the user to complete the previous action
-      alert("Please complete the previous action");
-      // set focus on the input
-      const input = document.querySelector(
-        `div.vanilla__modal-${uniqueId} input[type="text"]`
+      const appErrorNotification = ReactDOMServer.renderToStaticMarkup(
+        <Snackbar
+          message="⚠️ Please complete the previous action"
+          position="bottom"
+          animation="animate__fadeOutDown animate__delay-5s"
+        />
+      );
+      document.body.insertAdjacentHTML("beforeend", appErrorNotification);
+
+      const activeModal = document.querySelector(
+        `div.vanilla__modal-${uniqueId}`
+      ) as HTMLElement;
+      activeModal.classList.add("animate__animated");
+      activeModal.classList.add("animate__shakeX");
+      const input = activeModal.querySelector(
+        `input[type="text"]`
       ) as HTMLInputElement;
       input.focus();
       return;
@@ -102,75 +118,23 @@ export default function FloatingToolBarPlugin() {
       return;
     }
     if ($isSelectionPlaceholder(selection)) {
-      // TODO: show a message to the user
-      // use custom alert
-      alert("You can't nest placeholders");
+      const modal = ReactDOMServer.renderToStaticMarkup(
+        <AlertModal
+          id={uniqueId}
+          message="You can't nest placeholders"
+          config={{
+            controller: "placeholders--alert-modal",
+            onOk: "onOk",
+          }}
+        />
+      );
+      const { left, top } = $getLeftTop(selection);
+      $renderAndShowModal(modal, uniqueId, left, top);
       return;
     }
     const selectedText = selection.toString();
     replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
     showRenamePlaceholderModal(selection, selectedText, uniqueId);
-  };
-
-  const handleModalOk = () => {
-    const modal = $getModal(uniqueId);
-    if (!modal) {
-      console.error("Modal not found");
-      return;
-    }
-    const input = modal.querySelector(`input[type="text"]`) as HTMLInputElement;
-    // validate placeholder name
-    if (input.value.trim() === "") {
-      // show error
-      modal.classList.add("vanilla__modal-error");
-      const spanError = modal.querySelector(
-        "span.vanilla__error-message"
-      ) as HTMLSpanElement;
-      spanError.style.display = "block";
-      input.classList.add("vanilla__error");
-      input.focus();
-      return;
-    }
-    // replace placeholder with the name
-    const placeholder = $getPlaceholder(uniqueId);
-    if (!placeholder) {
-      return;
-    }
-
-    const placeholderName = input.value.trim();
-    if (!$isPlaceholderNameUnique(placeholderName)) {
-      // show a modal asking if they'd like to merge the placeholders
-      const shouldMergePlaceholder = window.confirm(
-        `A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`
-      );
-      if (shouldMergePlaceholder) {
-        $mergePlaceholders(uniqueId, placeholderName);
-        setRendered(!rendered);
-        $closeModal(uniqueId);
-        return;
-      } else {
-        modal.classList.add("vanilla__modal-error");
-        const spanError = modal.querySelector(
-          "span.vanilla__error-message"
-        ) as HTMLSpanElement;
-        spanError.style.display = "block";
-        spanError.innerText = `"${placeholderName}" already in use. Please provide a new name or merge the placeholders.`;
-        input.classList.add("vanilla__error");
-        input.focus();
-        return;
-      }
-    }
-    placeholder.innerText = $placeholdify(placeholderName);
-    addPlaceholderToSidePanel({ name: placeholderName, id: uniqueId });
-    $setCaretAfterPlaceholder(placeholder);
-    $closeModal(uniqueId);
-    setRendered(!rendered);
-  };
-
-  const handleModalCancel = () => {
-    if (!$closeModal(uniqueId)) return;
-    if (!$undoPlaceholdify(uniqueId)) return;
-    setRendered(!rendered);
   };
 
   return (
@@ -207,40 +171,39 @@ export default function FloatingToolBarPlugin() {
           U
         </button>
       </div>
-      <Modal
-        id={uniqueId}
-        title="Enter a name"
-        handleOk={handleModalOk}
-        handleCancel={handleModalCancel}
-      />
     </>
   );
 }
 
-function isModalVisible(modalId: string) {
+function isModalVisible(modalId: string): boolean {
   const modal = document.querySelector(
     `div.vanilla__modal-${modalId}`
   ) as HTMLElement;
+  if (!modal) {
+    return false;
+  }
   return modal.style.display === "block";
 }
 
 function showRenamePlaceholderModal(
   selection: Selection,
   selectedText: string,
-  moadalId: string
+  modalId: string
 ) {
-  const { left, top } = $getSelectionRect(selection);
-  const modal = document.querySelector(
-    `div.vanilla__modal-${moadalId}`
-  ) as HTMLElement;
-  modal.style.display = "block";
-  modal.style.left = left - 200 + "px";
-  modal.style.top = top + 70 + "px";
+  const { left, top } = $getLeftTop(selection);
+  const modal = ReactDOMServer.renderToStaticMarkup(
+    <PromptModal
+      id={modalId}
+      title="Enter a name"
+      config={{
+        controller: "placeholders--rename-placeholder",
+        onYes: "onYes",
+        onNo: "onNo",
+      }}
+    />
+  );
 
-  // set focus on the input
-  const input = modal.querySelector('input[type="text"]') as HTMLInputElement;
-  input.value = selectedText;
-  input.focus();
+  $renderAndShowModal(modal, modalId, left, top, selectedText);
 }
 
 function onPlaceholderSidepanelDelete(placeholderId: string) {
@@ -253,28 +216,6 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
   ) as HTMLDivElement;
   placeholderSidePanel.removeChild(placeholderItem);
   store.dispatch(deletePlaceholder(placeholderId));
-}
-
-function addPlaceholderToSidePanel({ name, id }: { name: string; id: string }) {
-  const placeholderSidePanel = document.querySelector(
-    "div.vanilla__placeholder-side-panel"
-  ) as HTMLDivElement;
-  const htmlString = ReactDOMServer.renderToStaticMarkup(
-    <PlaceholderItem placeholderId={id} placeholderName={name} count={1} />
-  );
-  placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
-  // publish a custom event
-  const event = new CustomEvent(Events.PlaceholderAdded, {
-    detail: { name, id },
-  });
-  document.dispatchEvent(event);
-  store.dispatch(
-    addPlaceholder({
-      id,
-      name,
-      originalText: $getPlaceholderOriginalText(id) || name,
-    })
-  );
 }
 
 const replaceSelectionWithPlaceholderNode = (
@@ -305,11 +246,9 @@ const $getSelectionRect = (selection: Selection) => {
   return range.getBoundingClientRect();
 };
 
-const $setCaretAfterPlaceholder = (placeholder: HTMLElement) => {
-  const range = document.createRange();
-  range.setStartAfter(placeholder);
-  range.setEndAfter(placeholder);
-  const sel = window.getSelection();
-  sel?.removeAllRanges();
-  sel?.addRange(range);
+const $getLeftTop = (selection: Selection) => {
+  const { left, top } = $getSelectionRect(selection);
+  const newLeft = left - 32;
+  const newTop = top + 30;
+  return { left: newLeft, top: newTop };
 };

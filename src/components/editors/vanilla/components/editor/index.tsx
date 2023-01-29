@@ -56,7 +56,7 @@ export default function Editor({ title }: { title: string }) {
         contentEditable={true}
         suppressContentEditableWarning={true}
         className="vanilla__editor"
-        placeholder="Let the words flow..."
+        placeholder="Import, paste or start typing..."
       ></div>
       <FloatingToolBarPlugin />
     </div>
