@@ -7,7 +7,6 @@ import HomePage from './components/HomePage';
 import Marketplace from "./components/marketplace";
 import QuickflowPage from "./components/QuickFlowPage";
 import Error404Page from "./components/Error404Page";
-import QuickFlow from "./components/quickflow";
 
 function App(): JSX.Element {
   return (
@@ -15,7 +14,6 @@ function App(): JSX.Element {
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="editor" element={<VanillaEditor />} />
-        <Route path="quickflow" element={<QuickFlow />} />
         <Route path="story" element={<Storybook />} />
         <Route path="marketplace" element={<Marketplace />} />
         <Route path="quickflow" element={<QuickflowPage />} />
