@@ -84,3 +84,14 @@ span.vanilla__placheholder-count-badge {
   font-size: 12px;
   font-weight: bold;
 }
+
+div.vanilla__info-message {
+  font-size: 12px;
+  font-style: italic;
+  margin: 5px;
+
+  background-color: #ccc;
+  padding: 10px;
+  cursor: pointer;
+  color: #333;
+}

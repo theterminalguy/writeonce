@@ -46,24 +46,12 @@ export default function PipeListings(props: { displayPipeDetails: (sp: {imageUrl
     return (
         <>
             <div className="vanilla__pipe__container">
-                <div className="pipe__container-item">
-                    <PipeCard imageUrl={emailPipe.imageUrl} title={emailPipe.title} summary={emailPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
-                </div>
-                <div className="vanilla__pipe__container-item">
-                    <PipeCard imageUrl={smsPipe.imageUrl} title={smsPipe.title} summary={smsPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
-                </div>
-                <div className="vanilla__pipe__container-item">
-                    <PipeCard imageUrl={slackPipe.imageUrl} title={emailPipe.title} summary={emailPipe.summary} displayPipeDetails={props.displayPipeDetails} />
-                </div>
-                <div className="vanilla__pipe__container-item">
-                    <PipeCard imageUrl={teamsPipe.imageUrl} title={teamsPipe.title} summary={emailPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
-                </div>
-                <div className="vanilla__pipe__container-item">
-                    <PipeCard imageUrl={pdfPipe.imageUrl} title={pdfPipe.title} summary={pdfPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
-                </div>
-                <div className="vanilla__pipe__container-item">
-                    <PipeCard imageUrl={invoicePipe.imageUrl} title={invoicePipe.title} summary={invoicePipe.summary} displayPipeDetails={props.displayPipeDetails}/>
-                </div>
+                <PipeCard imageUrl={emailPipe.imageUrl} title={emailPipe.title} summary={emailPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
+                <PipeCard imageUrl={smsPipe.imageUrl} title={smsPipe.title} summary={smsPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
+                <PipeCard imageUrl={slackPipe.imageUrl} title={emailPipe.title} summary={emailPipe.summary} displayPipeDetails={props.displayPipeDetails} />
+                <PipeCard imageUrl={teamsPipe.imageUrl} title={teamsPipe.title} summary={emailPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
+                <PipeCard imageUrl={pdfPipe.imageUrl} title={pdfPipe.title} summary={pdfPipe.summary} displayPipeDetails={props.displayPipeDetails}/>
+                <PipeCard imageUrl={invoicePipe.imageUrl} title={invoicePipe.title} summary={invoicePipe.summary} displayPipeDetails={props.displayPipeDetails}/>
             </div>
         </>
     );
