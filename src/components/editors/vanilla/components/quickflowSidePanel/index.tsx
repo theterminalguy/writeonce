@@ -68,8 +68,8 @@ export default function QuickflowSidePanel() {
     <div className="quickflow__sidepanel">
       <div>
         <div className="quickflow__tab">
-          <button className={"quickflow__tab__btn tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
-          <button className={"quickflow__tab__btn tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
+          <button className={"vanilla__quickflow-tab-btn tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
+          <button className={"vanilla__quickflow-tab-btn tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
         </div>
         <div style={{ display: tab === 1 ? "block" : "none" }}>
           <div style={{ margin: "10px 0px" }}>
@@ -115,7 +115,7 @@ export default function QuickflowSidePanel() {
             </select>
           </div>
           <div className="quickflow__placeholder-field" id="quickflow__field">
-            <button className="quickflow__sidebar-button">Run</button>
+            <button className="vanila__quickflow-sidebar-button">Run</button>
           </div>
         </div>
       </div>

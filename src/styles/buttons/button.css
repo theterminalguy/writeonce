@@ -1,4 +1,4 @@
-button.vanilla__modal-content__btn {
+button.vanilla__modal-content-btn {
     display: inline-block;
     margin: 5px;
     border: 1px solid #ccc;
@@ -8,12 +8,12 @@ button.vanilla__modal-content__btn {
     width: 87px;
   }
   
-  button.vanilla__modal-content__btn:hover {
+  button.vanilla__modal-content-btn:hover {
     background: #000;
     color: #fff;
   }
 
-  button.vanilla__placeholder-item-header__btn {
+  button.vanilla__placeholder-item-header-btn {
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 6px 12px;
@@ -21,13 +21,23 @@ button.vanilla__modal-content__btn {
     cursor: pointer;
   }
 
-  button.quickflow__sidebar-button {
+  button.vanilla__quickflow-sidebar-button {
     width: 100%;
     text-align: center;
-  }
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+button.vanilla__quickflow-sidebar-button:hover {
+  background: #000;
+  color: #fff;
+}
 
   /* Style the buttons that are used to open the tab content */
-  button.quickflow__tab__btn {
+  button.vanilla__quickflow-tab-btn {
     background-color: inherit;
     float: left;
     border: none;
@@ -38,29 +48,15 @@ button.vanilla__modal-content__btn {
   }
   
   /* Change background color of buttons on hover */
-  button.quickflow__tab__btn:hover {
+  button.vanilla__quickflow-tab-btn:hover {
     background-color: #ddd;
   }
   
   /* Create an active/current tablink class */
-  button.quickflow__tab__btn.active {
+  button.vanilla__quickflow-tab-btn.active {
     background-color: #ccc;
   }
 
-  button.quickflow__sidebar-button {
-    width: 100%;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 6px 12px;
-    margin: 5px;
-    cursor: pointer;
-}
-
-button.quickflow__sidebar-button:hover {
-  background: #000;
-  color: #fff;
-}
 
 button.vanilla__floating-toolbar-button {
     border: 1px solid #ccc;
@@ -96,13 +92,13 @@ button.vanilla__floating-toolbar-button {
     text-decoration: underline;
   }
 
-  .vanilla__detail__btn {
+  .vanilla__detail-btn {
     padding: 10px;
     width: 200px;
     cursor: pointer;
 }
 
-.vanilla__card__title__btn {
+.vanilla__card-title-btn {
     padding: 5px;
     cursor: pointer;
     margin-bottom: 5px;

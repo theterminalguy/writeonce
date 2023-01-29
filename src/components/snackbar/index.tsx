@@ -1,4 +1,4 @@
-import "animate.css";
+// import "animate.css";
 import "./index.css";
 
 export default function Snackbar({
