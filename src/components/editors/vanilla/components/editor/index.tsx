@@ -58,9 +58,14 @@ export default function Editor({ title }: { title: string }) {
         className="vanilla__editor"
         placeholder="Import, paste or start typing..."
       ></div>
+        <div className="vanilla__editor-btn-container">
+          <Link to="/quickflow">
+            <button className="vanilla__floating-toolbar-button-base">Use this template</button>
+          </Link>
+        </div>
       <FloatingToolBarPlugin />
     </div>
-      <Link to="/quickflow"><button className="vanilla__floating-toolbar-button-base">Use this template</button></Link>
+
     </>
   );
 }

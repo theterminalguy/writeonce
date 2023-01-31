@@ -19,7 +19,8 @@
     border: 1px solid #ccc;
     padding: 5px 20px;
     margin-top: 20px;
-    min-width: 70px;
+    max-width: 130px;
+    width: 100%;
 }
 
 .vanilla__menu__link:hover {
