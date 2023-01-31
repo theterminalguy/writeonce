@@ -199,6 +199,7 @@ function showRenamePlaceholderModal(
         controller: "placeholders--rename-placeholder",
         onYes: "onYes",
         onNo: "onNo",
+        onEnter: "onEnter"
       }}
     />
   );

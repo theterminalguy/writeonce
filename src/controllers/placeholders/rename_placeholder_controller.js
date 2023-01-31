@@ -20,14 +20,12 @@ export default class RenamePlaceholderController extends Controller {
       console.error("Modal not found");
       return;
     }
-    const input = modal.querySelector(`input[type="text"]`)
+    const input = modal.querySelector(`input[type="text"]`);
     // validate placeholder name
     if (input.value.trim() === "") {
       // show error
       modal.classList.add("vanilla__modal-error");
-      const spanError = modal.querySelector(
-        "span.vanilla__error-message"
-      );
+      const spanError = modal.querySelector("span.vanilla__error-message");
       spanError.style.display = "block";
       input.classList.add("vanilla__error");
       input.focus();
@@ -72,6 +70,11 @@ export default class RenamePlaceholderController extends Controller {
     if (!$closeModal(this.modalIdValue)) return;
     if (!$undoPlaceholdify(this.modalIdValue)) return;
     dispatchCustomEvent(CustomEvents.RerenderFloatingToolbar);
+  }
+
+  onEnter(e){
+    e.preventDefault()
+    this.onYes()
   }
 }
 
