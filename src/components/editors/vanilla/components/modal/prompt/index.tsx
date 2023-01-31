@@ -37,7 +37,7 @@ export default function PromptModal({
     >
       <div className="vanilla__modal-content">
         <label htmlFor={htmlId}>{title}</label>
-        <input type="text" id={htmlId} name={htmlId} required />
+        <input type="text" id={htmlId} name={htmlId} required data-action={`keydown.enter->${config.controller}#${config.onEnter}`} />
         <span className="vanilla__error-message">Required</span>
         <div className="vanilla__modal-buttons">
           <button
@@ -93,5 +93,6 @@ interface StimulusConfig {
   controller: string;
   onYes: string;
   onNo: string;
+  onEnter: string;
   data?: Record<string, string>;
 }
