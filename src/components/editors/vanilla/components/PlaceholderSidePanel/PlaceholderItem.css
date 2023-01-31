@@ -63,7 +63,20 @@ textarea {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-div.vanilla__placeholder-field input {
+.vanilla__form-control{
+  width: 100%;
+  height: 35px;
+}
+
+.vanilla__placeholder-field{
+  padding: 5px;
+}
+
+div.vanilla__placeholder-field textarea{
+  height: 100px;
+}
+
+/* div.vanilla__placeholder-field input {
   width: 90%;
   height: 20px;
 }
@@ -71,15 +84,16 @@ div.vanilla__placeholder-field input {
 div.vanilla__placeholder-field select {
   width: 100%;
   height: 30px;
-}
+} */
 
 div.vanilla__placeholder-field label {
   display: block;
-  margin: 5px;
+  margin: 5px 0;
 }
 
 div.vanilla__placeholder-field input[type="checkbox"] {
-  margin-left: -106px;
+  width: 18px;
+  height: 18px;
 }
 
 span.vanilla__placheholder-count-badge {
@@ -94,10 +108,11 @@ span.vanilla__placheholder-count-badge {
 div.vanilla__info-message {
   font-size: 12px;
   font-style: italic;
-  margin: 5px;
+  margin: 5px 0;
 
   background-color: #ccc;
   padding: 10px;
   cursor: pointer;
   color: #333;
 }
+

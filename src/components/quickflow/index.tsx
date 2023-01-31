@@ -28,8 +28,8 @@ export default function Quickflow() {
         }
     })
     return (
-        <div className="vanilla__quickflow__wrapper">
-            <h1 className="vanilla__quickflow__preview-title">{editor.templateName || "New Template"}</h1>
+        <div className="vanilla__quickflow__wrapper vanilla__editor-container">
+            <h1 className="vanilla__quickflow__preview-title vanilla__editor-title">{editor.templateName || "New Template"}</h1>
             <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
         </div>
     )
