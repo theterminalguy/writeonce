@@ -43,7 +43,7 @@ export default function FloatingToolBarPlugin() {
       floatingToolBar.style.display = "block";
       console.log("select: ", selectionRect);
       floatingToolBar.style.left = selectionRect.left - 200 + "px";
-      floatingToolBar.style.top = selectionRect.top + 20 +"px";
+      floatingToolBar.style.top = selectionRect.top + 20 + "px";
     } else {
       floatingToolBar.style.display = "none";
     }

@@ -1,13 +1,24 @@
 import { Controller } from "@hotwired/stimulus";
 import ReactDOMServer from "react-dom/server";
-import { $closeModal, $getModal, $replaceModal } from "../../components/editors/vanilla/components/modal/helpers";
-import { $getPlaceholder, $getPlaceholderOriginalText, $isPlaceholderNameUnique, $placeholdify, $undoPlaceholdify } from "../../components/editors/vanilla/components/placeholder";
+import {
+  $closeModal,
+  $getModal,
+  $replaceModal,
+} from "../../components/editors/vanilla/components/modal/helpers";
+import {
+  $getPlaceholder,
+  $getPlaceholderOriginalText,
+  $isPlaceholderNameUnique,
+  $placeholdify,
+  $undoPlaceholdify,
+} from "../../components/editors/vanilla/components/placeholder";
 import { CustomEvents, dispatchCustomEvent } from "../../custom-events";
 
-import ConfirmModal from '../../components/editors/vanilla/components/modal/confirm/index';
+import ConfirmModal from "../../components/editors/vanilla/components/modal/confirm/index";
 import PlaceholderItem from "../../components/editors/vanilla/components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../store";
 import { addPlaceholder } from "../../store/features/placeholder/placeholderSlice";
+import { $addErrorToPromptModal } from "../../components/editors/vanilla/components/modal/prompt";
 
 export default class RenamePlaceholderController extends Controller {
   static values = {
@@ -20,17 +31,25 @@ export default class RenamePlaceholderController extends Controller {
       console.error("Modal not found");
       return;
     }
-    const input = modal.querySelector(`input[type="text"]`)
+    const input = modal.querySelector(`input[type="text"]`);
     // validate placeholder name
     if (input.value.trim() === "") {
       // show error
       modal.classList.add("vanilla__modal-error");
-      const spanError = modal.querySelector(
-        "span.vanilla__error-message"
-      );
+      const spanError = modal.querySelector("span.vanilla__error-message");
       spanError.style.display = "block";
       input.classList.add("vanilla__error");
       input.focus();
+      return;
+    }
+    // Make sure placeholder is valid (begins with a letter and only contains letters, numbers and underscores)
+    const regex = /^[a-zA-Z][a-zA-Z0-9_ ]*$/;
+    if (!regex.test(input.value.trim())) {
+      $addErrorToPromptModal(
+        modal,
+        input.value.trim(),
+        "Placeholder must begin with a letter and only contain letters, numbers and underscores!"
+      );
       return;
     }
     // replace placeholder with the name
