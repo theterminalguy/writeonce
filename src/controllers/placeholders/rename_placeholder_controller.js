@@ -42,13 +42,13 @@ export default class RenamePlaceholderController extends Controller {
       input.focus();
       return;
     }
-    // Make sure placeholder is valid (begins with a letter and only contains letters, numbers and underscores)
-    const regex = /^[a-zA-Z][a-zA-Z0-9_ ]*$/;
-    if (!regex.test(input.value.trim())) {
+
+    const validPlaceholderNamePattern = /^(\w+\s?)*\s*$/;
+    if (!validPlaceholderNamePattern.test(input.value.trim())) {
       $addErrorToPromptModal(
         modal,
         input.value.trim(),
-        "Placeholder must begin with a letter and only contain letters, numbers and underscores!"
+        "Placeholder must begin with a letter and only contain letters, numbers and underscores, with single spaces between words!"
       );
       return;
     }
