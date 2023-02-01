@@ -33,6 +33,10 @@ export default class Placeholder {
      * - vanilla__placeholder (string) - class for all placeholders
      * - vanilla__placeholder-group-${id} (string) - class for all placeholder specific to a group
      */
+    const placeholderContainer = document.createElement("span")
+    placeholderContainer.classList.add("vanilla__placeholder-container")
+    placeholderContainer.addEventListener("mouseenter", (e) => willTooltipOverflow(e, placeholderContainer))
+
     const placeholder = document.createElement("span");
     placeholder.classList.add(
       "vanilla__placeholder",
@@ -47,7 +51,16 @@ export default class Placeholder {
     );
     placeholder.setAttribute("contenteditable", "false");
     placeholder.innerHTML = `{{.${this.name}}}`;
-    return placeholder;
+    //create tooltip
+    const tooltip = document.createElement("span")
+    tooltip.setAttribute("class", "vanilla__placeholder-tooltip")
+    tooltip.textContent = this.originalText
+    tooltip.setAttribute("contenteditable", "false")
+
+    //append placeholder and tooltip to container
+    placeholderContainer.appendChild(placeholder)
+    placeholderContainer.appendChild(tooltip)
+    return placeholderContainer;
   }
 }
 
@@ -90,7 +103,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
       return false;
     }
     const textNode = document.createTextNode(originalText);
-    placeholder.parentNode?.replaceChild(textNode, placeholder);
+    placeholder.parentNode?.parentNode?.replaceChild(textNode, placeholder.parentNode);
   });
   return true;
 };
@@ -142,5 +155,25 @@ export function $mergePlaceholders(id: string, name: string) {
   if (badge) {
     // convert the innerText to a number and increment it by 1
     badge.innerText = `${Number(badge.innerText) + 1}`;
+  }
+}
+
+function willTooltipOverflow(e: MouseEvent, el: HTMLSpanElement) {
+  const container = document.querySelector(".vanilla__editor") as HTMLDivElement
+  const tooltip = el.querySelector(".vanilla__placeholder-tooltip") as HTMLSpanElement;
+  const isRightOverflow = (container?.offsetWidth - el.offsetLeft) < 250
+
+  if (el.offsetTop > 120) return
+
+  if (!isRightOverflow && tooltip && !tooltip.classList.contains("right")) {
+    tooltip?.classList.remove("left");
+    tooltip?.classList.add("right");
+    tooltip.setAttribute("style", `--placeholder-width:${el.offsetWidth}px`)
+  }
+
+  if (isRightOverflow && tooltip && !tooltip.classList.contains("left")) {
+    tooltip?.classList.remove("right");
+    tooltip?.classList.add("left");
+    tooltip.setAttribute("style", `--placeholder-width:${-el.offsetWidth}px`)
   }
 }
