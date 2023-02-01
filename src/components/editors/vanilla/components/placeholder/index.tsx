@@ -150,5 +150,3 @@ export function $mergePlaceholders(id: string, name: string) {
     badge.innerText = `${Number(badge.innerText) + 1}`;
   }
 }
-
-
