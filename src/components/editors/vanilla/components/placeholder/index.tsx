@@ -33,9 +33,6 @@ export default class Placeholder {
      * - vanilla__placeholder (string) - class for all placeholders
      * - vanilla__placeholder-group-${id} (string) - class for all placeholder specific to a group
      */
-    const placeholderContainer = document.createElement("span")
-    placeholderContainer.classList.add("vanilla__placeholder-container")
-    placeholderContainer.addEventListener("mouseenter", (e) => willTooltipOverflow(e, placeholderContainer))
 
     const placeholder = document.createElement("span");
     placeholder.classList.add(
@@ -55,16 +52,8 @@ export default class Placeholder {
     );
     placeholder.setAttribute("contenteditable", "false");
     placeholder.innerHTML = `{{.${this.name}}}`;
-    //create tooltip
-    const tooltip = document.createElement("span")
-    tooltip.setAttribute("class", "vanilla__placeholder-tooltip")
-    tooltip.textContent = this.originalText
-    tooltip.setAttribute("contenteditable", "false")
 
-    //append placeholder and tooltip to container
-    placeholderContainer.appendChild(placeholder)
-    placeholderContainer.appendChild(tooltip)
-    return placeholderContainer;
+    return placeholder;
   }
 }
 
@@ -107,7 +96,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
       return false;
     }
     const textNode = document.createTextNode(originalText);
-    placeholder.parentNode?.parentNode?.replaceChild(textNode, placeholder.parentNode);
+    placeholder.parentNode?.replaceChild(textNode, placeholder);
   });
   return true;
 };
@@ -162,22 +151,4 @@ export function $mergePlaceholders(id: string, name: string) {
   }
 }
 
-function willTooltipOverflow(e: MouseEvent, el: HTMLSpanElement) {
-  const container = document.querySelector(".vanilla__editor") as HTMLDivElement
-  const tooltip = el.querySelector(".vanilla__placeholder-tooltip") as HTMLSpanElement;
-  const isRightOverflow = (container?.offsetWidth - el.offsetLeft) < 250
 
-  if (el.offsetTop > 120) return
-
-  if (!isRightOverflow && tooltip && !tooltip.classList.contains("right")) {
-    tooltip?.classList.remove("left");
-    tooltip?.classList.add("right");
-    tooltip.setAttribute("style", `--placeholder-width:${el.offsetWidth}px`)
-  }
-
-  if (isRightOverflow && tooltip && !tooltip.classList.contains("left")) {
-    tooltip?.classList.remove("right");
-    tooltip?.classList.add("left");
-    tooltip.setAttribute("style", `--placeholder-width:${-el.offsetWidth}px`)
-  }
-}
