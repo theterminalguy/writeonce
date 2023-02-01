@@ -45,6 +45,10 @@ export default class Placeholder {
       "data-placeholder-original-text",
       this.originalText
     );
+    placeholder.setAttribute(
+      "title",
+      this.originalText
+    );
     placeholder.setAttribute("contenteditable", "false");
     placeholder.innerHTML = `{{.${this.name}}}`;
     return placeholder;
