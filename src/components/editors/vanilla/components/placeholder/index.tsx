@@ -5,7 +5,7 @@ import {
 } from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
 
-type PlaceholderProps = {
+export type PlaceholderProps = {
   id: string;
   name: string;
   originalText: string;
