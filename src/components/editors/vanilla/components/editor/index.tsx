@@ -7,11 +7,16 @@ import { Link } from "react-router-dom";
 export default function Editor({ title }: { title: string }) {
   return (
     <>
-      <div className="vanilla__editor-container">
+      <div
+        className="vanilla__editor-container"
+        data-controller="editors--vanilla-editor"
+      >
         <h1
           contentEditable="true"
           suppressContentEditableWarning={true}
           className="vanilla__editor-title"
+          data-editors--vanilla-editor-target="title"
+          data-action="focusout->editors--vanilla-editor#handleFocusOut"
         >
           {title}
         </h1>
@@ -20,7 +25,7 @@ export default function Editor({ title }: { title: string }) {
           suppressContentEditableWarning={true}
           className="vanilla__editor"
           placeholder="Import, paste or start typing..."
-          data-controller="editors--vanilla-editor"
+          data-editors--vanilla-editor-target="content"
           data-action="focusout->editors--vanilla-editor#handleFocusOut"
         ></div>
         <div className="vanilla__editor-btn-container">
