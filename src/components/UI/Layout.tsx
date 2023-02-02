@@ -18,13 +18,12 @@ export default function Layout(props: LayoutProps) {
     }
 
     const middle = {
-        background: '#F5F5F5',
         height: window.innerHeight
     }
 
     const dragging = drag ?
         {background: '#f1f1f1', borderLeft: '1px solid #00CCFF', height: window.innerHeight} :
-        {background: '#f1f1f1', borderLeft: '1px solid #696969', height: window.innerHeight};
+        { background: '#f1f1f1', borderLeft: '1px solid #d4d4d4', height: window.innerHeight };
 
     return (
         <>
