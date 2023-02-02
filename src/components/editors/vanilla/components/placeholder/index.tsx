@@ -33,6 +33,7 @@ export default class Placeholder {
      * - vanilla__placeholder (string) - class for all placeholders
      * - vanilla__placeholder-group-${id} (string) - class for all placeholder specific to a group
      */
+
     const placeholder = document.createElement("span");
     placeholder.classList.add(
       "vanilla__placeholder",
@@ -45,8 +46,13 @@ export default class Placeholder {
       "data-placeholder-original-text",
       this.originalText
     );
+    placeholder.setAttribute(
+      "title",
+      this.originalText
+    );
     placeholder.setAttribute("contenteditable", "false");
     placeholder.innerHTML = `{{.${this.name}}}`;
+
     return placeholder;
   }
 }
