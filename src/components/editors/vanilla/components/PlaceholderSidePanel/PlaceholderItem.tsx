@@ -34,7 +34,7 @@ export default function PlaceholderItem({
         </span>
         <button
           type="button"
-          className={`vanilla__placeholder-item-heade-btn vanilla__placeholder-item-delete vanilla__placeholder-item-delete-${placeholderId}`}
+          className={`vanilla__placeholder-item-header-btn vanilla__placeholder-item-delete vanilla__placeholder-item-delete-${placeholderId}`}
         >
           X
         </button>
