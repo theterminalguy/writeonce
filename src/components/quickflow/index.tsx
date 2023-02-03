@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { store } from "../../store";
 import "./index.css"
+import { uploadCSVConfig } from "../../controllers/files/upload_csv_controller";
 
 
 export default function Quickflow() {
@@ -28,9 +29,15 @@ export default function Quickflow() {
         }
     })
     return (
-        <div className="vanilla__quickflow__wrapper vanilla__editor-container">
-            <h1 className="vanilla__quickflow__preview-title vanilla__editor-title">{editor.templateName || "New Template"}</h1>
-            <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
+        <div >
+            <div className="vanilla__quickflow__wrapper vanilla__editor-container">
+                <h1 className="vanilla__quickflow__preview-title vanilla__editor-title">{editor.templateName || "New Template"}</h1>
+                <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
+            </div>
+            <div className="vanilla__quickflow-csv-table-wrapper">
+                <table className="vanilla__quickflow-csv-table">
+                </table>
+            </div>
         </div>
     )
 }

@@ -157,3 +157,23 @@ div.vanilla__quickflow__preview {
   padding: 2px;
   text-decoration: none;
 }
+
+#quickflow__import-csv-input{
+  display: none;
+}
+
+.quickflow__import-csv-label{
+  width: 100%;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 5px auto;
+    cursor: pointer;
+    display: inline-block;
+
+}
+.quickflow__import-csv-label:hover{
+  background: #000;
+  color: #fff;
+}

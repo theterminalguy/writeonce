@@ -10,3 +10,26 @@
     text-align: left;
     width: 80%;
 } */
+.vanilla__quickflow-csv-table-wrapper{
+    overflow-y: auto;
+    height: 100vh;
+}
+
+table.vanilla__quickflow-csv-table {
+    table-layout: fixed;
+    width: max-content;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+
+  .vanilla__quickflow-csv-table thead{
+    background: #ccc;
+  }
+  
+  .vanilla__quickflow-csv-table th,
+  .vanilla__quickflow-csv-table td{
+    padding: 3px 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  
