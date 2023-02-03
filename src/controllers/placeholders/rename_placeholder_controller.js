@@ -43,12 +43,14 @@ export default class RenamePlaceholderController extends Controller {
       return;
     }
 
-    const validPlaceholderNamePattern = /^(\w+\s?)*\s*$/;
+    const validPlaceholderNamePattern = /^(\w+\s)*\w+$/;
     if (!validPlaceholderNamePattern.test(input.value.trim())) {
       $addErrorToPromptModal(
         modal,
         input.value.trim(),
         "Placeholder must begin with a letter and only contain letters, numbers and underscores, with single spaces between words!"
+      );
+      return;
     }
     if (input.value.trim().length > 20) {
       $addErrorToPromptModal(
