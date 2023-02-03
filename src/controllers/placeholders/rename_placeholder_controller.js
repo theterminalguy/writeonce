@@ -1,13 +1,24 @@
 import { Controller } from "@hotwired/stimulus";
 import ReactDOMServer from "react-dom/server";
-import { $closeModal, $getModal, $replaceModal } from "../../components/editors/vanilla/components/modal/helpers";
-import { $getPlaceholder, $getPlaceholderOriginalText, $isPlaceholderNameUnique, $placeholdify, $undoPlaceholdify } from "../../components/editors/vanilla/components/placeholder";
+import {
+  $closeModal,
+  $getModal,
+  $replaceModal,
+} from "../../components/editors/vanilla/components/modal/helpers";
+import {
+  $getPlaceholder,
+  $getPlaceholderOriginalText,
+  $isPlaceholderNameUnique,
+  $placeholdify,
+  $undoPlaceholdify,
+} from "../../components/editors/vanilla/components/placeholder";
 import { CustomEvents, dispatchCustomEvent } from "../../custom-events";
 
-import ConfirmModal from '../../components/editors/vanilla/components/modal/confirm/index';
+import ConfirmModal from "../../components/editors/vanilla/components/modal/confirm/index";
 import PlaceholderItem from "../../components/editors/vanilla/components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../store";
 import { addPlaceholder } from "../../store/features/placeholder/placeholderSlice";
+import { $addErrorToPromptModal } from "../../components/editors/vanilla/components/modal/prompt";
 
 export default class RenamePlaceholderController extends Controller {
   static values = {
@@ -29,6 +40,14 @@ export default class RenamePlaceholderController extends Controller {
       spanError.style.display = "block";
       input.classList.add("vanilla__error");
       input.focus();
+      return;
+    }
+    if (input.value.trim().length > 20) {
+      $addErrorToPromptModal(
+        modal,
+        input.value.trim(),
+        "Placeholder character length must be at most 20 characters!"
+      );
       return;
     }
     // replace placeholder with the name
@@ -72,9 +91,9 @@ export default class RenamePlaceholderController extends Controller {
     dispatchCustomEvent(CustomEvents.RerenderFloatingToolbar);
   }
 
-  onEnter(e){
-    e.preventDefault()
-    this.onYes()
+  onEnter(e) {
+    e.preventDefault();
+    this.onYes();
   }
 }
 
