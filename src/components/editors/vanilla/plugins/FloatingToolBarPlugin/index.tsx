@@ -8,7 +8,10 @@ import PromptModal from "../../components/modal/prompt";
 import Placeholder, { $undoPlaceholdify } from "../../components/placeholder";
 import { store } from "../../../../../store/index";
 import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
-import { CustomEvents as Events } from "../../../../../custom-events";
+import {
+  CustomEventDetailType,
+  CustomEvents as Events,
+} from "../../../../../custom-events";
 import AlertModal from "../../components/modal/alert/index";
 import Snackbar from "../../../../snackbar";
 
@@ -43,7 +46,7 @@ export default function FloatingToolBarPlugin() {
       floatingToolBar.style.display = "block";
       console.log("select: ", selectionRect);
       floatingToolBar.style.left = selectionRect.left - 200 + "px";
-      floatingToolBar.style.top = selectionRect.top + 20 +"px";
+      floatingToolBar.style.top = selectionRect.top + 20 + "px";
     } else {
       floatingToolBar.style.display = "none";
     }
@@ -51,11 +54,9 @@ export default function FloatingToolBarPlugin() {
 
   const handlePlaceholderAdd = (e: Event) => {
     e.stopPropagation();
-    const customEvent = e as CustomEvent;
-    const detail = customEvent.detail as {
-      id: string;
-      name: string;
-    };
+
+    const customEvent = e as CustomEvent<CustomEventDetailType>;
+    const detail = customEvent.detail;
     const sidePanel = document.querySelector(
       "div.vanilla__placeholder-side-panel"
     ) as HTMLElement;
@@ -199,6 +200,7 @@ function showRenamePlaceholderModal(
         controller: "placeholders--rename-placeholder",
         onYes: "onYes",
         onNo: "onNo",
+        onEnter: "onEnter",
       }}
     />
   );

@@ -30,11 +30,10 @@ div.quickflow__sidepanel {
   position: absolute;
   top: 0;
   right: 0;
-  width: 90%;
+  width: 100%;
+  max-width: 500px;
   height: 100%;
   padding: 20px;
-  margin-left: 300px;
-  margin-right: auto;
   overflow: auto;
 }
 
@@ -59,9 +58,22 @@ textarea {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
+.quickflow__form-control{
+  width: 100%;
+  height: 35px;
+}
+
+.quickflow__placeholder-field{
+  margin: 8px 0;
+}
+
+div.quickflow__placeholder-field textarea{
+  height: 100px;
+}
+
 div.quickflow__placeholder-field input {
-  width: 90%;
-  height: 20px;
+  width: 100%;
+  height: 30px;
 }
 
 div.quickflow__placeholder-field select {
@@ -76,6 +88,10 @@ div.quickflow__placeholder-field label {
 
 div.quickflow__placeholder-field input[type="checkbox"] {
   margin-left: -106px;
+}
+
+.quickflow__placeholder-field .quickflow__sidebar-button {
+  margin: 5px 0;
 }
 
 div.quickflow__preview-container h1 {
