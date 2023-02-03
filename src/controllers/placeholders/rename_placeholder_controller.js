@@ -49,6 +49,12 @@ export default class RenamePlaceholderController extends Controller {
         modal,
         input.value.trim(),
         "Placeholder must begin with a letter and only contain letters, numbers and underscores, with single spaces between words!"
+    }
+    if (input.value.trim().length > 20) {
+      $addErrorToPromptModal(
+        modal,
+        input.value.trim(),
+        "Placeholder character length must be at most 20 characters!"
       );
       return;
     }
@@ -91,6 +97,11 @@ export default class RenamePlaceholderController extends Controller {
     if (!$closeModal(this.modalIdValue)) return;
     if (!$undoPlaceholdify(this.modalIdValue)) return;
     dispatchCustomEvent(CustomEvents.RerenderFloatingToolbar);
+  }
+
+  onEnter(e) {
+    e.preventDefault();
+    this.onYes();
   }
 }
 
