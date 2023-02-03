@@ -48,13 +48,12 @@ export default function Quickflow() {
     })
     return (
             <div >
-                <div className="vanilla__quickflow__wrapper vanilla__editor-container">
+            <div className="quickflow__wrapper vanilla__editor-container">
                     <h1 className="vanilla__quickflow__preview-title vanilla__editor-title">{editor.templateName || "New Template"}</h1>
                     <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
                 </div>
-                <div className="vanilla__quickflow-csv-table-wrapper">
-                    <table className="vanilla__quickflow-csv-table">
-                    </table>
+            <div className="quickflow__csv-table-wrapper">
+                <table className="quickflow__csv-table"></table>
                 </div>
             </div>
     )

@@ -7,10 +7,10 @@ export default class UploadCSVController extends Controller {
   handleCSVImport(e: ChangeEvent) {
     const files = (e.target as HTMLInputElement).files;
     const quickflowWrapper = document.querySelector(
-      ".vanilla__quickflow__wrapper.vanilla__editor-container"
+      ".quickflow__wrapper.vanilla__editor-container"
     ) as HTMLDivElement;
     const csvTable = document.querySelector(
-      ".vanilla__quickflow-csv-table"
+      ".quickflow__csv-table"
     ) as HTMLDivElement;
 
     if (!files) return;
@@ -60,10 +60,10 @@ export default class UploadCSVController extends Controller {
 
   displayQuickflow() {
     const quickflowWrapper = document.querySelector(
-      ".vanilla__quickflow__wrapper.vanilla__editor-container"
+      ".quickflow__wrapper.vanilla__editor-container"
     ) as HTMLDivElement;
     const csvTable = document.querySelector(
-      ".vanilla__quickflow-csv-table"
+      ".quickflow__csv-table"
     ) as HTMLDivElement;
     quickflowWrapper.setAttribute("style", "display:flex");
     csvTable.setAttribute("style", "display:none");
