@@ -4,14 +4,12 @@ import { ChangeEvent } from "react";
 export default class UploadCSVController extends Controller {
   static targets = ["quickflow"];
 
-  handleCSVImport(e: ChangeEvent) {
-    const files = (e.target as HTMLInputElement).files;
+  handleCSVImport(e) {
+    const files = e.target.files;
     const quickflowWrapper = document.querySelector(
       ".quickflow__wrapper.vanilla__editor-container"
-    ) as HTMLDivElement;
-    const csvTable = document.querySelector(
-      ".quickflow__csv-table"
-    ) as HTMLDivElement;
+    );
+    const csvTable = document.querySelector(".quickflow__csv-table");
 
     if (!files) return;
     const csv = files[0];
@@ -19,7 +17,8 @@ export default class UploadCSVController extends Controller {
     reader.onload = function (e) {
       const csvString = e.target?.result;
       if (!csvString) return;
-      const rows = (csvString as string).split(/[\r\n|\n|\r]/);
+      const patternToMatchNewLine = /[\r\n|\n|\r]/;
+      const rows = csvString.split(patternToMatchNewLine);
 
       csvTable.innerHTML = "";
       const thead = document.createElement("thead");
@@ -28,8 +27,8 @@ export default class UploadCSVController extends Controller {
       for (let i = 0; i < rows.length; i++) {
         const tr = document.createElement("tr");
         if (!rows[i]) continue;
-
-        const row = rows[i].split(/(?!\B"[^"]*),(?![^"]*"\B)/);
+        const patternToMatchCommasSeparatingCells = /(?!\B"[^"]*),(?![^"]*"\B)/;
+        const row = rows[i].split(patternToMatchCommasSeparatingCells);
 
         if (i === 0) {
           row.forEach((head) => {
@@ -61,10 +60,8 @@ export default class UploadCSVController extends Controller {
   displayQuickflow() {
     const quickflowWrapper = document.querySelector(
       ".quickflow__wrapper.vanilla__editor-container"
-    ) as HTMLDivElement;
-    const csvTable = document.querySelector(
-      ".quickflow__csv-table"
-    ) as HTMLDivElement;
+    );
+    const csvTable = document.querySelector(".quickflow__csv-table");
     quickflowWrapper.setAttribute("style", "display:flex");
     csvTable.setAttribute("style", "display:none");
   }

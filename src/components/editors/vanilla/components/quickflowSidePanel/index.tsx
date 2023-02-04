@@ -6,9 +6,16 @@ import {
 } from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
 import { CSVLink } from "react-csv";
-import { uploadCSVConfig } from "../../../../../controllers/files/upload_csv_controller";
 
-export default function QuickflowSidePanel() {
+interface Props {
+  uploadCSVConfig: {
+    controller: string;
+    handleCSVImportAction: string;
+    displayQuickflow: string;
+  }
+}
+
+export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
   const [tab, setTab] = useState(1);
   const placeholders = store.getState()?.editorState?.placeholders;
   const payload = store.getState()?.editorState;
