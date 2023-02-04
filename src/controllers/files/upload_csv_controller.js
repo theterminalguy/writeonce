@@ -59,8 +59,4 @@ export default class UploadCSVController extends Controller {
   }
 }
 
-export const uploadCSVConfig = {
-  controller: "files--upload-csv",
-  handleCSVImportAction: "handleCSVImport",
-  displayQuickflow: "displayQuickflow",
-};
+

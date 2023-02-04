@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { store } from "../../store";
 import "./index.css"
-import { uploadCSVConfig } from "../../controllers/files/upload_csv_controller";
-
 import { PlaceholderState } from "../../store/features/placeholder/placeholderSlice";
 import "./index.css";
 
