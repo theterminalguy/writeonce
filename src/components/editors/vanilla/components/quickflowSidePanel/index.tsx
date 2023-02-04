@@ -87,7 +87,7 @@ export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
   };
 
   return (
-    <div data-controller={uploadCSVConfig.controller} className="quickflow__sidepanel">
+    <div className="quickflow__sidepanel">
       <div>
         <div className="quickflow__tab">
           <button data-action={`${uploadCSVConfig.controller}#${uploadCSVConfig.displayQuickflow}`} className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>

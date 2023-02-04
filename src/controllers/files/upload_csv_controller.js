@@ -1,15 +1,12 @@
 import { Controller } from "@hotwired/stimulus";
-import { ChangeEvent } from "react";
 
 export default class UploadCSVController extends Controller {
-  static targets = ["quickflow"];
+  static targets = ["quickflowWrapper", "quickflowCSVTable"];
 
   handleCSVImport(e) {
     const files = e.target.files;
-    const quickflowWrapper = document.querySelector(
-      ".quickflow__wrapper.vanilla__editor-container"
-    );
-    const csvTable = document.querySelector(".quickflow__csv-table");
+    const quickflowWrapper = this.quickflowWrapperTarget;
+    const csvTable = this.quickflowCSVTableTarget;
 
     if (!files) return;
     const csv = files[0];
@@ -52,18 +49,13 @@ export default class UploadCSVController extends Controller {
       quickflowWrapper?.setAttribute("style", "display:none");
       csvTable?.setAttribute("style", "display:block");
     };
-    //
 
     reader.readAsText(csv);
   }
 
   displayQuickflow() {
-    const quickflowWrapper = document.querySelector(
-      ".quickflow__wrapper.vanilla__editor-container"
-    );
-    const csvTable = document.querySelector(".quickflow__csv-table");
-    quickflowWrapper.setAttribute("style", "display:flex");
-    csvTable.setAttribute("style", "display:none");
+    this.quickflowWrapperTarget.setAttribute("style", "display:flex");
+    this.quickflowCSVTableTarget.setAttribute("style", "display:none");
   }
 }
 

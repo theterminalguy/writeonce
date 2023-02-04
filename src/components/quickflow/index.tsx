@@ -6,7 +6,17 @@ import { uploadCSVConfig } from "../../controllers/files/upload_csv_controller";
 import { PlaceholderState } from "../../store/features/placeholder/placeholderSlice";
 import "./index.css";
 
-export default function Quickflow() {
+interface Props {
+  uploadCSVConfig: {
+    controller: string;
+    handleCSVImportAction: string;
+    displayQuickflow: string;
+    quickflowWrapper: string;
+    quickflowCSVTable: string;
+  }
+}
+
+export default function Quickflow({ uploadCSVConfig }: Props) {
     const payload = store.getState()?.editorState;
     const editor = payload?.editor;
 
@@ -48,12 +58,12 @@ export default function Quickflow() {
     })
     return (
       <div>
-        <div className="quickflow__wrapper vanilla__editor-container">
+        <div data-files--upload-csv-target={uploadCSVConfig.quickflowWrapper} className="quickflow__wrapper vanilla__editor-container">
           <h1 className="vanilla__quickflow__preview-title vanilla__editor-title">{editor.templateName || "New Template"}</h1>
           <div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
         </div>
         <div className="quickflow__csv-table-wrapper">
-          <table className="quickflow__csv-table"></table>
+          <table data-files--upload-csv-target={uploadCSVConfig.quickflowCSVTable} className="quickflow__csv-table"></table>
         </div>
       </div>
     )

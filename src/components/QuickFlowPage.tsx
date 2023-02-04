@@ -7,15 +7,19 @@ export default function QuickflowPage() {
 
   return (
       <>
-        <Layout>
-        <Quickflow />
-        <QuickflowSidePanel uploadCSVConfig={{
-          controller: "files--upload-csv",
-          handleCSVImportAction: "handleCSVImport",
-          displayQuickflow: "displayQuickflow",
-        }} />
-        </Layout>
-      </>
+      <Layout controller={uploadCSVConfig.controller}>
+        <Quickflow uploadCSVConfig={uploadCSVConfig} />
+        <QuickflowSidePanel uploadCSVConfig={uploadCSVConfig} />
+      </Layout>
+    </>
   )
+}
+
+const uploadCSVConfig = {
+  controller: "files--upload-csv",
+  handleCSVImportAction: "handleCSVImport",
+  displayQuickflow: "displayQuickflow",
+  quickflowWrapper: "quickflowWrapper",
+  quickflowCSVTable: "quickflowCSVTable"
 }
 
