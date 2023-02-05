@@ -74,7 +74,7 @@ export default class VanillaEditorController extends Controller {
         const firstFragmentDiv = document.createElement('div');
         firstFragmentDiv.appendChild(firstFragment);
         contentHTML = firstFragmentDiv.outerHTML;
-        contentText = firstFragment.textContent;
+        contentText = firstFragmentDiv.innerText;
 
         // this.logger.log('newDoc', newDoc);
 
