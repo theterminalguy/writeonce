@@ -87,16 +87,28 @@ export default class VanillaEditorController extends Controller {
         this.logger.log('remainingText', remainingText);
 
 
-        const lastNode = currentNode || prevNode;
-        if (lastNode) {
+        // const lastNode = currentNode || prevNode;
+        if (currentNode === null) {
           // we are at the end of the text
           // let's split the prevNode into two nodes
           // one will have the first part of the text
           // the other will have the rest of the text
+          this.logger.log('got here lastNode', textWithinMaxChar);
           if (prevNode.lastChild.textContent.includes(textWithinMaxChar)) {
             const newNode = prevNode.cloneNode(true);
             newNode.textContent = remainingText;
             prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
+            // create a horizontal span in red color that seprarates the two fragments
+            const redSpan = document.createElement('span');
+            redSpan.stylewidth = '100%';
+            redSpan.style.display = 'block';
+            redSpan.style.border = '1px solid red';
+            redSpan.style.color = 'red';
+            redSpan.style.padding = '2px';
+            redSpan.style.marginTop = '10px';
+            redSpan.innerText = 'content beyond this point will not be saved';
+            
+            prevNode.insertAdjacentElement('beforeend', redSpan);
             prevNode.parentNode.insertBefore(newNode, prevNode.nextSibling);
           }
         }
