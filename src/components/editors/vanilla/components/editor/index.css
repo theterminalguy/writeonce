@@ -47,3 +47,11 @@ div.vanilla__editor[contenteditable=true]:empty:before{
   pointer-events: none;
   display: block; /* For Firefox */
 }
+
+.vanilla__editor-word-count {
+  padding: 5px;
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+  margin-top: -25px;
+}

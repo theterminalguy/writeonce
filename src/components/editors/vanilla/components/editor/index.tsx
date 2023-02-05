@@ -37,6 +37,12 @@ export default function Editor({ title }: { title: string }) {
               Use this template
             </button>
           </Link>
+
+          <div className="vanilla__editor-word-count">
+            <p>
+              <span data-editors--vanilla-editor-target="charCount">0/500</span>
+            </p>
+          </div>
         </div>
         <FloatingToolBarPlugin />
       </div>
