@@ -41,7 +41,7 @@ export default class VanillaEditorController extends Controller {
 
     if (event.target === this.contentTarget) {
       let contentText = this.contentTarget.innerText;
-      let contentHTML = this.contentTarget.innerHTML;
+      let contentHTML = this.contentTarget.outerHTML;
 
       const currentCharCount = this.contentTarget.innerText.length;
       this.charCountTarget.innerText = `${currentCharCount}/${this.maxCharValue} characters`;
@@ -54,20 +54,46 @@ export default class VanillaEditorController extends Controller {
         // go through exactly maxCharValue characters
         // when we are at the last character, we keep track of the next node
 
+        const textWithinMaxChar = contentText.slice(0, this.maxCharValue);
+
         let nodeCharCount = 0;
         // let nextNode = null;
         let prevNode = null;
         let currentNode = this.contentTarget.firstChild;
 
+        let firstFragment = new DocumentFragment();
+
         while (currentNode && nodeCharCount < this.maxCharValue) {
+          firstFragment.appendChild(currentNode.cloneNode(true));
           nodeCharCount += currentNode.textContent.length;
           prevNode = currentNode;
           currentNode = currentNode.nextSibling;
         }
+        firstFragment.lastChild.textContent = firstFragment.lastChild.textContent.slice(0, textWithinMaxChar.length);
+        // const newDoc = new DOMParser().parseFromString(firstFragment.innerHTML, "text/html");
+        const firstFragmentDiv = document.createElement('div');
+        firstFragmentDiv.appendChild(firstFragment);
+        contentHTML = firstFragmentDiv.outerHTML;
+        contentText = firstFragment.textContent;
 
-        this.logger.log('currentNode', currentNode);
-        this.logger.log('prevNode', prevNode);
+        // this.logger.log('newDoc', newDoc);
 
+
+        // in the current node, find the textWithinMaxChar and delete everything after it
+        // prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
+        // let firstFragment = new DocumentFragment();
+        // let's split the html into two fragments
+        // the first fragment will be what we save in the redux store
+        // the second fragment will be what we append to the end of the text
+
+        // rest of the nodes
+        let restOfNodes = currentNode;
+        let secondFragment = new DocumentFragment();
+        while (restOfNodes) {
+          secondFragment.appendChild(restOfNodes.cloneNode(true));
+          this.logger.log('restOfNodes', restOfNodes);
+          restOfNodes = restOfNodes.nextSibling;
+        }
       }
       store.dispatch(
         setTemplateContent({
