@@ -41,7 +41,7 @@ export default class VanillaEditorController extends Controller {
 
     if (event.target === this.contentTarget) {
       let contentText = this.contentTarget.innerText;
-      let contentHTML = this.contentTarget.outerHTML;
+      let contentHTML = this.contentTarget.innerHTML;
 
       const currentCharCount = this.contentTarget.innerText.length;
       this.charCountTarget.innerText = `${currentCharCount}/${this.maxCharValue} characters`;
@@ -57,10 +57,8 @@ export default class VanillaEditorController extends Controller {
         const textWithinMaxChar = contentText.slice(0, this.maxCharValue);
 
         let nodeCharCount = 0;
-        // let nextNode = null;
-        let prevNode = null;
         let currentNode = this.contentTarget.firstChild;
-
+        let prevNode = null;
         let firstFragment = new DocumentFragment();
 
         while (currentNode && nodeCharCount < this.maxCharValue) {
@@ -69,12 +67,40 @@ export default class VanillaEditorController extends Controller {
           prevNode = currentNode;
           currentNode = currentNode.nextSibling;
         }
-        firstFragment.lastChild.textContent = firstFragment.lastChild.textContent.slice(0, textWithinMaxChar.length);
+
+       
+        let remainingText = firstFragment.lastChild.textContent.slice(textWithinMaxChar.length);
+        if (firstFragment.lastChild.textContent.includes(textWithinMaxChar)) {
+          firstFragment.lastChild.textContent = firstFragment.lastChild.textContent.slice(0, textWithinMaxChar.length);
+        }
         // const newDoc = new DOMParser().parseFromString(firstFragment.innerHTML, "text/html");
         const firstFragmentDiv = document.createElement('div');
         firstFragmentDiv.appendChild(firstFragment);
         contentHTML = firstFragmentDiv.outerHTML;
         contentText = firstFragmentDiv.innerText;
+
+      
+        this.logger.log('prevNode', prevNode);
+        // currentNode is null when we are at the end of the text and there is no more text.
+        // Usually a single element wraps all the text
+        this.logger.log('currentNode', currentNode); 
+        this.logger.log('remainingText', remainingText);
+
+
+        const lastNode = currentNode || prevNode;
+        if (lastNode) {
+          // we are at the end of the text
+          // let's split the prevNode into two nodes
+          // one will have the first part of the text
+          // the other will have the rest of the text
+          if (prevNode.lastChild.textContent.includes(textWithinMaxChar)) {
+            const newNode = prevNode.cloneNode(true);
+            newNode.textContent = remainingText;
+            prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
+            prevNode.parentNode.insertBefore(newNode, prevNode.nextSibling);
+          }
+        }
+
 
         // this.logger.log('newDoc', newDoc);
 
@@ -87,13 +113,16 @@ export default class VanillaEditorController extends Controller {
         // the second fragment will be what we append to the end of the text
 
         // rest of the nodes
-        let restOfNodes = currentNode;
-        let secondFragment = new DocumentFragment();
-        while (restOfNodes) {
-          secondFragment.appendChild(restOfNodes.cloneNode(true));
-          this.logger.log('restOfNodes', restOfNodes);
-          restOfNodes = restOfNodes.nextSibling;
-        }
+        // let restOfNodes = currentNode;
+        // let secondFragment = new DocumentFragment();
+        // while (restOfNodes) {
+        //   secondFragment.appendChild(restOfNodes.cloneNode(true));
+        //   this.logger.log('restOfNodes', restOfNodes);
+        //   restOfNodes = restOfNodes.nextSibling;
+        // }
+        /*const secondFragmentDiv = document.createElement('div');
+        secondFragmentDiv.appendChild(secondFragment);
+        this.contentTarget.innerHTML = contentHTML + this.redifyFragment(secondFragmentDiv.innerHTML);*/
       }
       store.dispatch(
         setTemplateContent({
