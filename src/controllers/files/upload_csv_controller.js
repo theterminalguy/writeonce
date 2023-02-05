@@ -15,6 +15,9 @@ export default class UploadCSVController extends Controller {
       const csvString = e.target?.result;
       if (!csvString) return;
       const patternToMatchNewLine = /[\r\n|\n|\r]/;
+      const patternToMatchQuotes = /(^"|"$|^'|'$)/g;
+      const patternToMatchCommasSeparatingCells = /(?!\B"[^"]*),(?![^"]*"\B)/;
+
       const rows = csvString.split(patternToMatchNewLine);
 
       csvTable.innerHTML = "";
@@ -24,13 +27,14 @@ export default class UploadCSVController extends Controller {
       for (let i = 0; i < rows.length; i++) {
         const tr = document.createElement("tr");
         if (!rows[i]) continue;
-        const patternToMatchCommasSeparatingCells = /(?!\B"[^"]*),(?![^"]*"\B)/;
+
         const row = rows[i].split(patternToMatchCommasSeparatingCells);
 
         if (i === 0) {
           row.forEach((head) => {
             const th = document.createElement("th");
-            th.textContent = head;
+            const removedQuotes = head.replace(patternToMatchQuotes, "");
+            th.textContent = removedQuotes;
             tr.appendChild(th);
           });
           thead.appendChild(tr);
@@ -39,7 +43,8 @@ export default class UploadCSVController extends Controller {
         }
         row.forEach((body) => {
           const td = document.createElement("td");
-          td.textContent = body;
+          const removedQuotes = body.replace(patternToMatchQuotes, "");
+          td.textContent = removedQuotes;
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
