@@ -41,6 +41,11 @@ export default class VanillaEditorController extends Controller {
     redSpan.style.padding = '2px';
     redSpan.style.marginTop = '10px';
     redSpan.innerText = 'content beyond this point will not be saved';
+
+    // see https://developer.mozilla.org/fr/docs/Web/API/Element/insertAdjacentElement
+    // TODO: currently, this is nesting span elements
+    // we want to be sure that the HTML generated is syntactically correct
+    // we should look into how this affects the HTML generated when needed to convert to PDF, XML, etc.
     node.insertAdjacentElement('beforeend', redSpan);
   }
 
@@ -56,10 +61,10 @@ export default class VanillaEditorController extends Controller {
     if (event.target === this.contentTarget) {
       let contentText = this.contentTarget.innerText;
       let contentHTML = this.contentTarget.innerHTML;
-// eslint-disable-next-line no-debugger
-// debugger
+
       const currentCharCount = this.contentTarget.innerText.length;
-      this.logger.log("Total characters: ", currentCharCount)
+
+      // TODO: we should format the overflow text in red
       this.charCountTarget.innerText = `${currentCharCount}/${this.maxCharValue} characters`;
 
       if (currentCharCount > this.maxCharValue) {
@@ -75,8 +80,12 @@ export default class VanillaEditorController extends Controller {
         let nodeCharCount = 0;
         let currentNode = this.contentTarget.firstChild;
         let prevNode = null;
+
+        // see https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
         let firstFragment = new DocumentFragment();
 
+        // we loop through the nodes until we reach the maxCharValue
+        // this way, we know exactly which node to split
         while (currentNode && nodeCharCount < this.maxCharValue) {
           firstFragment.appendChild(currentNode.cloneNode(true));
           nodeCharCount += currentNode.textContent.length;
@@ -84,21 +93,19 @@ export default class VanillaEditorController extends Controller {
           currentNode = currentNode.nextSibling;
         }
 
-        // eslint-disable-next-line no-debugger
-        // debugger
-
+        // remainingText is the text that will be appended to the end of the text
         let remainingText = firstFragment.lastChild.textContent.slice(textWithinMaxChar.length);
+
+        // we check if the last node contains the textWithinMaxChar
+        // if it does, we remove the text that is beyond the maxCharValue
         if (firstFragment.lastChild.textContent.includes(textWithinMaxChar)) {
           firstFragment.lastChild.textContent = firstFragment.lastChild.textContent.slice(0, this.maxCharValue);
         }
-        // const newDoc = new DOMParser().parseFromString(firstFragment.innerHTML, "text/html");
         const firstFragmentDiv = document.createElement('div');
         firstFragmentDiv.appendChild(firstFragment);
         contentHTML = firstFragmentDiv.outerHTML;
         contentText = firstFragmentDiv.innerText;
        
-
-        // const lastNode = currentNode || prevNode;
         if (currentNode === null) {
           // we are at the end of the text
           // let's split the prevNode into two nodes
@@ -134,6 +141,13 @@ export default class VanillaEditorController extends Controller {
           }
         }
       }
+      /**
+       * TODO: 
+       * 1. We should wrap the contentHTML in a div if it isn't. We currently do this when the text goes over the limit
+       * 2. We should use a library like DOMPurify to sanitize the HTML in order to prevent XSS attacks
+       * 3. We should benchmark some of the operations in this controller just to improve the experience of the user
+       * 4. We should look into how this affects the HTML generated when needed to convert to PDF, XML, etc.
+       */
       store.dispatch(
         setTemplateContent({
           contentText,
