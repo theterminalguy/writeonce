@@ -27,13 +27,14 @@ export default class VanillaEditorController extends Controller {
   }
 
   appendLimitDivider(node) {
+    this.logger.log('appendLimitDivider', node);
     const divider = document.querySelector('.limit-divider');
     if (divider) {
       divider.remove();
     }
     const redSpan = document.createElement('span');
     redSpan.className = 'limit-divider';
-    redSpan.stylewidth = '100%';
+    redSpan.style.width = '100%';
     redSpan.style.display = 'block';
     redSpan.style.border = '1px solid red';
     redSpan.style.color = 'red';
@@ -41,7 +42,6 @@ export default class VanillaEditorController extends Controller {
     redSpan.style.marginTop = '10px';
     redSpan.innerText = 'content beyond this point will not be saved';
     node.insertAdjacentElement('beforeend', redSpan);
-    node.parentNode.insertBefore(redSpan, node.nextSibling);
   }
 
   handleFocusOut(event) {
@@ -96,15 +96,7 @@ export default class VanillaEditorController extends Controller {
         firstFragmentDiv.appendChild(firstFragment);
         contentHTML = firstFragmentDiv.outerHTML;
         contentText = firstFragmentDiv.innerText;
-        console.log('contentHTML', firstFragmentDiv.innerText)
-
-
-        this.logger.log('prevNode', prevNode);
-        // currentNode is null when we are at the end of the text and there is no more text.
-        // Usually a single element wraps all the text
-        this.logger.log('currentNode', currentNode);
-        this.logger.log('remainingText', remainingText);
-
+       
 
         // const lastNode = currentNode || prevNode;
         if (currentNode === null) {
