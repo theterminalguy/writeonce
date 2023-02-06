@@ -90,9 +90,11 @@ export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
     <div className="quickflow__sidepanel">
       <div>
         <div className="quickflow__tab">
+
           <button data-action={`${uploadCSVConfig.controller}#${uploadCSVConfig.displayQuickflow}`} className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
           <button data-action={`${uploadCSVConfig.controller}#${uploadCSVConfig.displayQuickflow}`} className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
           <button className={"tablinks " + (tab === 3 ? "active" : "")} onClick={() => setTabPanel(3)}>Import CSV</button>
+
         </div>
         <div style={{ display: tab === 1 ? "block" : "none" }}>
           <div style={{ margin: "10px 0px" }}>
@@ -172,7 +174,7 @@ export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
             </select>
           </div>
           <div className="quickflow__placeholder-field" id="quickflow__field">
-            <button className="quickflow__sidebar-button">Run</button>
+            <button className="vanila__quickflow-sidebar-button">Run</button>
           </div>
         </div>
         <div style={{ display: tab === 3 ? "block" : "none" }}>

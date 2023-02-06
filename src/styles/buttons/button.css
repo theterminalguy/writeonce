@@ -1,0 +1,114 @@
+button.vanilla__modal-content-btn {
+    display: inline-block;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    width: 87px;
+  }
+  
+  button.vanilla__modal-content-btn:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  button.vanilla__placeholder-item-header-btn {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 5px;
+    cursor: pointer;
+  }
+
+  button.vanilla__quickflow-sidebar-button {
+    width: 100%;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+button.vanilla__quickflow-sidebar-button:hover {
+  background: #000;
+  color: #fff;
+}
+
+  /* Style the buttons that are used to open the tab content */
+  button.vanilla__quickflow-tab-btn {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+  
+  /* Change background color of buttons on hover */
+  button.vanilla__quickflow-tab-btn:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  button.vanilla__quickflow-tab-btn.active {
+    background-color: #ccc;
+  }
+
+
+button.vanilla__floating-toolbar-button {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  button.vanilla__floating-toolbar-button-base {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 15px 8%;
+    cursor: pointer;
+  }
+  
+  button.vanilla__floating-toolbar-button:hover,
+  button.vanilla__floating-toolbar-button-base:hover{
+    background: #000;
+    color: #fff;
+  }
+  
+  button.vanilla__btn-make-bold {
+    font-weight: bold;
+  }
+  
+  button.vanilla__btn-make-italic {
+    font-style: italic;
+  }
+  
+  button.vanilla__btn-make-underline {
+    text-decoration: underline;
+  }
+
+  .vanilla__detail-btn {
+    padding: 10px;
+    width: 200px;
+    cursor: pointer;
+}
+
+.vanilla__card-title-btn {
+    padding: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    width: 100px;
+}
+
+button.vanilla__btn-primary{}
+button.vanilla__btn-secondary{}
+button.vanilla__btn-danger{}
+
+button.vanilla__btn-small{}
+button.vanilla__btn-medium{}
+button.vanilla__btn-large{}

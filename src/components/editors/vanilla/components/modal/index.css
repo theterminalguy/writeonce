@@ -39,10 +39,6 @@ div.vanilla__modal-content button {
   width: 87px;
 }
 
-div.vanilla__modal-content button:hover {
-  background: #000;
-  color: #fff;
-}
 
 input.vanilla__error {
   border: 1px solid red;
