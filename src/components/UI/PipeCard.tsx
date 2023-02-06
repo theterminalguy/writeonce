@@ -44,8 +44,8 @@ export default function PipeCard(props: PipeCardProps){
                     </div>
                     <div className={"vanilla__card__title"}>
                         <p> {props.title} </p>
-                        <button> Install </button>
-                        <button onClick={handleClick}> Details </button>
+                        <button className="vanilla__card-title-btn"> Install </button>
+                        <button className="vanilla__card-title-btn" onClick={handleClick}> Details </button>
                     </div>
                 </div>
                 <div className={"vanilla__card__summary"}>

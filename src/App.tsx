@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 import "./App.css";
+import "./styles/buttons/button.css"
+
 import VanillaEditor from "./components/editors/vanilla";
 import { Storybook } from "./components/storybook";
 import HomePage from './components/HomePage';
