@@ -21,7 +21,7 @@ export default function Quickflow() {
 		setTab(index)
 	}
 
-	const replacePlaceholder = (data: any, placeholder: any) => {
+	const replacePlaceholder = (data: HTMLSpanElement, placeholder: PlaceholderState) => {
 		data.style.color = "#993300";
 		data.style.fontWeight = "bold";
 		data.classList.remove("vanilla__placeholder");
