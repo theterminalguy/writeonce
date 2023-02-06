@@ -19,6 +19,10 @@ You will also see any lint errors in the console.
 
 This will install/add a new package 'package-name' to the project using yarn package manager.
 
+### `yarn remove {package-name}`
+
+This will uninstall/remove a new package 'package-name' from the project using yarn package manager.
+
 ### `yarn test`
 
 Launches the test runner in the interactive watch mode.\
