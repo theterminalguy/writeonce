@@ -9,7 +9,7 @@ export default class VanillaEditorController extends Controller {
   static values = {
     maxChar: {
       type: Number,
-      default: 1500 // approx 300 words
+      default: 35 // approx 300 words
     }
   };
 
@@ -133,7 +133,6 @@ export default class VanillaEditorController extends Controller {
             const newNode = currentNode.cloneNode(true);
             newNode.textContent = remainingText;
             currentNode.textContent = currentNode.textContent.slice(0, textWithinMaxChar.length);
-            currentNode.insertAdjacentElement('beforeend', this.limitDivider());
             this.appendLimitDivider(currentNode);
           } else {
             // just append the limit divider
