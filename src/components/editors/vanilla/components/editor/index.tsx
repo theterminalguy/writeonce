@@ -40,7 +40,7 @@ export default function Editor({ title }: { title: string }) {
 
           <div className="vanilla__editor-word-count">
             <p>
-              <span data-editors--vanilla-editor-target="charCount">0/500</span>
+              <span data-editors--vanilla-editor-target="charCount"></span>
             </p>
           </div>
         </div>
