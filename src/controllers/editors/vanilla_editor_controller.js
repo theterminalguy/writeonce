@@ -9,7 +9,7 @@ export default class VanillaEditorController extends Controller {
   static values = {
     maxChar: {
       type: Number,
-      default: 35 // approx 300 words
+      default: 1500 // approx 300 words
     }
   };
 
@@ -144,7 +144,7 @@ export default class VanillaEditorController extends Controller {
       /**
        * TODO: 
        * 1. We should wrap the contentHTML in a div if it isn't. We currently do this when the text goes over the limit
-       * 2. We should use a library like DOMPurify to sanitize the HTML in order to prevent XSS attacks
+       * 2. We should use a library like DOMPurify (https://github.com/cure53/DOMPurify) to sanitize the HTML in order to prevent XSS attacks
        * 3. We should benchmark some of the operations in this controller just to improve the experience of the user
        * 4. We should look into how this affects the HTML generated when needed to convert to PDF, XML, etc.
        */
