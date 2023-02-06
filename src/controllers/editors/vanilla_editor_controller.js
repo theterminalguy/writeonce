@@ -26,8 +26,22 @@ export default class VanillaEditorController extends Controller {
     return Math.round(charCount / averageCharsPerWord);
   }
 
-  redifyFragment(fragment) {
-    return ` <div style="color: red; display: inline-block">${fragment}</div>`;
+  appendLimitDivider(node) {
+    const divider = document.querySelector('.limit-divider');
+    if (divider) {
+      divider.remove();
+    }
+    const redSpan = document.createElement('span');
+    redSpan.className = 'limit-divider';
+    redSpan.stylewidth = '100%';
+    redSpan.style.display = 'block';
+    redSpan.style.border = '1px solid red';
+    redSpan.style.color = 'red';
+    redSpan.style.padding = '2px';
+    redSpan.style.marginTop = '10px';
+    redSpan.innerText = 'content beyond this point will not be saved';
+    node.insertAdjacentElement('beforeend', redSpan);
+    node.parentNode.insertBefore(redSpan, node.nextSibling);
   }
 
   handleFocusOut(event) {
@@ -42,8 +56,10 @@ export default class VanillaEditorController extends Controller {
     if (event.target === this.contentTarget) {
       let contentText = this.contentTarget.innerText;
       let contentHTML = this.contentTarget.innerHTML;
-
+// eslint-disable-next-line no-debugger
+// debugger
       const currentCharCount = this.contentTarget.innerText.length;
+      this.logger.log("Total characters: ", currentCharCount)
       this.charCountTarget.innerText = `${currentCharCount}/${this.maxCharValue} characters`;
 
       if (currentCharCount > this.maxCharValue) {
@@ -68,22 +84,25 @@ export default class VanillaEditorController extends Controller {
           currentNode = currentNode.nextSibling;
         }
 
-       
+        // eslint-disable-next-line no-debugger
+        // debugger
+
         let remainingText = firstFragment.lastChild.textContent.slice(textWithinMaxChar.length);
         if (firstFragment.lastChild.textContent.includes(textWithinMaxChar)) {
-          firstFragment.lastChild.textContent = firstFragment.lastChild.textContent.slice(0, textWithinMaxChar.length);
+          firstFragment.lastChild.textContent = firstFragment.lastChild.textContent.slice(0, this.maxCharValue);
         }
         // const newDoc = new DOMParser().parseFromString(firstFragment.innerHTML, "text/html");
         const firstFragmentDiv = document.createElement('div');
         firstFragmentDiv.appendChild(firstFragment);
         contentHTML = firstFragmentDiv.outerHTML;
         contentText = firstFragmentDiv.innerText;
+        console.log('contentHTML', firstFragmentDiv.innerText)
 
-      
+
         this.logger.log('prevNode', prevNode);
         // currentNode is null when we are at the end of the text and there is no more text.
         // Usually a single element wraps all the text
-        this.logger.log('currentNode', currentNode); 
+        this.logger.log('currentNode', currentNode);
         this.logger.log('remainingText', remainingText);
 
 
@@ -93,48 +112,35 @@ export default class VanillaEditorController extends Controller {
           // let's split the prevNode into two nodes
           // one will have the first part of the text
           // the other will have the rest of the text
-          this.logger.log('got here lastNode', textWithinMaxChar);
           if (prevNode.lastChild.textContent.includes(textWithinMaxChar)) {
             const newNode = prevNode.cloneNode(true);
             newNode.textContent = remainingText;
             prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
-            // create a horizontal span in red color that seprarates the two fragments
-            const redSpan = document.createElement('span');
-            redSpan.stylewidth = '100%';
-            redSpan.style.display = 'block';
-            redSpan.style.border = '1px solid red';
-            redSpan.style.color = 'red';
-            redSpan.style.padding = '2px';
-            redSpan.style.marginTop = '10px';
-            redSpan.innerText = 'content beyond this point will not be saved';
-            
-            prevNode.insertAdjacentElement('beforeend', redSpan);
+            this.appendLimitDivider(prevNode);
             prevNode.parentNode.insertBefore(newNode, prevNode.nextSibling);
+          } else {
+            this.appendLimitDivider(prevNode);
+          }
+        } else {
+          if (prevNode.lastChild.textContent.includes(textWithinMaxChar)) {
+            const newNode = prevNode.cloneNode(true);
+            newNode.textContent = remainingText;
+            prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
+
+            this.appendLimitDivider(prevNode);
+
+            prevNode.parentNode.insertBefore(newNode, prevNode.nextSibling);
+          } else if (currentNode.lastChild.textContent.includes(textWithinMaxChar)) {
+            const newNode = currentNode.cloneNode(true);
+            newNode.textContent = remainingText;
+            currentNode.textContent = currentNode.textContent.slice(0, textWithinMaxChar.length);
+            currentNode.insertAdjacentElement('beforeend', this.limitDivider());
+            this.appendLimitDivider(currentNode);
+          } else {
+            // just append the limit divider
+            this.appendLimitDivider(prevNode)
           }
         }
-
-
-        // this.logger.log('newDoc', newDoc);
-
-
-        // in the current node, find the textWithinMaxChar and delete everything after it
-        // prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
-        // let firstFragment = new DocumentFragment();
-        // let's split the html into two fragments
-        // the first fragment will be what we save in the redux store
-        // the second fragment will be what we append to the end of the text
-
-        // rest of the nodes
-        // let restOfNodes = currentNode;
-        // let secondFragment = new DocumentFragment();
-        // while (restOfNodes) {
-        //   secondFragment.appendChild(restOfNodes.cloneNode(true));
-        //   this.logger.log('restOfNodes', restOfNodes);
-        //   restOfNodes = restOfNodes.nextSibling;
-        // }
-        /*const secondFragmentDiv = document.createElement('div');
-        secondFragmentDiv.appendChild(secondFragment);
-        this.contentTarget.innerHTML = contentHTML + this.redifyFragment(secondFragmentDiv.innerHTML);*/
       }
       store.dispatch(
         setTemplateContent({
