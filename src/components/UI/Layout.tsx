@@ -6,6 +6,7 @@ import Menu from "../menu"
 
 interface LayoutProps {
     children: Array<React.ReactNode>;
+    controller?: string
 }
 
 export default function Layout(props: LayoutProps) {
@@ -27,7 +28,7 @@ export default function Layout(props: LayoutProps) {
 
     return (
         <>
-            <div style={{ height: window.innerHeight }}>
+            <div data-controller={props.controller} style={{ height: window.innerHeight }}>
                 <SplitPane
                     split='vertical'
                     sizes={sizes}

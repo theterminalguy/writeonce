@@ -7,7 +7,15 @@ import {
 import { store } from "../../../../../store";
 import { CSVLink } from "react-csv";
 
-export default function QuickflowSidePanel() {
+interface Props {
+  uploadCSVConfig: {
+    controller: string;
+    handleCSVImportAction: string;
+    displayQuickflow: string;
+  }
+}
+
+export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
   const [tab, setTab] = useState(1);
   const placeholders = store.getState()?.editorState?.placeholders;
   const payload = store.getState()?.editorState;
@@ -82,8 +90,11 @@ export default function QuickflowSidePanel() {
     <div className="quickflow__sidepanel">
       <div>
         <div className="quickflow__tab">
-          <button className={"vanilla__quickflow-tab-btn tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
-          <button className={"vanilla__quickflow-tab-btn tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
+
+          <button data-action={`${uploadCSVConfig.controller}#${uploadCSVConfig.displayQuickflow}`} className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
+          <button data-action={`${uploadCSVConfig.controller}#${uploadCSVConfig.displayQuickflow}`} className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
+          <button className={"tablinks " + (tab === 3 ? "active" : "")} onClick={() => setTabPanel(3)}>Import CSV</button>
+
         </div>
         <div style={{ display: tab === 1 ? "block" : "none" }}>
           <div style={{ margin: "10px 0px" }}>
@@ -164,6 +175,15 @@ export default function QuickflowSidePanel() {
           </div>
           <div className="quickflow__placeholder-field" id="quickflow__field">
             <button className="vanila__quickflow-sidebar-button">Run</button>
+          </div>
+        </div>
+        <div style={{ display: tab === 3 ? "block" : "none" }}>
+          <div style={{ margin: "10px 0px" }}>
+            <p className="quickflow__sidebar-instruction">Click below to import your placeholders from CSV file.</p>
+            <label htmlFor="quickflow__import-csv-input" className="quickflow__import-csv-label">
+              Import CSV
+            </label>
+            <input type="file" id="quickflow__import-csv-input" accept=".csv" data-action={`change->${uploadCSVConfig.controller}#${uploadCSVConfig.handleCSVImportAction}`} />
           </div>
         </div>
       </div>
