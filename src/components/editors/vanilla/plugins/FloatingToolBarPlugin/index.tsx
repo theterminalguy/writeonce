@@ -133,9 +133,12 @@ export default function FloatingToolBarPlugin() {
       $renderAndShowModal(modal, uniqueId, left, top);
       return;
     }
+
+
     const selectedText = selection.toString();
     replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
     showRenamePlaceholderModal(selection, selectedText, uniqueId);
+
   };
 
   return (
@@ -230,8 +233,14 @@ const replaceSelectionWithPlaceholderNode = (
     name: selectedText,
     originalText: selectedText,
   });
+  if ($isLastText(selection)) {
+    const textNode = document.createTextNode(".")
+    selection.anchorNode?.parentNode?.append(textNode)
+
+  }
   selection.deleteFromDocument();
   selection.getRangeAt(0).insertNode(placeholderComponent.render());
+
 };
 
 const $isSelectionPlaceholder = (selection: Selection) => {
@@ -254,3 +263,12 @@ const $getLeftTop = (selection: Selection) => {
   const newTop = top + 30;
   return { left: newLeft, top: newTop };
 };
+
+const $isLastText = (selection: Selection) => {
+  const content = selection.anchorNode?.textContent
+  if (!content) return
+  const selectionOffset = selection.getRangeAt(0).endOffset
+  const nodeOffset = content.length
+
+  return nodeOffset === selectionOffset
+}
