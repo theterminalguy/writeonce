@@ -6,7 +6,7 @@ interface PipeCardProps {
     imageUrl: string,
     title: string,
     summary: JSX.Element,
-    displayPipeDetails: (pipe: {imageUrl: string, title: string, summary: JSX.Element}) => void
+    displayPipeDetails?: (pipe: {imageUrl: string, title: string, summary: JSX.Element}) => void
 }
 
 export default function PipeCard(props: PipeCardProps){
@@ -24,11 +24,11 @@ export default function PipeCard(props: PipeCardProps){
                 summary: props.summary
             })
         };
-    }, []);
+    }, [selected]);
 
 
     const handleClick = () => {
-        props.displayPipeDetails(selected);
+        props.displayPipeDetails ? props.displayPipeDetails(selected) : "";
     }
     return (
         <>
@@ -44,8 +44,8 @@ export default function PipeCard(props: PipeCardProps){
                     </div>
                     <div className={"vanilla__card__title"}>
                         <p> {props.title} </p>
-                        <button> Install </button>
-                        <button onClick={handleClick}> Details </button>
+                        <button className="vanilla__card-title-btn"> Install </button>
+                        <button className="vanilla__card-title-btn" onClick={handleClick}> Details </button>
                     </div>
                 </div>
                 <div className={"vanilla__card__summary"}>

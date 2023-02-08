@@ -3,13 +3,23 @@ import { CombinedState } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { store } from "../../store";
 import { EditorState } from "../../store/features/editor/editorSlice";
-import { PlaceholderState } from "../../store/features/placeholder/placeholderSlice";
 import Spreadsheet from "../editors/vanilla/components/spreadsheet";
 import FileImport from "../editors/vanilla/components/fileImport";
 import "./index.css"
+import { PlaceholderState } from "../../store/features/placeholder/placeholderSlice";
+import "./index.css";
 
+interface Props {
+	uploadCSVConfig: {
+		controller: string;
+		handleCSVImportAction: string;
+		displayQuickflow: string;
+		quickflowWrapper: string;
+		quickflowCSVTable: string;
+	}
+}
 
-export default function Quickflow() {
+export default function Quickflow({ uploadCSVConfig }: Props) {
 	const [tab, setTab] = useState(1)
 	const payload: CombinedState<{
 		placeholders: PlaceholderState[];
@@ -41,7 +51,7 @@ export default function Quickflow() {
 		}
 	})
 	return (
-		<div className="vanilla__quickflow__wrapper" style={{ overflow: "scroll !important" }}>
+		<div data-files--upload-csv-target={uploadCSVConfig.quickflowWrapper} className="quickflow__wrapper vanilla__editor-container" style={{ overflow: "scroll !important" }}>
 			<h1 className="vanilla__quickflow__preview-title">{editor.templateName || "New Template"}</h1>
 			<div className="quickflow__tab">
 				<button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Content</button>
@@ -61,8 +71,12 @@ export default function Quickflow() {
 				<Spreadsheet placeholders={payload.placeholders} changeTabPanel={(data: number) => setTabPanel(data)} />
 
 				<FileImport />
+				<div className="quickflow__csv-table-wrapper">
+					<table data-files--upload-csv-target={uploadCSVConfig.quickflowCSVTable} className="quickflow__csv-table"></table>
+				</div>
 			</div>
 		</div>
 	)
 }
+
 

@@ -1,36 +1,52 @@
 import "./index.css";
 import { useEffect, useState } from "react";
-import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import {
+  PlaceholderState,
+  updatePlaceholder,
+} from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
 import { CSVLink } from "react-csv";
 
-export default function QuickflowSidePanel() {
-  const [tab, setTab] = useState(1)
-  const placeholders: any = store.getState()?.editorState?.placeholders;
-  const payload: any = store.getState()?.editorState;
-  const editor = payload?.editor
-  const [exportData, setExportData] = useState([]);
+interface Props {
+  uploadCSVConfig: {
+    controller: string;
+    handleCSVImportAction: string;
+    displayQuickflow: string;
+  }
+}
 
-  const headers: any = [];
-  const columns: any = {}
+export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
+  const [tab, setTab] = useState(1);
+  const placeholders = store.getState()?.editorState?.placeholders;
+  const payload = store.getState()?.editorState;
+  const editor = payload?.editor;
+  const [exportData, setExportData] = useState<Record<string, string>[]>([]);
+
+  const headers: Array<Record<"label" | "key", string>> = [];
+  const columns: Record<string, string> = {};
 
   const setTabPanel = (index: number) => {
-    setTab(index)
-  }
+    setTab(index);
+  };
   useEffect(() => {
     init();
-  })
+  });
 
   const init = () => {
-    const placeholderFields = document.querySelectorAll(".quickflow__placeholder-type") as NodeListOf<HTMLElement>;
+    const placeholderFields = document.querySelectorAll(
+      ".quickflow__placeholder-type"
+    ) as NodeListOf<HTMLElement>;
     const placeholderControls = Array.from(placeholderFields);
-  
+
     for (const control of placeholderControls) {
       control.addEventListener("change", function (e) {
         e.stopPropagation();
         const target = e.target as HTMLElement;
         const input = target as HTMLInputElement;
-        const placeholder: any = input.getAttribute('data-placeholder');
+        const placeholder = input.getAttribute("data-placeholder");
+        if (!placeholder) {
+          throw new Error("Placeholder not found");
+        }
         const data = JSON.parse(placeholder);
 
         if (data.required && input.value === "") {
@@ -38,8 +54,13 @@ export default function QuickflowSidePanel() {
           return;
         }
         const placholderSelected = `.vanilla__placeholder-${data.id}`;
-        const elem = document.querySelectorAll(placholderSelected) as any;
-        Array.from(elem).filter((value: any) => value.innerText = input.value === "" ? "[ - ]" : input.value);
+        const elem = document.querySelectorAll(
+          placholderSelected
+        ) as NodeListOf<HTMLSpanElement>;
+        Array.from(elem).filter(
+          (value: HTMLSpanElement) =>
+            (value.innerText = input.value === "" ? "[ - ]" : input.value)
+        );
 
         columns[data.name] = input.value;
 
@@ -48,45 +69,83 @@ export default function QuickflowSidePanel() {
         );
       });
     }
-  }
+  };
 
-  for(const placeholder of placeholders) {
+  for (const placeholder of placeholders) {
     const header = {
-      label: placeholder.name, key: placeholder.name,
-    }
-    headers.push(header)
+      label: placeholder.name,
+      key: placeholder.name,
+    };
+    headers.push(header);
     columns[placeholder.name] = placeholder.default;
   }
 
-  const data: any = [columns];
+  const data = [columns];
 
   const handleDownload = () => {
     setExportData(data);
-  }
+  };
 
   return (
     <div className="quickflow__sidepanel">
       <div>
         <div className="quickflow__tab">
-          <button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
-          <button className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
+
+          <button data-action={`${uploadCSVConfig.controller}#${uploadCSVConfig.displayQuickflow}`} className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Data</button>
+          <button data-action={`${uploadCSVConfig.controller}#${uploadCSVConfig.displayQuickflow}`} className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Pipe</button>
+          <button className={"tablinks " + (tab === 3 ? "active" : "")} onClick={() => setTabPanel(3)}>Import CSV</button>
+
         </div>
         <div style={{ display: tab === 1 ? "block" : "none" }}>
           <div style={{ margin: "10px 0px" }}>
-            <p className="quickflow__sidebar-instruction">Click below to export your placeholders as CSV file.</p>
-            <CSVLink filename={`${editor.templateName} placeholder.csv`} className={"quickflow__sidebar-link"} headers={headers} data={exportData} onClick={handleDownload}>Download</CSVLink>
+            <p className="quickflow__sidebar-instruction">
+              Click below to export your placeholders as CSV file.
+            </p>
+            <CSVLink
+              filename={`${editor.templateName} placeholder.csv`}
+              className={"quickflow__sidebar-link"}
+              headers={headers}
+              data={exportData}
+              onClick={handleDownload}
+            >
+              Download
+            </CSVLink>
           </div>
           <hr />
           {placeholders.map((placeholder: PlaceholderState) => {
             return (
-              <div className="quickflow__placeholder-field" id="quickflow__field" key={placeholder.id}>
-                <label htmlFor={placeholder.id} className="quickflow__sidebar-label">{placeholder.name} <span className="quickflow__sidebar-required">{placeholder.required ? "*" : null}</span></label>
-                {placeholder.description !== "" ?
-                  <p className="quickflow__sidebar-p">-{placeholder.description}</p>
-                  : null}
-                <input defaultValue={placeholder.default} type={placeholder.dataType === 'string' ? 'text' : placeholder.dataType} id={placeholder.id} className="quickflow__form-control quickflow__placeholder-type" data-placeholder={JSON.stringify(placeholder)} />
+              <div
+                className="quickflow__placeholder-field"
+                id="quickflow__field"
+                key={placeholder.id}
+              >
+                <label
+                  htmlFor={placeholder.id}
+                  className="quickflow__sidebar-label"
+                >
+                  {placeholder.name}{" "}
+                  <span className="quickflow__sidebar-required">
+                    {placeholder.required ? "*" : null}
+                  </span>
+                </label>
+                {placeholder.description !== "" ? (
+                  <p className="quickflow__sidebar-p">
+                    -{placeholder.description}
+                  </p>
+                ) : null}
+                <input
+                  defaultValue={placeholder.default}
+                  type={
+                    placeholder.dataType === "string"
+                      ? "text"
+                      : placeholder.dataType
+                  }
+                  id={placeholder.id}
+                  className="quickflow__form-control quickflow__placeholder-type"
+                  data-placeholder={JSON.stringify(placeholder)}
+                />
               </div>
-            )
+            );
           })}
         </div>
         <div style={{ display: tab === 2 ? "block" : "none" }}>
@@ -115,7 +174,16 @@ export default function QuickflowSidePanel() {
             </select>
           </div>
           <div className="quickflow__placeholder-field" id="quickflow__field">
-            <button className="quickflow__sidebar-button">Run</button>
+            <button className="vanila__quickflow-sidebar-button">Run</button>
+          </div>
+        </div>
+        <div style={{ display: tab === 3 ? "block" : "none" }}>
+          <div style={{ margin: "10px 0px" }}>
+            <p className="quickflow__sidebar-instruction">Click below to import your placeholders from CSV file.</p>
+            <label htmlFor="quickflow__import-csv-input" className="quickflow__import-csv-label">
+              Import CSV
+            </label>
+            <input type="file" id="quickflow__import-csv-input" accept=".csv" data-action={`change->${uploadCSVConfig.controller}#${uploadCSVConfig.handleCSVImportAction}`} />
           </div>
         </div>
       </div>

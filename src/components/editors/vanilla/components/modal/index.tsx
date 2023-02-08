@@ -38,10 +38,10 @@ export default function Modal({
         {error && <span className="vanilla__error-message">Required</span>}
         <span className="vanilla__error-message">Required</span>
         <div className="vanilla__modal-buttons">
-          <button type="button" onClick={handleOk}>
+          <button className="vanilla__modal-content-btn" type="button" onClick={handleOk}>
             OK
           </button>
-          <button type="button" onClick={handleCancel}>
+          <button className="vanilla__modal-content-btn" type="button" onClick={handleCancel}>
             Cancel
           </button>
         </div>

@@ -6,6 +6,7 @@ import Menu from "../menu"
 
 interface LayoutProps {
     children: Array<React.ReactNode>;
+    controller?: string
 }
 
 export default function Layout(props: LayoutProps) {
@@ -18,17 +19,16 @@ export default function Layout(props: LayoutProps) {
     }
 
     const middle = {
-        background: '#F5F5F5',
         height: window.innerHeight
     }
 
     const dragging = drag ?
         {background: '#f1f1f1', borderLeft: '1px solid #00CCFF', height: window.innerHeight} :
-        {background: '#f1f1f1', borderLeft: '1px solid #696969', height: window.innerHeight};
+        { background: '#f1f1f1', borderLeft: '1px solid #d4d4d4', height: window.innerHeight };
 
     return (
         <>
-            <div style={{ height: window.innerHeight }}>
+            <div data-controller={props.controller} style={{ height: window.innerHeight }}>
                 <SplitPane
                     split='vertical'
                     sizes={sizes}

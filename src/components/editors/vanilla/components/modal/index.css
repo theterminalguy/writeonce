@@ -8,6 +8,12 @@ div.vanilla__modal {
   width: 200px;
 }
 
+div.vanilla__modal-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 div.vanilla__modal-content label {
   display: block;
   margin: 5px;
@@ -17,15 +23,15 @@ div.vanilla__modal-content label {
 
 div.vanilla__modal-content input {
   display: block;
-  margin: 5px;
+  margin: 5px 0;
   width: 180px;
-  height: 20px;
+  height: 25px;
+  padding: 3px;
   font-size: 16px;
 }
 
 div.vanilla__modal-content button {
   display: inline-block;
-  margin: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 6px 12px;
@@ -33,10 +39,6 @@ div.vanilla__modal-content button {
   width: 87px;
 }
 
-div.vanilla__modal-content button:hover {
-  background: #000;
-  color: #fff;
-}
 
 input.vanilla__error {
   border: 1px solid red;
@@ -48,4 +50,10 @@ span.vanilla__error-message {
   padding: 5px;
   /* TODO: remove this and use react state to show/hide */
   display: none; 
+}
+
+.vanilla__modal-buttons{
+  display: flex;
+  gap: 5px;
+  margin: 5px;
 }

@@ -34,7 +34,7 @@ export default function PlaceholderItem({
         </span>
         <button
           type="button"
-          className={`vanilla__placeholder-item-delete vanilla__placeholder-item-delete-${placeholderId}`}
+          className={`vanilla__placeholder-item-header-btn vanilla__placeholder-item-delete vanilla__placeholder-item-delete-${placeholderId}`}
         >
           X
         </button>
@@ -82,6 +82,12 @@ export default function PlaceholderItem({
           className={`vanilla__form-control vanilla__form-control-${placeholderId}`}
           name="description"
         ></textarea>
+        <div className="vanilla__info-message">
+          Found <strong>3</strong> other occurrences of the orignal text,{" "}
+          <strong>2</strong> are of exact match and <strong>1</strong> is a case insensitive
+          match. <button type="button">Take action</button> 
+          <button type="button">It's fine, let it be</button>
+        </div>
       </div>
     </div>
   );
