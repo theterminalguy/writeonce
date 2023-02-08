@@ -4,9 +4,9 @@ import { AppLogger } from "../lib/logger";
 const logger = new AppLogger("HelloController");
 export default class HelloController extends Controller {
   onYes() {
-    logger.log("Yes");
+    logger.info("Yes");
   }
   onNo() {
-    logger.log("No");
+    logger.info("No");
   }
 }

@@ -21,16 +21,17 @@ import { addPlaceholder } from "../../store/features/placeholder/placeholderSlic
 import { $addErrorToPromptModal } from "../../components/editors/vanilla/components/modal/prompt";
 import { AppLogger } from "../../lib/logger";
 
-const logger = new AppLogger("RenamePlaceHolderController");
 export default class RenamePlaceholderController extends Controller {
   static values = {
     modalId: String,
   };
 
+  logger = new AppLogger("RenamePlaceholderController");
+
   onYes() {
     const modal = $getModal(this.modalIdValue);
     if (!modal) {
-      logger.error("Modal not found");
+      this.logger.error("Modal not found");
       return;
     }
     const input = modal.querySelector(`input[type="text"]`);

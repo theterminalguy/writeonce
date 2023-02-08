@@ -46,7 +46,7 @@ export default function FloatingToolBarPlugin() {
 
     if (selectedText !== "") {
       floatingToolBar.style.display = "block";
-      logger.log("select: ", selectionRect);
+      logger.info("select: ", selectionRect);
       floatingToolBar.style.left = selectionRect.left - 200 + "px";
       floatingToolBar.style.top = selectionRect.top + 20 + "px";
     } else {

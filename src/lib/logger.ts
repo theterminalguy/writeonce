@@ -3,19 +3,47 @@ export class AppLogger {
     this.name = name;
   }
 
-  log(...message: unknown[]) {
-    console.log(`\x1b[1m${this.name}\x1b[0m:`, ...message);
+  isDev: boolean =
+    !process.env.NODE_ENV || process.env.NODE_ENV === "development";
+
+  warn(...message: Array<string | object>) {
+    switch (this.isDev) {
+      case true:
+        console.warn(`%c${this.name}`, "color: yellow", ...message);
+        break;
+
+      default:
+        break;
+    }
   }
-  warn(...message: unknown[]) {
-    console.warn(`%c${this.name}`, "color: yellow", ...message);
+  debug(...message: Array<string | object>) {
+    switch (this.isDev) {
+      case true:
+        console.debug(`%c${this.name}`, "color: brown", ...message);
+        break;
+
+      default:
+        break;
+    }
   }
-  debug(...message: unknown[]) {
-    console.debug(`%c${this.name}`, "color: brown", ...message);
+  info(...message: Array<string | object>) {
+    switch (this.isDev) {
+      case true:
+        console.info(`%c${this.name}`, "color: blue", ...message);
+        break;
+
+      default:
+        break;
+    }
   }
-  info(...message: unknown[]) {
-    console.info(`%c${this.name}`, "color: blue", ...message);
-  }
-  error(...message: unknown[]) {
-    console.error(`%c${this.name}`, "color: red", ...message);
+  error(...message: Array<string | object>) {
+    switch (this.isDev) {
+      case true:
+        console.error(`%c${this.name}`, "color: red", ...message);
+        break;
+
+      default:
+        break;
+    }
   }
 }
