@@ -6,7 +6,7 @@ RUN yarn
 RUN yarn build
 
 # server environment
-FROM nginx:alpine
+FROM nginx:alpine as nginx-react-build
 COPY nginx.conf /etc/nginx/conf.d/configfile.template
 
 COPY --from=react-build /app/build /usr/share/nginx/html
