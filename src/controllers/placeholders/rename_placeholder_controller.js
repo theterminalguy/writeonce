@@ -19,7 +19,9 @@ import PlaceholderItem from "../../components/editors/vanilla/components/Placeho
 import { store } from "../../store";
 import { addPlaceholder } from "../../store/features/placeholder/placeholderSlice";
 import { $addErrorToPromptModal } from "../../components/editors/vanilla/components/modal/prompt";
+import { AppLogger } from "../../lib/logger";
 
+const logger = new AppLogger("RenamePlaceHolderController");
 export default class RenamePlaceholderController extends Controller {
   static values = {
     modalId: String,
@@ -28,7 +30,7 @@ export default class RenamePlaceholderController extends Controller {
   onYes() {
     const modal = $getModal(this.modalIdValue);
     if (!modal) {
-      console.error("Modal not found");
+      logger.error("Modal not found");
       return;
     }
     const input = modal.querySelector(`input[type="text"]`);
