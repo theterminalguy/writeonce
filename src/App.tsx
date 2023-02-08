@@ -15,7 +15,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="editor" element={<VanillaEditor />} />
+        <div><Route path="editor" element={<VanillaEditor />} /></div>
         <Route path="story" element={<Storybook />} />
         <Route path="marketplace" element={<Marketplace />} />
         <Route path="quickflow" element={<QuickflowPage />} />
