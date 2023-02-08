@@ -13,6 +13,7 @@ import {
   $undoPlaceholdify,
   $getPlaceholderCount,
   $updatePlaceholderCounter,
+  $getMaxPlaceholderCount,
 } from "../../components/editors/vanilla/components/placeholder";
 import { CustomEvents, dispatchCustomEvent } from "../../custom-events";
 

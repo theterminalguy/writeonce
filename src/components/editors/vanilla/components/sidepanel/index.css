@@ -15,8 +15,10 @@ div.vanilla__sidepanel {
   justify-content: space-between;
   padding: 20px;
   font-size: 20px;
-  font-weight: 700;
-  color: #5a5a5a
+  font-weight: 500;
+  color: #5a5a5a;
+  position: sticky;
+  top:0;
 }
 
 .vanilla__placeholder-count .vanilla__title{

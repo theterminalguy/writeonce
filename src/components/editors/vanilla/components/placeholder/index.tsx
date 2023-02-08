@@ -160,11 +160,16 @@ export function $getPlaceholderCount() {
   return placeholders.length
 }
 
-export function $updatePlaceholderCounter(max = 10) {
+export function $getMaxPlaceholderCount() {
+  return 10
+}
+
+export function $updatePlaceholderCounter() {
+  const max = $getMaxPlaceholderCount()
   const counter = document.querySelector(".vanilla__placeholder-count .vanilla__counter")
   if (!counter) return
   const count = $getPlaceholderCount()
-  counter.textContent = `${count}/${max}`
+  counter.textContent = `${max - count}`
   if (max - count <= 2) {
     counter.setAttribute("style", "color:red")
   }
