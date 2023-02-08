@@ -1,7 +1,7 @@
 import { store } from "../../../../../store";
 import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import "./index.css"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   placeholders: PlaceholderState[];
@@ -17,20 +17,9 @@ export default function Spreadsheet({ placeholders, changeTabPanel }: Props) {
   const config = {
     "controller": "quickflow--spreadsheet",
   }
-  // change tab to preview(content)
-  //   changeTabPanel(1);
-  // useEffect(() => {
-  //   const previewDom = document.querySelector("#spreadsheet");
-  //   const previewTabId = previewDom?.getAttribute("preview-tab-id");
-  //   console.log(previewTabId)
-  //   if(previewTabId) {
-  //     console.log("previewTabId", previewTabId)
-  //     changeTabPanel(parseInt(previewTabId));
-  //   }
-  // });
 
   return (
-    <table border={0} width={"100%"} bgcolor={"#ccc"} cellPadding={"5"} cellSpacing={"1"} data-controller={config.controller} preview-tab-id={2}>
+    <table border={0} data-controller={config.controller} width={"100%"} bgcolor={"#ccc"} cellPadding={"5"} cellSpacing={"1"} preview-tab-id={2}>
       <thead>
         <tr>
           <th>&nbsp; </th>
@@ -49,11 +38,10 @@ export default function Spreadsheet({ placeholders, changeTabPanel }: Props) {
           <td>1</td>
           {fields.map((_, index) => {
             return (
-              <td key={index}> <input type="text" defaultValue={placeholders[index].default} className="quickflow__table-field" /></td>
+              <td key={index}> <input type="text" data-action={`focusout->${config.controller}#onAddNewRow`} defaultValue={placeholders[index].default} className="quickflow__table-field" /></td>
             )
           })}
           <td>
-            <button data-action={`click->${config.controller}#onAddNewRow`}>Add</button>
             <button data-action={`click->${config.controller}#onPreview`}>preview</button>
             <button data-action={`click->${config.controller}#onDelete`}>delete</button></td>
         </tr>

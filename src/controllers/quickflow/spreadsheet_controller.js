@@ -1,15 +1,47 @@
 import { Controller } from "@hotwired/stimulus";
 import { store } from "../../store";
+import { setTabStatus } from "../../store/features/editor/editorSlice";
 import { updatePlaceholder } from "../../store/features/placeholder/placeholderSlice";
 
 export default class SpreasheetController extends Controller {
-  static targets = ["tableBody"];
+  static targets = ["tableBody", "field"];
 
   initialize() {
     this.rowCount = 2;
     this.previewStatusId = 2;
     this.placeholders = store.getState().editorState.placeholders || [];
+    //console.log(this.fieldTarget)
+    //const fields = this.fieldTarget;//document.querySelectorAll(".quickflow__table-field");
+    // const fieldsArray =  this.fieldTarget; //Array.from(fields);
+    // let isEmpty = false;
+    // let values = [];
+    // this.fieldTargets.forEach((field) => {
+    //   field.addEventListener("change", (event) => {
+    //     if (event.target.value !== "") {
+    //       isEmpty = true;
+    //     }
+    //   });
+    // });
+
+    // for (const [index, field] of Object.entries(fieldsArray)) {
+    //   const target = field;
+    //   const elem = target;
+    //   elem.addEventListener("focusout", (event) => {
+    //     if (event.value !== "") {
+    //       isEmpty = true;
+    //     }
+    //   });
+    // }
+    // if (isEmpty) {
+    //   this.onAddNewRow();
+    //   console.log("field is not empty");
+    // }
+    // console.log(isEmpty)
   }
+
+  // get fieldTargets() {
+  //   return this.targets.findAll("field");
+  // }
 
   onDelete(event) {
     if (window.confirm("Are you sure ?")) {
@@ -29,7 +61,8 @@ export default class SpreasheetController extends Controller {
     const input = event.target;
     const node = input.parentNode;
     const data = node.parentNode;
-    const elem = data.parentNode;
+    console.log("we see you here");
+    const elem = document.querySelector(".quickflow__table-body"); //data.parentNode;
     const fragment = document.createDocumentFragment();
     const row = document.createElement("tr");
     const tdRow = document.createElement("td");
@@ -45,6 +78,11 @@ export default class SpreasheetController extends Controller {
       input.setAttribute("type", "text");
       input.classList.add("quickflow__table-field");
       input.classList.add("quickflow__table-field-" + this.rowCount);
+      input.setAttribute(
+        "data-action",
+        "focusout->quickflow--spreadsheet#onAddNewRow"
+      );
+
       const btn = document.createElement("button");
       btn.setAttribute("data-action", "click->quickflow--spreadsheet#onDelete");
       const td = document.createElement("td");
@@ -52,13 +90,13 @@ export default class SpreasheetController extends Controller {
     }
 
     const tdElem = document.createElement("td");
-    const btnAdd = document.createElement("button");
-    btnAdd.innerText = "Add";
-    btnAdd.setAttribute(
-      "data-action",
-      "click->quickflow--spreadsheet#onAddNewRow"
-    );
-    tdElem.appendChild(btnAdd);
+    // const btnAdd = document.createElement("button");
+    // btnAdd.innerText = "Add";
+    // btnAdd.setAttribute(
+    //   "data-action",
+    //   "click->quickflow--spreadsheet#onAddNewRow"
+    // );
+    // tdElem.appendChild(btnAdd);
     const btnElem = document.createElement("button");
     const btnPreview = document.createElement("button");
     btnPreview.innerText = "preview";
@@ -72,7 +110,6 @@ export default class SpreasheetController extends Controller {
       "data-action",
       "click->quickflow--spreadsheet#onDelete"
     );
-    // btnElem.addEventListener('click', handleDeleteRow);
     btnElem.innerText = "delete";
     tdElem.appendChild(btnElem);
     row.appendChild(tdElem);
@@ -93,11 +130,12 @@ export default class SpreasheetController extends Controller {
       const elem = target;
       const placeholder = this.placeholders[index];
 
-      this.previewStatusId = 1;
-      
+      // store.dispatch(setTabStatus(1))
       store.dispatch(
         updatePlaceholder({ id: placeholder.id, default: elem.value })
       );
+      // document.querySelector(".content-tab").style.display = "block";
+      // document.querySelector(".data-tab").style.display = "none";
     }
   }
 }
