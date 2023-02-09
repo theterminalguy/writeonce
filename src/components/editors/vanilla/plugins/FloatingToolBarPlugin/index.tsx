@@ -36,7 +36,7 @@ export default function FloatingToolBarPlugin() {
 
     // in a service worker, let's find all occurrences of the selected text
     // both the once that match exactly case sensitive and case insensitive
-    // we'll give the user a heads up that there are other occurrences of the
+    // we'll give the auth a heads up that there are other occurrences of the
     // same text in the document. We will tell them how many are an exact match
     // and how many are case insensitive matches.
     // An example message would be:
@@ -93,7 +93,7 @@ export default function FloatingToolBarPlugin() {
   const makePlaceholder = () => {
     // if the modal is visible, don't do anything
     if (isModalVisible(uniqueId)) {
-      // tell the user to complete the previous action
+      // tell the auth to complete the previous action
       const appErrorNotification = ReactDOMServer.renderToStaticMarkup(
         <Snackbar
           message="⚠️ Please complete the previous action"

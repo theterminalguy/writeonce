@@ -1,59 +1,52 @@
 import { Link } from "react-router-dom";
 import "./HomePage.css"
-import {useEffect, useState} from "react";
+import {useEffect, useState, Dispatch, SetStateAction} from "react";
 import jwt_decode from "jwt-decode";
+import {signInAuth, signOutAuth} from "../store/features/auth/authSlice";
+import { store } from "../store";
+import { useSelector, useDispatch } from "react-redux";
+import {GoogleUserInterface, googleUserSlice} from "../store/features/googleUser/googleUserSlice"
+import { RootState} from "../store";
 
-interface userInterface {
-    iss: string;
-    azp: string;
-    aud: string;
-    sub: string;
-    email: string;
-    email_verified: boolean;
-    name: string;
-    picture: string;
-    given_name: string;
-    family_name: string;
-    iat: number;
-    exp: number;
-    jti: string;
-    nbf: number;
-
-}
-export default function HomePage(): JSX.Element {
-    const [user, setUser] = useState<userInterface | null>(null);
-    const [signIn, setSignin] = useState<boolean>(false);
+export default function HomePage(props: {setLogIn: Dispatch<SetStateAction<boolean>>}): JSX.Element {
+    const dispatch = useDispatch();
+    const [user, setUser] = useState<GoogleUserInterface | null>(
+        useSelector((state: RootState) => state.googleUser)
+    );
+    const [signIn, setSignIn] = useState<boolean>(
+        store.getState()?.auth.signIn
+    );
     const handleSignIn = (response: { status: { signed_in: boolean; }, credential: string; }) => {
-        console.log("User is signed in", response);
-        setUser(jwt_decode(response.credential));
+        const userDetails = jwt_decode(response.credential) as GoogleUserInterface
+        setUser(userDetails);
 
         const signInButton = document.getElementById("signInButton");
         if (signInButton) {
             signInButton.hidden = true;
         }
-        setSignin(true);
+
+        setSignIn(true);
+        store.dispatch(signInAuth())
+        props.setLogIn(true)
+        dispatch(googleUserSlice.actions.update(userDetails))
     }
 
     const handleSignOut = () => {
-        // global google
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        google.accounts.id.disableAutoSelect();
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        google.accounts.id.revoke();
         setUser(null);
 
         const signInButton = document.getElementById("signInButton");
         if (signInButton) {
             signInButton.hidden = true;
         }
-        setSignin(false);
+        setSignIn(false);
+        store.dispatch(signOutAuth())
+        props.setLogIn(false)
     }
 
     useEffect(() => {
         // global google
-        if (!user) {
+        window.addEventListener('sign-out', handleSignOut)
+        if (!signIn) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             google.accounts.id.initialize({
@@ -77,15 +70,18 @@ export default function HomePage(): JSX.Element {
     }, [signIn] );
     return (
         <div className="home-page">
-            <h1>Home Page</h1>
-            <div id="signInButton" style={{width: "200px"}}></div>
+            <div id="signInButton" style={{width: "200px", margin: "20px", padding: "5px 10px"}}></div>
             {
-                user &&
+                signIn &&
                 <div>
-                    <div><button onClick={handleSignOut}> Sign Out </button></div>
-                    <div>{user.email}</div>
-                    <div><Link to="/editor">Editor</Link></div>
-                    <div><Link to="/marketplace">Marketplace</Link></div>
+                    <button onClick={handleSignOut} className={"signOut"}> Sign Out </button>
+                    <div className={"user"}>
+                        <h1>Write<span>Once</span></h1>
+                        <div><img src={user?.picture} alt={user?.name}/></div>
+                        <div>{user?.name}</div>
+                        <div>{user?.email}</div>
+                        <div className={"editor"}><Link to="/editor">Editor</Link></div>
+                    </div>
                 </div>
             }
         </div>
