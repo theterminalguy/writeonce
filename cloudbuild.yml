@@ -1,0 +1,42 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    id: "Building image for production"
+    args: ["build", "-t", "${_PRD_IMAGE}", ".", "--target", "nginx-react-build"]
+    env:
+      - "DOCKER_BUILDKIT=1"
+
+  - name: "gcr.io/cloud-builders/docker"
+    id: "Pushing the production image to Artifact registry"
+    args: ["push", "${_PRD_IMAGE}"]
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "Deploying production image to Google Cloud Run"
+    entrypoint: gcloud
+    args:
+      [
+        "run",
+        "deploy",
+        "${_SERVICE_NAME}",
+        "--image",
+        "${_PRD_IMAGE}",
+        "--region",
+        "${_REGION}",
+        "--platform",
+        "managed",
+        "--min-instances",
+        "${_MIN_INSTANCES}",
+        "--allow-unauthenticated",
+        "--set-env-vars",
+        "ENV=production",
+      ]
+
+images:
+  - "${_PRD_IMAGE}"
+
+tags: ["writeonce"]
+
+substitutions:
+  _MIN_INSTANCES: "1"
+  _REGION: "us-central1"
+  _SERVICE_NAME: "${REPO_NAME}-prd"
+  _PRD_IMAGE: "us-central1-docker.pkg.dev/${PROJECT_ID}/writeonce-docker-repo/${REPO_NAME}-prd:${SHORT_SHA}"

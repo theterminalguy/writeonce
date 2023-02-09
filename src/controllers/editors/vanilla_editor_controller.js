@@ -9,7 +9,7 @@ export default class VanillaEditorController extends Controller {
   static values = {
     maxChar: {
       type: Number,
-      default: 35 // approx 300 words
+      default: 1500 // approx 300 words
     }
   };
 
