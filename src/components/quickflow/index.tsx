@@ -51,7 +51,7 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 		}
 	})
 	return (
-		<div data-files--upload-csv-target={uploadCSVConfig.quickflowWrapper} className="quickflow__wrapper vanilla__editor-container" style={{ overflow: "scroll !important" }}>
+		<div className="quickflow__wrapper vanilla__editor-container" style={{ overflow: "scroll !important" }}>
 			<h1 className="vanilla__quickflow__preview-title">{editor.templateName || "New Template"}</h1>
 			<div className="quickflow__tab">
 				<button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Content</button>
@@ -71,8 +71,10 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 				<Spreadsheet placeholders={payload.placeholders} changeTabPanel={(data: number) => setTabPanel(data)} />
 
 				<FileImport />
-				<div className="quickflow__csv-table-wrapper">
-					<table data-files--upload-csv-target={uploadCSVConfig.quickflowCSVTable} className="quickflow__csv-table"></table>
+				<div data-files--upload-csv-target={uploadCSVConfig.quickflowWrapper} className="quickflow__wrapper vanilla__editor-container">
+					<div className="quickflow__csv-table-wrapper">
+						<table data-files--upload-csv-target={uploadCSVConfig.quickflowCSVTable} className="quickflow__csv-table"></table>
+					</div>
 				</div>
 			</div>
 		</div>
