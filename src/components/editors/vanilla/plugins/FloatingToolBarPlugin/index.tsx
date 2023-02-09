@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 import "./index.css";
 import { $renderAndShowModal } from "../../components/modal/helpers";
 import PromptModal from "../../components/modal/prompt";
-import Placeholder, { $undoPlaceholdify, $getMaxPlaceholderCount, $getPlaceholderCount } from "../../components/placeholder";
+import Placeholder, { $undoPlaceholdify, $getMaxPlaceholderCount, $getPlaceholderCount, $updatePlaceholderCounter } from "../../components/placeholder";
 import { store } from "../../../../../store/index";
 import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import {
@@ -240,6 +240,7 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
     `div.vanilla__placeholder-item-${placeholderId}`
   ) as HTMLDivElement;
   placeholderSidePanel.removeChild(placeholderItem);
+  $updatePlaceholderCounter()
   store.dispatch(deletePlaceholder(placeholderId));
 }
 

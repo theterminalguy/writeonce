@@ -156,7 +156,8 @@ export function $mergePlaceholders(id: string, name: string) {
 }
 
 export function $getPlaceholderCount() {
-  const placeholders = document.querySelectorAll(".vanilla__placeholder")
+  const placeholders = document.querySelectorAll(".vanilla__placeholder-item")
+
   return placeholders.length
 }
 
@@ -173,6 +174,7 @@ export function $updatePlaceholderCounter() {
   if (max - count <= 2) {
     counter.setAttribute("style", "color:red")
   }
+
 }
 
 
