@@ -1,5 +1,5 @@
 
-.vanilla__quickflow__wrapper {
+.quickflow__wrapper {
     border-top: 1px solid #F5F5F5;
     display: flex;
     flex-direction: column;
@@ -10,3 +10,26 @@
     text-align: left;
     width: 80%;
 } */
+.quickflow__csv-table-wrapper{
+    overflow-y: auto;
+    height: 100vh;
+}
+
+table.quickflow__csv-table {
+    table-layout: fixed;
+    width: max-content;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+
+  .quickflow__csv-table thead{
+    background: #ccc;
+  }
+  
+  .quickflow__csv-table th,
+  .quickflow__csv-table td{
+    padding: 3px 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  

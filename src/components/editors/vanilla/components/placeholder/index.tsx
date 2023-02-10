@@ -95,8 +95,10 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
       console.error("Original text not found");
       return false;
     }
+    const parentNode = placeholder.parentNode
     const textNode = document.createTextNode(originalText);
-    placeholder.parentNode?.replaceChild(textNode, placeholder);
+    parentNode?.replaceChild(textNode, placeholder);
+    parentNode?.normalize()
   });
   return true;
 };

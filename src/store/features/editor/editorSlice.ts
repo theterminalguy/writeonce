@@ -22,7 +22,7 @@ export const editorSlice = createSlice({
   name: "editor",
   initialState,
   reducers: {
-    setContent(state, action: PayloadAction<EditorPayload>) {
+    setTemplateContent(state, action: PayloadAction<EditorPayload>) {
       state.contentText = action.payload.contentText;
       state.contentHTML = action.payload.contentHTML;
     },
@@ -32,6 +32,6 @@ export const editorSlice = createSlice({
   },
 });
 
-export const { setContent, setTemplateName } = editorSlice.actions;
+export const { setTemplateContent, setTemplateName } = editorSlice.actions;
 
 export default editorSlice.reducer;
