@@ -1,4 +1,4 @@
-import { BrowserRouter, Router, Routes, Route, Navigate} from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 import "./App.css";
 import "./styles/buttons/button.css"
@@ -8,7 +8,7 @@ import HomePage from './components/HomePage';
 import Marketplace from "./components/marketplace";
 import QuickflowPage from "./components/QuickFlowPage";
 import Error404Page from "./components/Error404Page";
-import {RootState, store} from "./store";
+import {RootState} from "./store";
 import {useState} from "react";
 import {useSelector} from "react-redux";
 

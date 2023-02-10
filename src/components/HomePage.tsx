@@ -47,10 +47,11 @@ export default function HomePage(props: {setLogIn: Dispatch<SetStateAction<boole
         // global google
         window.addEventListener('sign-out', handleSignOut)
         if (!signIn) {
+            console.log('>>>> ', process.env.REACT_APP_GOOGLE_CLIENT_ID)
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             google.accounts.id.initialize({
-                client_id: "655257869747-6hrcoh04iot27ooe2i9oeju12hvq56q9.apps.googleusercontent.com",
+                client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
                 callback: handleSignIn,
             })
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
