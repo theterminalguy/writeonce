@@ -18,7 +18,7 @@ import { AppLogger } from "../../../../../lib/logger";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
-  const logger = new AppLogger("FloaringToolbar");
+  const logger = new AppLogger("FloatingToolbar");
 
   const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
