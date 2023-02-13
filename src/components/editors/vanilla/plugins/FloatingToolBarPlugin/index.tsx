@@ -18,7 +18,7 @@ import { AppLogger } from "../../../../../lib/logger";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
-  const FloatingToolBarLogger = new AppLogger("FloatingToolBar");
+  const floatingToolBarLogger = new AppLogger("FloatingToolBar");
 
   const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
@@ -46,7 +46,7 @@ export default function FloatingToolBarPlugin() {
 
     if (selectedText !== "") {
       floatingToolBar.style.display = "block";
-      FloatingToolBarLogger.info("select: ", selectionRect);
+      floatingToolBarLogger.info("select: ", selectionRect);
       floatingToolBar.style.left = selectionRect.left - 200 + "px";
       floatingToolBar.style.top = selectionRect.top + 20 + "px";
     } else {

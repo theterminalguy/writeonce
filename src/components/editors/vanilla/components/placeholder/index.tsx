@@ -55,7 +55,7 @@ export default class Placeholder {
   }
 }
 
-const PlaceholderLogger = new AppLogger("Placeholder");
+const placeholderLogger = new AppLogger("Placeholder");
 
 export const $getPlaceholder = (
   placeholderId: string
@@ -84,7 +84,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
   placeholders.forEach((placeholder) => {
     if (!placeholder) {
       // TODO: show error to the user
-      PlaceholderLogger.error("Placeholder not found");
+      placeholderLogger.error("Placeholder not found");
       return false;
     }
     const originalText = placeholder.getAttribute(
@@ -92,7 +92,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
     );
     if (!originalText) {
       // TODO: show error to the user
-      PlaceholderLogger.error("Original text not found");
+      placeholderLogger.error("Original text not found");
       return false;
     }
     const parentNode = placeholder.parentNode;
