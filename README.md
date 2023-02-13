@@ -1,7 +1,22 @@
 # WriteOnce-App
 
 This is the main codebase for the WriteOnce web application built with React and Stimulus.
-It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+WriteOnce is a document-templating application that allows you to create templates from letters, invoices, emails, contracts and other written documents and populate the created template with different values and 'pipe' or send them through various means, e.g SMS, GMail emails, Slack messages, and other similar methods.
+
+## Technologies Used
+
+1. [Create React App](https://github.com/facebook/create-react-app)
+2. [Redux Toolkit](https://redux-toolkit.js.org/)
+3. [Stimulus](https://stimulus.hotwired.dev/)
+4. [React Router Dom](https://reactrouter.com/)
+
+## Creating Branches
+
+Branch names should follow this convention - `{contributor-name}/wrt-xx-{issue-name}` as copied from Linear. Branches should always be created from the main branch after pulling recent commits from the origin.
+
+## Making PRs
+
+Go through the pull request template in the .github/ folder and follow it to the letter before creating a pull request.
 
 ## Available Scripts
 
