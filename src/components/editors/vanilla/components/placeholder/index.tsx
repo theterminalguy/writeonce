@@ -4,6 +4,7 @@ import {
   selectPlaceholderByName,
 } from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
+import { AppLogger } from "../../../../../lib/logger";
 
 export type PlaceholderProps = {
   id: string;
@@ -46,16 +47,15 @@ export default class Placeholder {
       "data-placeholder-original-text",
       this.originalText
     );
-    placeholder.setAttribute(
-      "title",
-      this.originalText
-    );
+    placeholder.setAttribute("title", this.originalText);
     placeholder.setAttribute("contenteditable", "false");
     placeholder.innerHTML = `{{.${this.name}}}`;
 
     return placeholder;
   }
 }
+
+const PlaceholderLogger = new AppLogger("Placeholder");
 
 export const $getPlaceholder = (
   placeholderId: string
@@ -84,7 +84,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
   placeholders.forEach((placeholder) => {
     if (!placeholder) {
       // TODO: show error to the user
-      console.error("Placeholder not found");
+      PlaceholderLogger.error("Placeholder not found");
       return false;
     }
     const originalText = placeholder.getAttribute(
@@ -92,13 +92,13 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
     );
     if (!originalText) {
       // TODO: show error to the user
-      console.error("Original text not found");
+      PlaceholderLogger.error("Original text not found");
       return false;
     }
-    const parentNode = placeholder.parentNode
+    const parentNode = placeholder.parentNode;
     const textNode = document.createTextNode(originalText);
     parentNode?.replaceChild(textNode, placeholder);
-    parentNode?.normalize()
+    parentNode?.normalize();
   });
   return true;
 };
