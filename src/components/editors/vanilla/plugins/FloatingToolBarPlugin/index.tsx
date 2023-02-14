@@ -240,8 +240,9 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
     `div.vanilla__placeholder-item-${placeholderId}`
   ) as HTMLDivElement;
   placeholderSidePanel.removeChild(placeholderItem);
-  $updatePlaceholderCounter()
+
   store.dispatch(deletePlaceholder(placeholderId));
+  $updatePlaceholderCounter()
 }
 
 const replaceSelectionWithPlaceholderNode = (
