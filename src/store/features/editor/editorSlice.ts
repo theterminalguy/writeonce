@@ -7,7 +7,7 @@ export interface EditorState {
 }
 
 export const initialState: EditorState = {
-  templateName: "New Template",
+  templateName: "Untitled template",
   contentText: "",
   contentHTML: "",
 };

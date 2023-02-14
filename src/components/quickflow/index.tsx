@@ -7,8 +7,6 @@ import Spreadsheet from "../editors/vanilla/components/spreadsheet";
 import FileImport from "../editors/vanilla/components/fileImport";
 import "./index.css"
 import { PlaceholderState } from "../../store/features/placeholder/placeholderSlice";
-import "./index.css";
-
 interface Props {
 	uploadCSVConfig: {
 		controller: string;
@@ -52,7 +50,7 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 	})
 	return (
 		<div className="quickflow__wrapper vanilla__editor-container" style={{ overflow: "scroll !important" }}>
-			<h1 className="vanilla__quickflow__preview-title">{editor.templateName || "New Template"}</h1>
+			<h1 className="vanilla__quickflow__preview-title">{editor.templateName}</h1>
 			<div className="quickflow__tab">
 				<button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Content</button>
 				<button className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Data</button>
@@ -63,7 +61,7 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 			<div style={{ display: tab === 2 ? "block" : "none", paddingTop: "5px" }}>
 				<div style={{ padding: "20px" }}>
 					<label>What's the end goal?</label>
-					<select>
+					<select name="pipe" title="pipe">
 						<option value={"select"}>select pipe</option>
 						<option>Gmail</option>
 					</select>
