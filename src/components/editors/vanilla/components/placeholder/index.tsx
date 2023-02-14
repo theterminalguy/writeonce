@@ -156,9 +156,11 @@ export function $mergePlaceholders(id: string, name: string) {
 }
 
 export function $getPlaceholderCount() {
-  const placeholders = document.querySelectorAll(".vanilla__placeholder-item")
 
-  return placeholders.length
+  const placeholders = store.getState().editorState.placeholders.length
+
+
+  return placeholders
 }
 
 export function $getMaxPlaceholderCount() {
