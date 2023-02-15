@@ -13,13 +13,14 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "animate.css": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
+    "animate.css": "^4.1.1",
     "eslint": "^8.32.0",
     "react": "^18.2.0",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "shortid": "^2.2.16",
@@ -82,10 +83,10 @@
     "@types/redux-logger": "^3.0.9",
     "@types/shortid": "^0.0.29",
     "@types/webpack-env": "^1.18.0",
-    "redux-logger": "^3.0.6",
     "babel-plugin-named-exports-order": "^0.0.2",
     "eslint-plugin-storybook": "^0.6.10",
     "prop-types": "^15.8.1",
+    "redux-logger": "^3.0.6",
     "webpack": "^5.75.0"
   }
 }
