@@ -102,7 +102,7 @@ export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
               Click below to export your placeholders as CSV file.
             </p>
             <CSVLink
-              filename={`${editor.templateName} placeholder.csv`}
+              filename={`${editor[0].templateName} placeholder.csv`}
               className={"quickflow__sidebar-link"}
               headers={headers}
               data={exportData}

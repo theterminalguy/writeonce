@@ -8,6 +8,7 @@ import FileImport from "../editors/vanilla/components/fileImport";
 import "./index.css"
 import { PlaceholderState } from "../../store/features/placeholder/placeholderSlice";
 import "./index.css";
+import { useParams } from "react-router-dom";
 
 interface Props {
 	uploadCSVConfig: {
@@ -21,11 +22,9 @@ interface Props {
 
 export default function Quickflow({ uploadCSVConfig }: Props) {
 	const [tab, setTab] = useState(1)
-	const payload: CombinedState<{
-		placeholders: PlaceholderState[];
-		editor: EditorState;
-	}> = store.getState()?.editorState;
-	const editor = payload?.editor
+	const { id } = useParams()
+	const editor = store.getState()?.editorState?.editor.find((editor) => editor.id === id);
+	const payload = store.getState()?.editorState;
 
 	const setTabPanel = (index: number) => {
 		setTab(index)
@@ -52,13 +51,13 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 	})
 	return (
 		<div className="quickflow__wrapper vanilla__editor-container" style={{ overflow: "scroll !important" }}>
-			<h1 className="vanilla__quickflow__preview-title">{editor.templateName || "New Template"}</h1>
+			<h1 className="vanilla__quickflow__preview-title">{editor?.templateName || "New Template"}</h1>
 			<div className="quickflow__tab">
-				<button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Content</button>
-				<button className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Data</button>
+				<button className={"quickflow__tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Content</button>
+				<button className={"quickflow__tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Data</button>
 			</div>
-			<div style={{ display: tab === 1 ? "block" : "none" }}>
-				<div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
+			<div style={{ display: tab === 1 ? "block" : "none" }}  className="vanilla__quickflow__preview">
+				<div dangerouslySetInnerHTML={{ __html: editor?.contentHTML || "" }}></div>
 			</div>
 			<div style={{ display: tab === 2 ? "block" : "none", paddingTop: "5px" }}>
 				<div style={{ padding: "20px" }}>
