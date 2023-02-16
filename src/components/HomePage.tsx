@@ -33,7 +33,7 @@ export default function HomePage(props: {setLogIn: Dispatch<SetStateAction<boole
 
     const handleSignOut = () => {
         setUser(null);
-
+        console.log("sign out")
         const signInButton = document.getElementById("signInButton");
         if (signInButton) {
             signInButton.hidden = true;
@@ -47,7 +47,6 @@ export default function HomePage(props: {setLogIn: Dispatch<SetStateAction<boole
         // global google
         window.addEventListener('sign-out', handleSignOut)
         if (!signIn) {
-            console.log('>>>> ', process.env.REACT_APP_GOOGLE_CLIENT_ID)
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             google.accounts.id.initialize({

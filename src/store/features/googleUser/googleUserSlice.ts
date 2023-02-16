@@ -6,12 +6,12 @@ export interface GoogleUserInterface {
     azp?: string;
     aud?: string;
     sub?: string;
-    email?: string;
-    email_verified?: boolean;
-    name?: string;
-    picture?: string;
-    given_name?: string;
-    family_name?: string;
+    email: string;
+    email_verified: boolean;
+    name: string;
+    picture: string;
+    given_name: string;
+    family_name: string;
     iat?: number;
     exp?: number;
     jti?: string;
@@ -20,7 +20,12 @@ export interface GoogleUserInterface {
 }
 
 const initialState: GoogleUserInterface = {
-
+    family_name: "",
+    given_name: "",
+    name: "",
+    picture: "",
+    email: "",
+    email_verified: false,
 };
 
 export const googleUserSlice: Slice = createSlice({

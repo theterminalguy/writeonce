@@ -6,6 +6,7 @@ import "./index.css";
 export default function Menu(): JSX.Element {
 
     const handleSignOut = () => {
+        console.log("dispatch event...")
         window.dispatchEvent(new Event("sign-out"));
     }
     return (
