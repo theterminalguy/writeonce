@@ -78,6 +78,7 @@ export const $placeholdify = (input: string): string => `{{.${input}}}`;
 export const $undoPlaceholdify = (placeholderId: string): boolean => {
   // undo the placeholder creation
   const placeholders = $getAllPlaceholders(placeholderId);
+
   if (placeholders.length === 0) {
     return false;
   }
@@ -100,6 +101,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
     parentNode?.replaceChild(textNode, placeholder);
     parentNode?.normalize()
   });
+
   return true;
 };
 
@@ -152,3 +154,29 @@ export function $mergePlaceholders(id: string, name: string) {
     badge.innerText = `${Number(badge.innerText) + 1}`;
   }
 }
+
+export function $getPlaceholderCount() {
+
+  const placeholders = store.getState().editorState.placeholders.length
+
+
+  return placeholders
+}
+
+export function $getMaxPlaceholderCount() {
+  return 10
+}
+
+export function $updatePlaceholderCounter() {
+  const max = $getMaxPlaceholderCount()
+  const counter = document.querySelector(".vanilla__placeholder-count .vanilla__counter")
+  if (!counter) return
+  const count = $getPlaceholderCount()
+  counter.textContent = `${max - count}`
+  if (max - count <= 2) {
+    counter.setAttribute("style", "color:red")
+  }
+
+}
+
+

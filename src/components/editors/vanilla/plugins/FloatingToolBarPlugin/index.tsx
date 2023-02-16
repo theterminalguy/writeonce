@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 import "./index.css";
 import { $renderAndShowModal } from "../../components/modal/helpers";
 import PromptModal from "../../components/modal/prompt";
-import Placeholder, { $undoPlaceholdify } from "../../components/placeholder";
+import Placeholder, { $undoPlaceholdify, $getMaxPlaceholderCount, $getPlaceholderCount, $updatePlaceholderCounter } from "../../components/placeholder";
 import { store } from "../../../../../store/index";
 import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import {
@@ -114,10 +114,29 @@ export default function FloatingToolBarPlugin() {
       input.focus();
       return;
     }
+
     const selection = window.getSelection();
     if (!selection || !$isRangeSelection(selection)) {
       return;
     }
+
+    if ($getPlaceholderCount() >= $getMaxPlaceholderCount()) {
+      const modal = ReactDOMServer.renderToStaticMarkup(
+        <AlertModal
+          id={uniqueId}
+          message={`Placeholder limit reached (${$getMaxPlaceholderCount()})`}
+          config={{
+            controller: "placeholders--alert-modal",
+            onOk: "onOk",
+          }}
+        />
+      );
+      const { left, top } = $getLeftTop(selection);
+      $renderAndShowModal(modal, uniqueId, left, top);
+      return;
+    }
+
+
     if ($isSelectionPlaceholder(selection)) {
       const modal = ReactDOMServer.renderToStaticMarkup(
         <AlertModal
@@ -133,6 +152,7 @@ export default function FloatingToolBarPlugin() {
       $renderAndShowModal(modal, uniqueId, left, top);
       return;
     }
+
 
 
     const selectedText = selection.toString();
@@ -220,7 +240,9 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
     `div.vanilla__placeholder-item-${placeholderId}`
   ) as HTMLDivElement;
   placeholderSidePanel.removeChild(placeholderItem);
+
   store.dispatch(deletePlaceholder(placeholderId));
+  $updatePlaceholderCounter()
 }
 
 const replaceSelectionWithPlaceholderNode = (
@@ -236,8 +258,8 @@ const replaceSelectionWithPlaceholderNode = (
   if ($isLastText(selection)) {
     const textNode = document.createTextNode(".")
     selection.anchorNode?.parentNode?.append(textNode)
-
   }
+
   selection.deleteFromDocument();
   selection.getRangeAt(0).insertNode(placeholderComponent.render());
 
