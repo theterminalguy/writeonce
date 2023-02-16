@@ -59,7 +59,7 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 			<div style={{ display: tab === 2 ? "block" : "none", paddingTop: "5px" }}>
 				<div style={{ padding: "20px" }}>
 					<label>What's the end goal?</label>
-					<select>
+					<select name="pipe" title="pipe">
 						<option value={"select"}>select pipe</option>
 						<option>Gmail</option>
 					</select>

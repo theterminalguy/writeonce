@@ -4,3 +4,62 @@
     display: flex;
     flex-direction: column;
 }
+
+.user{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px solid #0D1934FF;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.user > h1{
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 30px;
+}
+
+.user img {
+    border: 2px solid lightgrey;
+    border-radius: 50%;
+    width: 200px;
+    height: auto;
+}
+
+.user > div {
+    text-align: center;
+    font-size: 20px;
+}
+
+.user a {
+    text-decoration: none;
+    border: 1px solid #0D1934FF;
+    padding: 2px 10px 5px;
+    border-radius: 3px;
+    color: #0D1934FF;
+}
+
+.user a:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #0D1934FF;
+}
+
+.editor {
+    margin-top: 30px;
+}
+
+.signOut {
+    margin: 20px;
+    padding: 5px 10px;
+}
+
+.signOut:hover {
+    cursor: pointer;
+}
+
+.user span{
+    color: #66bf3c;
+}
