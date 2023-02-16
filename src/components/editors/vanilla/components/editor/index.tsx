@@ -6,11 +6,11 @@ import { EditorState } from '../../../../../store/features/editor/editorSlice';
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
 interface Editorprop {
-  payload: EditorState | undefined;
+  payload: EditorState;
 }
 
 export default function Editor( { ...props }: Editorprop) {
-  const { templateName, id, contentHTML } = props.payload || {};
+  const { templateName, id, contentHTML } = props.payload;
   const navigation = useNavigate();
   const handleRedirect = () => {
     navigation(`/quickflow/${id}`);
@@ -55,7 +55,7 @@ export default function Editor( { ...props }: Editorprop) {
             </p>
           </div>
         </div>
-        <FloatingToolBarPlugin />
+        <FloatingToolBarPlugin templateId={id} />
       </div>
     </>
   );

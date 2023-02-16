@@ -7,7 +7,8 @@ import { addTemplate } from "../../store/features/editor/editorSlice";
 export default function Templates(): JSX.Element {
     const payload = store.getState().editorState
     const templates = payload.editor;
-    const templateId = generate();
+    const templateId = generate()
+    const slug = `untitled-template-${templateId}`;
     const navigation = useNavigate();
 
     const handleNewTemplate = () => {
@@ -17,7 +18,7 @@ export default function Templates(): JSX.Element {
             contentText: "",
             contentHTML: "",
         }));
-        navigation(`editor/${templateId}`)
+        navigation(`editor/templates/${slug}`)
     }
 
     return (
@@ -38,7 +39,7 @@ export default function Templates(): JSX.Element {
                 {templates.map((template, index) => {
                     return (
                         <div className="template-cols" key={index}>
-                            <Link to={`/editor/${template.id}`}>
+                            <Link to={`editor/templates/${template.slug}`}>
                                 <p>{template.contentText}</p>
                                 <div className="template-cols__divider">
                                     <h4>{template.templateName}</h4>

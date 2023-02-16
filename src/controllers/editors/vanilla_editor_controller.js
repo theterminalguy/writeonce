@@ -1,8 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import { store } from "../../store";
 import {
-  addTemplate,
-  updateTemplate
+  updateTemplate,
 } from "../../store/features/editor/editorSlice";
 import { AppLogger } from "../../lib/logger";
 import { generate } from "shortid";
@@ -18,7 +17,7 @@ export default class VanillaEditorController extends Controller {
     templateId: {
       type: String,
       default: "",
-    }
+    },
   };
 
   connect() {
@@ -62,10 +61,13 @@ export default class VanillaEditorController extends Controller {
 
   handleFocusOut(event) {
     if (event.target === this.titleTarget) {
-        store.dispatch(updateTemplate({
+      const tempName = String(this.titleTarget.innerText).trim();
+      store.dispatch(
+        updateTemplate({
           id: this.templateIdValue,
-          templateName: this.titleTarget.innerText,
-        }));
+          templateName: tempName,
+        })
+      );
     }
 
     if (event.target === this.contentTarget) {
@@ -175,7 +177,7 @@ export default class VanillaEditorController extends Controller {
         updateTemplate({
           id: this.templateIdValue,
           contentText: contentText,
-          contentHTML: contentHTML
+          contentHTML: contentHTML,
         })
       );
     }

@@ -12,12 +12,13 @@ interface Props {
     controller: string;
     handleCSVImportAction: string;
     displayQuickflow: string;
-  }
+  };
+  templateId: string;
 }
 
-export default function QuickflowSidePanel({ uploadCSVConfig }: Props) {
+export default function QuickflowSidePanel({ uploadCSVConfig, templateId }: Props) {
   const [tab, setTab] = useState(1);
-  const placeholders = store.getState()?.editorState?.placeholders;
+  const placeholders: PlaceholderState[] = store.getState()?.editorState?.placeholders.filter((placeholder) => placeholder.templateId === templateId);
   const payload = store.getState()?.editorState;
   const editor = payload?.editor;
   const [exportData, setExportData] = useState<Record<string, string>[]>([]);

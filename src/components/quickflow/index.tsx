@@ -1,8 +1,5 @@
-
-import { CombinedState } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { store } from "../../store";
-import { EditorState } from "../../store/features/editor/editorSlice";
 import Spreadsheet from "../editors/vanilla/components/spreadsheet";
 import FileImport from "../editors/vanilla/components/fileImport";
 import "./index.css"
@@ -25,12 +22,13 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 	const { id } = useParams()
 	const editor = store.getState()?.editorState?.editor.find((editor) => editor.id === id);
 	const payload = store.getState()?.editorState;
+	const placeholders: PlaceholderState[] = payload?.placeholders.filter((placeholder) => placeholder.templateId === id);
 
 	const setTabPanel = (index: number) => {
 		setTab(index)
 	}
 
-	const replacePlaceholder = (data: any, placeholder: any) => {
+	const replacePlaceholder = (data: HTMLElement, placeholder: PlaceholderState) => {
 		data.style.color = "#993300";
 		data.style.fontWeight = "bold";
 		data.classList.remove("vanilla__placeholder");
@@ -38,7 +36,6 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 	}
 
 	useEffect(() => {
-		const placeholders = payload?.placeholders;
 		for (const placeholder of placeholders) {
 			const placholderSelected = `.vanilla__placeholder-${placeholder["id"]}`
 			const nodes: NodeListOf<HTMLBodyElement> = document.querySelectorAll(placholderSelected)
@@ -67,7 +64,7 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 						<option>Gmail</option>
 					</select>
 				</div>
-				<Spreadsheet placeholders={payload.placeholders} changeTabPanel={(data: number) => setTabPanel(data)} />
+				<Spreadsheet placeholders={placeholders} changeTabPanel={(data: number) => setTabPanel(data)} />
 
 				<FileImport />
 				<div data-files--upload-csv-target={uploadCSVConfig.quickflowWrapper} className="quickflow__wrapper vanilla__editor-container">

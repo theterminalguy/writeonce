@@ -2,21 +2,17 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface EditorState {
   id: string;
+  slug: string;
   templateName: string;
   contentText: string;
   contentHTML: string;
 }
 
 export const initialState: EditorState[] = []
-// {
-//   id: "1",
-//   templateName: "New Template",
-//   contentText: "",
-//   contentHTML: "",
-// }
 
 interface EditorPayload {
   id: string;
+  slug?: string;
   templateName?: string;
   contentText?: string;
   contentHTML?: string;
@@ -44,9 +40,12 @@ export const editorSlice = createSlice({
         (placeholder) => placeholder.id === action.payload.id
       );
       const placeholder = state[index];
-      console.log(action.payload)
+      
       if (action.payload.templateName) {
         placeholder.templateName = action.payload.templateName;
+        const templateSlug = action.payload.templateName.replace(/\s+/g, "-").toLowerCase();
+        const slug = `${templateSlug}-${action.payload.id}`;
+        placeholder.slug = slug;
       }
 
       if (action.payload.contentText) {
@@ -60,6 +59,7 @@ export const editorSlice = createSlice({
     addTemplate(state, action: PayloadAction<EditorPayload>) {
       state.push({
         id: action.payload.id,
+        slug: action.payload.slug || `untitled-template-${action.payload.id}`,
         templateName: action.payload.templateName || "Untitled Template",
         contentText: action.payload.contentText || "",
         contentHTML: action.payload.contentHTML || "", 
