@@ -1,8 +1,7 @@
 import { store } from "../../../../../store";
 import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import "./index.css"
-import { ChangeEvent, MouseEvent, SetStateAction, useEffect, useState } from "react";
-import AlertModal from "../modal/alert";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 
 interface Props {
   placeholders: PlaceholderState[];
@@ -44,8 +43,7 @@ export default function Spreadsheet({ placeholders, changeTabPanel }: Props) {
     const inputsArray = Array.from(inputs);
 
     for (const [index, input] of Object.entries(inputsArray)) {
-      const target = input as HTMLElement;
-      const elem = target as HTMLInputElement;
+      const elem = input as HTMLInputElement;
       const placeholderId = placeholderIds[Number(index)];
 
       store.dispatch(
