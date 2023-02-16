@@ -84,7 +84,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
   }
   placeholders.forEach((placeholder) => {
     if (!placeholder) {
-      // TODO: show error to the user
+      // TODO: show error to the auth
       console.error("Placeholder not found");
       return false;
     }
@@ -92,7 +92,7 @@ export const $undoPlaceholdify = (placeholderId: string): boolean => {
       "data-placeholder-original-text"
     );
     if (!originalText) {
-      // TODO: show error to the user
+      // TODO: show error to the auth
       console.error("Original text not found");
       return false;
     }
