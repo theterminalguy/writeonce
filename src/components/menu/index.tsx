@@ -61,18 +61,20 @@ export default function Menu(): JSX.Element {
   const links = navLinks.map((item) => (
     <LinksGroup {...item} key={item.label} />
   ));
+  const handleSignOut = () => {
+    console.log("dispatch event...")
+    window.dispatchEvent(new Event("sign-out"));
+  }
 
   return (
     <>
       {/* <div className={"vanilla__menu"}>
-        <div className={"vanilla__menu__logo"}> Writeonce </div>
-        <Link to="/editor" className={"vanilla__menu__link"}>
-          Editor
-        </Link>
-        <Link to="/marketplace" className={"vanilla__menu__link"}>
-          Marketplace
-        </Link>
-      </div> */}
+            <div className={"vanilla__menu__logo"}> Writeonce </div>
+            <Link to="/" className={"vanilla__menu__link"}>Home</Link>
+            <Link to="/editor" className={"vanilla__menu__link"}>Editor</Link>
+            <Link to="/marketplace" className={"vanilla__menu__link"}>Marketplace</Link>
+            <button onClick={handleSignOut} className={"signOut"}> Sign Out </button>
+        </div>*/}
       <Navbar height={800} p="md" className="vanilla__navbar__container">
         <Navbar.Section className="vanilla__navbar__header">
           <Group position="apart" className="vanilla__navbar__group">
@@ -83,6 +85,7 @@ export default function Menu(): JSX.Element {
 
         <Navbar.Section grow className="" component={ScrollArea}>
           <div className="vanilla__navbar__links__section">{links}</div>
+          <button onClick={handleSignOut} className={"signOut"}> Sign Out </button>
         </Navbar.Section>
       </Navbar>
     </>

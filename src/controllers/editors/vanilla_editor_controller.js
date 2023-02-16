@@ -114,7 +114,10 @@ export default class VanillaEditorController extends Controller {
           if (prevNode.lastChild.textContent.includes(textWithinMaxChar)) {
             const newNode = prevNode.cloneNode(true);
             newNode.textContent = remainingText;
-            prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
+            prevNode.textContent = prevNode.textContent.slice(
+              0,
+              textWithinMaxChar.length
+            );
             this.appendLimitDivider(prevNode);
             prevNode.parentNode.insertBefore(newNode, prevNode.nextSibling);
           } else {
