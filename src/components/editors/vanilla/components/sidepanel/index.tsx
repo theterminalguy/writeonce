@@ -1,9 +1,5 @@
-import './index.css';
+import "./index.css";
 
 export default function SidePanel({ component }: { component: JSX.Element }) {
-  return (
-    <div className="vanilla__sidepanel" style={{height: window.innerHeight}}>
-        {component}
-    </div>
-  );
+  return <div className="vanilla__sidepanel">{component}</div>;
 }

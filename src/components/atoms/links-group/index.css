@@ -1,0 +1,34 @@
+.vanilla__link__button {
+  margin-top: 20px;
+}
+
+.vanilla__link__navlink__collapse {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.vanilla__link__section__label,
+.vanilla__link__navlink__item {
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000;
+}
+
+.vanilla__link__section__label {
+  font-weight: 700;
+}
+
+.vanilla__link__navlink__item {
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 13px;
+  height: 34px;
+  padding: 6px 0px 6px 24px;
+}
+
+.vanilla__link__navlink__item.active {
+  background: #e7f5ff;
+}

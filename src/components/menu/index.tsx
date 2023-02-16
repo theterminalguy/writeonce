@@ -1,15 +1,90 @@
-
-import { Link } from "react-router-dom";
+import { Navbar, Group, ScrollArea } from "@mantine/core";
+import { FaFileInvoice } from "react-icons/fa";
+import { MdOutlineDocumentScanner, MdSettings } from "react-icons/md";
+import { TiFlowMerge } from "react-icons/ti";
+import { GiPipes } from "react-icons/gi";
+import LinksGroup, { LinksGroupProps } from "../atoms/links-group";
 import "./index.css";
+import AppName from "../atoms/app-name";
+import AvatarIcon from "../atoms/avatar";
+import avatar from "../../assets/unnamed.png";
 
+const navLinks: LinksGroupProps[] = [
+  {
+    label: "My Documents",
+    icon: MdOutlineDocumentScanner,
+    // initiallyOpened: true,
+    links: [
+      { label: "My templates", link: "/" },
+      { label: "New template", link: "/editor" },
+    ],
+  },
+  {
+    label: "Flows",
+    icon: TiFlowMerge,
+    links: [
+      { label: "Marketplace", link: "/marketplace" },
+      { label: "Previous releases", link: "/" },
+      { label: "Releases schedule", link: "/" },
+    ],
+  },
+  {
+    label: "Pipes",
+    icon: GiPipes,
+    links: [
+      { label: "Enable 2FA", link: "/" },
+      { label: "Change password", link: "/" },
+      { label: "Recovery codes", link: "/" },
+    ],
+  },
+  {
+    label: "My Purchases",
+    icon: FaFileInvoice,
+    links: [
+      { label: "Enable 2FA", link: "/" },
+      { label: "Change password", link: "/" },
+      { label: "Recovery codes", link: "/" },
+    ],
+  },
+  {
+    label: "Account Settings",
+    icon: MdSettings,
+    links: [
+      { label: "Enable 2FA", link: "/" },
+      { label: "Change password", link: "/" },
+      { label: "Recovery codes", link: "/" },
+    ],
+  },
+];
 
 export default function Menu(): JSX.Element {
+  const links = navLinks.map((item) => (
+    <LinksGroup {...item} key={item.label} />
+  ));
 
-    return (
-        <div className={"vanilla__menu"}>
-            <div className={"vanilla__menu__logo"}> Writeonce </div>
-            <Link to="/editor" className={"vanilla__menu__link"}>Editor</Link>
-            <Link to="/marketplace" className={"vanilla__menu__link"}>Marketplace</Link>
-        </div>
-    );
+  return (
+    <>
+      {/* <div className={"vanilla__menu"}>
+        <div className={"vanilla__menu__logo"}> Writeonce </div>
+        <Link to="/editor" className={"vanilla__menu__link"}>
+          Editor
+        </Link>
+        <Link to="/marketplace" className={"vanilla__menu__link"}>
+          Marketplace
+        </Link>
+      </div> */}
+      <Navbar height={800} p="md" className="vanilla__navbar__container">
+        <Navbar.Section className="vanilla__navbar__header">
+          <Group position="apart" className="vanilla__navbar__group">
+            <AppName withLogo />
+            <AvatarIcon image={avatar} />
+          </Group>
+        </Navbar.Section>
+
+        <Navbar.Section grow className="" component={ScrollArea}>
+          <div className="vanilla__navbar__links__section">{links}</div>
+        </Navbar.Section>
+      </Navbar>
+    </>
+  );
 }
