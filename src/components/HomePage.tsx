@@ -7,6 +7,7 @@ export default function HomePage(): JSX.Element {
       <h1>Home Page</h1>
       <Link to="/editor">Editor</Link>
       <Link to="/marketplace">Marketplace</Link>
+      <Link to="/templates">Templates</Link>
     </div>
   );
 }

@@ -103,6 +103,7 @@
    
     overflow: hidden;
     transition: all 300ms ease;
+    z-index: 2;
     
 }
 

@@ -12,11 +12,16 @@ interface Props {
 }
 
 const stimulusConfig = {
-    controller: "templates--template-card"
+    controller: "templates--template-card",
+    handleOptionsClick: "handleOptionsClick",
+    handleFocusOut: "handleFocusOut"
 }
 
 export const TemplateCard: React.FC<Props> = ({ content, time, title }) => {
     const [open, setOpen] = useState(false)
+    // function handleOptions (e) {
+
+    // }
     return (
         <div data-controller={stimulusConfig.controller} className="vanilla__template-card">
             <div className="vanilla__template-card-top">
@@ -27,11 +32,11 @@ export const TemplateCard: React.FC<Props> = ({ content, time, title }) => {
                     <span className="vanilla__template-card-title">{title}</span>
                     <span className="vanilla__template-card-time">{time}</span>
                 </p>
-                <button className="vanilla__template-options-btn" onClick={() => setOpen(!open)}>
+                <button className="vanilla__template-options-btn" data-action={`click->${stimulusConfig.controller}#${stimulusConfig.handleOptionsClick}`}>
                     <FaEllipsisV />
                 </button>
             </div>
-            <div tabIndex={0} className={`vanilla__template-options ${open ? "active" : ""}`}>
+            <div data-templates--template-card-target="option" tabIndex={0} className={`vanilla__template-options`} data-action={`focusout->${stimulusConfig.controller}#${stimulusConfig.handleFocusOut}`} >
                 <ul>
                     <li>
                         <BiEdit />
