@@ -17,7 +17,7 @@ export const TemplateSidePanel = () => {
             <div className="vanilla__template-placeholder-list">
                 <h5>Placeholder (10)</h5>
                 <ul>
-                    {dummy.map((data, i) => <li><TemplatePlaceholderInfo {...data} /></li>)}
+                    {dummy.map((data, i) => <li key={i}><TemplatePlaceholderInfo {...data} /></li>)}
                 </ul>
             </div>
         </div>

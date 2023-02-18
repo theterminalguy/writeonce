@@ -33,7 +33,7 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
 
   const handleSignOut = () => {
     setUser(null);
-    console.log("sign out")
+
     const signInButton = document.getElementById("signInButton");
     if (signInButton) {
       signInButton.hidden = true;

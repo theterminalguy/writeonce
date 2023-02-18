@@ -7,7 +7,7 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 4px;
-    border: solid 1px var(--vanilla-gray-1);
+    border: solid 1px var(--vanilla-gray-light);
 }
 .vanilla__placeholder-info .left{
     display: flex;
@@ -19,7 +19,7 @@
 .vanilla__placeholder-info .icon{
     width: 28px;
     height: 28px;
-    background: var(--vanilla-blue-1);
+    background: var(--vanilla-blue-light);
     display: flex;
     align-items: center;
     justify-content: center;

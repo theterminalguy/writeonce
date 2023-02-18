@@ -1,10 +1,10 @@
 :root{
   /* blue colors */
-  --vanilla-blue-1: #E7F5FF;
-  --vanilla-blue-2: #007BFF;
+  --vanilla-blue-light: #E7F5FF;
+  --vanilla-blue: #007BFF;
   /* gray colors */
-  --vanilla-gray-1: #E9ECEF;
-  --vanilla-gray-2:#868E96;
+  --vanilla-gray-light: #E9ECEF;
+  --vanilla-gray:#868E96;
 }
 
 *{

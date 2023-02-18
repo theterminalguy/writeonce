@@ -18,10 +18,7 @@ const stimulusConfig = {
 }
 
 export const TemplateCard: React.FC<Props> = ({ content, time, title }) => {
-    const [open, setOpen] = useState(false)
-    // function handleOptions (e) {
-
-    // }
+    
     return (
         <div data-controller={stimulusConfig.controller} className="vanilla__template-card">
             <div className="vanilla__template-card-top">
