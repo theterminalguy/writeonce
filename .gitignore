@@ -12,6 +12,7 @@
 /build
 
 # misc
+.env
 .DS_Store
 .env.local
 .env.development.local
@@ -26,5 +27,8 @@ yarn-error.log*
 
 # os
 .idea
+
+# environment
+.env
 
 .vscode/
