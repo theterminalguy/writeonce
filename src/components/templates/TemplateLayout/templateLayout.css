@@ -3,11 +3,17 @@
     overflow-y: auto;
     height: 100%;
     display: grid;
-    grid-template: auto / 1fr 1fr 1fr;
+    grid-template: auto / 1fr 1fr 1fr 1fr;
     gap: 55px 42px;
     justify-items: center;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (max-width: 2000px){
+    .vanilla__template-wrapper{
+        grid-template: auto / 1fr 1fr 1fr;
+    }
 }
 
 @media only screen and (max-width: 1600px){
