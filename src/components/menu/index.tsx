@@ -73,7 +73,7 @@ export default function Menu(): JSX.Element {
           Marketplace
         </Link>
       </div> */}
-      <Navbar height={800} p="md" className="vanilla__navbar__container">
+      <Navbar p="md" className="vanilla__navbar__container">
         <Navbar.Section className="vanilla__navbar__header">
           <Group position="apart" className="vanilla__navbar__group">
             <AppName withLogo />
@@ -81,7 +81,11 @@ export default function Menu(): JSX.Element {
           </Group>
         </Navbar.Section>
 
-        <Navbar.Section grow className="" component={ScrollArea}>
+        <Navbar.Section
+          grow
+          className="vanilla__navbar__links__section__container"
+          component={ScrollArea}
+        >
           <div className="vanilla__navbar__links__section">{links}</div>
         </Navbar.Section>
       </Navbar>

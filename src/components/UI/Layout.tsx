@@ -13,12 +13,13 @@ export default function Layout(props: LayoutProps) {
   const [, setDrag] = useState(false);
 
   const menu = {
-    background: "#F8F8F8",
-    height: window.innerHeight,
+    // background: "#F8F8F8",
+    height: "100%",
   };
 
   const middle = {
-    height: window.innerHeight,
+    // height: window.innerHeight,
+    height: "100%",
   };
 
   const dragging = {
@@ -28,7 +29,7 @@ export default function Layout(props: LayoutProps) {
 
   return (
     <>
-      <div data-controller={props.controller} style={{ height: "750px" }}>
+      <div data-controller={props.controller} style={{ height: 900 }}>
         <SplitPane
           split="vertical"
           sizes={sizes}
