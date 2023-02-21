@@ -40,5 +40,4 @@ const Icon: React.FC<{ type: string }> = ({ type }) => {
         default:
             return <VscBracketDot />
     }
-    // return <AiOutlineMail />
 }
