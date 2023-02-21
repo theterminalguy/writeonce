@@ -14,9 +14,11 @@ import {
 } from "../../../../../custom-events";
 import AlertModal from "../../components/modal/alert/index";
 import Snackbar from "../../../../snackbar";
+import { AppLogger } from "../../../../../lib/logger";
 
 export default function FloatingToolBarPlugin() {
   const [rendered, setRendered] = useState(false);
+  const floatingToolBarLogger = new AppLogger("FloatingToolBar");
 
   const uniqueId = generate();
   const showFloatingToolBar = (e: MouseEvent) => {
@@ -44,7 +46,7 @@ export default function FloatingToolBarPlugin() {
 
     if (selectedText !== "") {
       floatingToolBar.style.display = "block";
-      console.log("select: ", selectionRect);
+      floatingToolBarLogger.info("select: ", selectionRect);
       floatingToolBar.style.left = selectionRect.left - 200 + "px";
       floatingToolBar.style.top = selectionRect.top + 20 + "px";
     } else {
@@ -152,13 +154,10 @@ export default function FloatingToolBarPlugin() {
       $renderAndShowModal(modal, uniqueId, left, top);
       return;
     }
-
-
-
+    
     const selectedText = selection.toString();
     replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
     showRenamePlaceholderModal(selection, selectedText, uniqueId);
-
   };
 
   return (
@@ -256,13 +255,12 @@ const replaceSelectionWithPlaceholderNode = (
     originalText: selectedText,
   });
   if ($isLastText(selection)) {
-    const textNode = document.createTextNode(".")
-    selection.anchorNode?.parentNode?.append(textNode)
+    const textNode = document.createTextNode(".");
+    selection.anchorNode?.parentNode?.append(textNode);
   }
 
   selection.deleteFromDocument();
   selection.getRangeAt(0).insertNode(placeholderComponent.render());
-
 };
 
 const $isSelectionPlaceholder = (selection: Selection) => {
@@ -287,10 +285,10 @@ const $getLeftTop = (selection: Selection) => {
 };
 
 const $isLastText = (selection: Selection) => {
-  const content = selection.anchorNode?.textContent
-  if (!content) return
-  const selectionOffset = selection.getRangeAt(0).endOffset
-  const nodeOffset = content.length
+  const content = selection.anchorNode?.textContent;
+  if (!content) return;
+  const selectionOffset = selection.getRangeAt(0).endOffset;
+  const nodeOffset = content.length;
 
-  return nodeOffset === selectionOffset
-}
+  return nodeOffset === selectionOffset;
+};
