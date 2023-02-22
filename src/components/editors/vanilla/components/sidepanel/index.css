@@ -1,11 +1,15 @@
 div.vanilla__sidepanel {
   height: 100%;
+  border-left: 1px solid #e9ecef;
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
   border-left: 1px solid #ccc;
-  
+
   overflow: auto;
 }
 
-.vanilla__placeholder-count{
+.vanilla__placeholder-count {
   background: #fff;
   border-bottom: 1px solid #d4d4d4;
   width: 100%;
@@ -18,5 +22,5 @@ div.vanilla__sidepanel {
   font-weight: 500;
   color: #5a5a5a;
   position: sticky;
-  top:0;
+  top: 0;
 }

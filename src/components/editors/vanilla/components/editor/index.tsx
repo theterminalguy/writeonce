@@ -37,7 +37,6 @@ export default function Editor({ title }: { title: string }) {
               Use this template
             </button>
           </Link>
-
           <div className="vanilla__editor-word-count">
             <p>
               <span data-editors--vanilla-editor-target="charCount"></span>

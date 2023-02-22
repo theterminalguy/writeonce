@@ -1,0 +1,39 @@
+.vanilla__placeholder-info{
+    
+    height: 56px;
+    width: 250px;
+    padding: 9px 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    border: solid 1px var(--vanilla-gray-light);
+}
+.vanilla__placeholder-info .left{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.vanilla__placeholder-info .right,
+.vanilla__placeholder-info .icon{
+    width: 28px;
+    height: 28px;
+    background: var(--vanilla-blue-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.vanilla__placeholder-info .right{
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 16px;
+}
+.vanilla__placeholder-info .icon{
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 18px;
+}
+.vanilla__placeholder-info .title{
+    font-size: 14px;
+}
