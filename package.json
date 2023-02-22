@@ -16,6 +16,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "animate.css": "^4.1.1",
+    "axios": "^1.3.3",
     "eslint": "^8.32.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",

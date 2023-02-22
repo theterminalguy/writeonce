@@ -17,6 +17,7 @@ export default function HomePage(props: {setLogIn: Dispatch<SetStateAction<boole
         store.getState()?.auth.signIn
     );
     const handleSignIn = (response: { status: { signed_in: boolean; }, credential: string; }) => {
+        console.log("sign in", response)
         const userDetails = jwt_decode(response.credential) as GoogleUserInterface
         setUser(userDetails);
 

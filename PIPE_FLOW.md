@@ -1,12 +1,12 @@
 
 ## HIGHLEVEL
 ```mermaid
-flowchart LR
-Start([Login with Google]) --> B[[Install Pipe]]
-Start --> Save[(Persist User login data)]
-B --> C{Require auth?}
-C -->|YES| D{{Use auth key}}
-C -->|No| E{{Input form Data}}
+flowchart TD
+Start([Login with Google]) --> |Credentials| PipeServer[[Install Pipe - Pipe API]]
+Start --> |user credentials| Save[(Persist data)]
+PipeServer --> |Pipe Info| Builder((Build Pipe \n -> Review  \n -> uninstall))
+Builder --> |pipe / user| Save[(Persist data)]
+Builder -->D{{Use pipe}}
 ```
 
 

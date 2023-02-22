@@ -1,5 +1,6 @@
 
-import React from "react";
+import React, {useRef} from "react";
+import {sourcePipe} from "../../../PipeModel";
 import "./index.css";
 
 interface PipeDetailsProps {
@@ -11,6 +12,16 @@ interface PipeDetailsProps {
 }
 
 export default function PipeDetails(props: PipeDetailsProps) {
+    const installRef = useRef<HTMLButtonElement>(null);
+    async function handleInstall() {
+        installRef.current ? installRef.current.innerText = "Installing..." : "";
+        const result = await sourcePipe(props.pipe.title)
+        if (result.status) {
+            installRef.current ? installRef.current.innerText = "Installed" : "";
+        }else{
+            installRef.current ? installRef.current.innerText = "Install" : "";
+        }
+    }
 
     return (
         <>
@@ -23,7 +34,7 @@ export default function PipeDetails(props: PipeDetailsProps) {
                         {props.pipe.title}
                     </div>
                     {props.pipe.summary}
-                    <button className="vanilla__detail-btn"> Install </button>
+                    <button className="vanilla__detail-btn" onClick={handleInstall} ref={installRef}> Install </button>
                 </div>
             }
         </>
