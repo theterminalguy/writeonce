@@ -1,0 +1,126 @@
+.vanilla__template-card{
+    border: 1px solid var(--vanilla-gray-light);
+    border-radius: 3px;
+    width: 278px;
+    height: 245px;
+    position: relative;
+    transition: 300ms ease;
+    cursor: pointer;
+}
+
+.vanilla__template-card:hover, .vanilla__template-card.active{
+    border-color: var(--vanilla-blue);
+}
+
+.new-template .vanilla__template-card-bottom,
+.new-template .vanilla__template-card-top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-template .vanilla__template-card-top{
+    font-size: 64px;
+}
+
+.new-template .vanilla__template-card-top svg{
+    width: 100px;
+    height: 120px;
+}
+
+.new-template .vanilla__template-card-bottom{
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.vanilla__template-card-top{
+    padding: 12px 18px 12px;
+    overflow: hidden;
+    margin:0;
+    height: 70%;
+}
+
+.vanilla__template-card-content{
+    font-size: 16px;
+    line-height: 28px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vanilla__template-card-bottom{
+    border-top: 1px solid var(--vanilla-gray-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 24px;
+    height: 30%;
+}
+
+.vanilla__template-card-info{
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    justify-content: flex-start;
+    margin: 0;
+    gap: 6px;
+}
+
+.vanilla__template-card-title{
+    font-weight: 700;
+    font-size: 14px;
+}
+.vanilla__template-card-time{
+    color: var(--vanilla-gray);
+    font-size: 12px;
+}
+
+.vanilla__template-options-btn{
+    background: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px;
+    border: none;
+    font-size: 18px;
+}
+/* Dropdown styles */
+.vanilla__template-options{
+    position: absolute;
+    right: -50px;
+    bottom: -120px;
+    background: #fff;
+    border: 1px solid var(--vanilla-gray-light);
+    padding: 18px 10px;
+    border-radius: 4px;
+    transform: scaleY(0);
+    overflow: hidden;
+    transition: all 300ms ease;
+    z-index: 2;
+}
+
+.vanilla__template-options.active{
+    transform:scaleY(1);
+}
+.vanilla__template-options ul{
+    list-style: none;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding:0;
+}
+.vanilla__template-options li{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+    padding: 10px 17px;
+    transition: 300ms ease;
+    border-radius: 4px;
+}
+.vanilla__template-options li:hover,
+.vanilla__template-options li:active{
+    background: var(--vanilla-blue-light);
+}

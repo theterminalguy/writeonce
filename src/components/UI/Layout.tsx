@@ -29,7 +29,7 @@ export default function Layout(props: LayoutProps) {
 
   return (
     <>
-      <div data-controller={props.controller} style={{ height: 900 }}>
+      <div data-controller={props.controller} style={{ height: "100vh" }}>
         <SplitPane
           split="vertical"
           sizes={sizes}

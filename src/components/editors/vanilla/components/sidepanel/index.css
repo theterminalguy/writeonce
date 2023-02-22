@@ -5,3 +5,19 @@ div.vanilla__sidepanel {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.vanilla__placeholder-count {
+  background: #fff;
+  border-bottom: 1px solid #d4d4d4;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #5a5a5a;
+  position: sticky;
+  top: 0;
+}

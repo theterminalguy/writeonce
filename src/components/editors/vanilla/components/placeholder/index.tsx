@@ -4,6 +4,7 @@ import {
   selectPlaceholderByName,
 } from "../../../../../store/features/placeholder/placeholderSlice";
 import { store } from "../../../../../store";
+import { AppLogger } from "../../../../../lib/logger";
 
 export type PlaceholderProps = {
   id: string;
@@ -46,16 +47,15 @@ export default class Placeholder {
       "data-placeholder-original-text",
       this.originalText
     );
-    placeholder.setAttribute(
-      "title",
-      this.originalText
-    );
+    placeholder.setAttribute("title", this.originalText);
     placeholder.setAttribute("contenteditable", "false");
     placeholder.innerHTML = `{{.${this.name}}}`;
 
     return placeholder;
   }
 }
+
+const placeholderLogger = new AppLogger("Placeholder");
 
 export const $getPlaceholder = (
   placeholderId: string
@@ -78,28 +78,30 @@ export const $placeholdify = (input: string): string => `{{.${input}}}`;
 export const $undoPlaceholdify = (placeholderId: string): boolean => {
   // undo the placeholder creation
   const placeholders = $getAllPlaceholders(placeholderId);
+
   if (placeholders.length === 0) {
     return false;
   }
   placeholders.forEach((placeholder) => {
     if (!placeholder) {
-      // TODO: show error to the user
-      console.error("Placeholder not found");
+      // TODO: show error to the auth
+      placeholderLogger.error("Placeholder not found");
       return false;
     }
     const originalText = placeholder.getAttribute(
       "data-placeholder-original-text"
     );
     if (!originalText) {
-      // TODO: show error to the user
-      console.error("Original text not found");
+      // TODO: show error to the auth
+      placeholderLogger.error("Original text not found");
       return false;
     }
-    const parentNode = placeholder.parentNode
+    const parentNode = placeholder.parentNode;
     const textNode = document.createTextNode(originalText);
     parentNode?.replaceChild(textNode, placeholder);
-    parentNode?.normalize()
+    parentNode?.normalize();
   });
+
   return true;
 };
 
@@ -152,3 +154,29 @@ export function $mergePlaceholders(id: string, name: string) {
     badge.innerText = `${Number(badge.innerText) + 1}`;
   }
 }
+
+export function $getPlaceholderCount() {
+
+  const placeholders = store.getState().editorState.placeholders.length
+
+
+  return placeholders
+}
+
+export function $getMaxPlaceholderCount() {
+  return 10
+}
+
+export function $updatePlaceholderCounter() {
+  const max = $getMaxPlaceholderCount()
+  const counter = document.querySelector(".vanilla__placeholder-count .vanilla__counter")
+  if (!counter) return
+  const count = $getPlaceholderCount()
+  counter.textContent = `${max - count}`
+  if (max - count <= 2) {
+    counter.setAttribute("style", "color:red")
+  }
+
+}
+
+

@@ -28,6 +28,10 @@ steps:
         "--allow-unauthenticated",
         "--set-env-vars",
         "ENV=production",
+        "--set-env-vars",
+        "REACT_APP_GOOGLE_CLIENT_ID=${_GOOGLE_CLIENT_ID}",
+        "--set-env-vars",
+        "REACT_APP_GOOGLE_CLIENT_SECRET=${_GOOGLE_CLIENT_SECRET}",
       ]
 
 images:

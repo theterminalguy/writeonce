@@ -1,0 +1,23 @@
+.vanilla__template-wrapper{
+    padding: 68px 62px;
+    overflow-y: auto;
+    height: 100%;
+    display: grid;
+    grid-template: auto / 1fr 1fr 1fr 1fr;
+    gap: 55px 42px;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 2000px){
+    .vanilla__template-wrapper{
+        grid-template: auto / 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 1600px){
+    .vanilla__template-wrapper{
+        grid-template: auto / 1fr 1fr;
+    }
+}
