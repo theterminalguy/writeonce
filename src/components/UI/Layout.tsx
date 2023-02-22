@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SplitPane, { Pane } from "split-pane-react";
 import "split-pane-react/esm/themes/default.css";
 import Menu from "../menu";
+import "./layout.css";
 
 interface LayoutProps {
   children: Array<React.ReactNode>;
@@ -29,7 +30,11 @@ export default function Layout(props: LayoutProps) {
 
   return (
     <>
-      <div data-controller={props.controller} style={{ height: "100vh" }}>
+      <div
+        className="vanilla__layout"
+        data-controller={props.controller}
+        // style={{ height: "100vh" }}
+      >
         <SplitPane
           split="vertical"
           sizes={sizes}

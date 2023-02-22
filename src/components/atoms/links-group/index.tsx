@@ -46,7 +46,10 @@ const LinksGroup = ({
         className="vanilla__link__button"
       >
         <Group position="apart" spacing={0}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            className="vanilla__link__section__label__container"
+            sx={{ display: "flex", alignItems: "center" }}
+          >
             <ThemeIcon variant="light" size={30}>
               <IconContext.Provider value={{ size: "18px", className: "" }}>
                 <Icon />
