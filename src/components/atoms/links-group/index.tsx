@@ -64,7 +64,7 @@ const LinksGroup = ({
               className=""
               stroke="1.5"
               style={{
-                transform: opened ? `rotate(-90deg)` : "none",
+                transform: opened ? `none` : "rotate(-90deg)",
               }}
             />
           )}

@@ -63,21 +63,12 @@ export default function Menu(): JSX.Element {
   ));
 
   const handleSignOut = () => {
-    console.log("dispatch event...")
+    console.log("dispatch event...");
     window.dispatchEvent(new Event("sign-out"));
-  }
+  };
 
   return (
     <>
-      {/* <div className={"vanilla__menu"}>
-        <div className={"vanilla__menu__logo"}> Writeonce </div>
-        <Link to="/editor" className={"vanilla__menu__link"}>
-          Editor
-        </Link>
-        <Link to="/marketplace" className={"vanilla__menu__link"}>
-          Marketplace
-        </Link>
-      </div> */}
       <Navbar p="md" className="vanilla__navbar__container">
         <Navbar.Section className="vanilla__navbar__header">
           <Group position="apart" className="vanilla__navbar__group">
@@ -86,9 +77,16 @@ export default function Menu(): JSX.Element {
           </Group>
         </Navbar.Section>
 
-        <Navbar.Section grow className="vanilla__navbar__links__section__container" component={ScrollArea}>
+        <Navbar.Section
+          grow
+          className="vanilla__navbar__links__section__container"
+          component={ScrollArea}
+        >
           <div className="vanilla__navbar__links__section">{links}</div>
-          <button onClick={handleSignOut} className={"signOut"}> Sign Out </button>
+          <button onClick={handleSignOut} className={"signOut"}>
+            {" "}
+            Sign Out{" "}
+          </button>
         </Navbar.Section>
       </Navbar>
     </>

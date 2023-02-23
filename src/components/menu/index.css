@@ -56,6 +56,5 @@
 .vanilla__navbar__links__section {
   display: flex;
   flex-direction: column;
-  /* padding: 0 16px; */
   height: 100%;
 }
