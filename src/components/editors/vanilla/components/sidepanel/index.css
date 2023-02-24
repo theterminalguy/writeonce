@@ -4,9 +4,6 @@ div.vanilla__sidepanel {
   padding: 10px;
   overflow-y: auto;
   overflow-x: hidden;
-  border-left: 1px solid #ccc;
-
-  overflow: auto;
 }
 
 .vanilla__placeholder-count {
