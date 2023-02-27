@@ -55,7 +55,7 @@ export default function Quickflow({ uploadCSVConfig }: Props) {
 				<button className={"tablinks " + (tab === 1 ? "active" : "")} onClick={() => setTabPanel(1)}>Content</button>
 				<button className={"tablinks " + (tab === 2 ? "active" : "")} onClick={() => setTabPanel(2)}>Data</button>
 			</div>
-			<div style={{ display: tab === 1 ? "block" : "none" }}>
+			<div style={{ display: tab === 1 ? "block" : "none", width: "100%" }}>
 				<div className="vanilla__quickflow__preview" dangerouslySetInnerHTML={{ __html: editor.contentHTML }}></div>
 			</div>
 			<div style={{ display: tab === 2 ? "block" : "none", paddingTop: "5px" }}>
