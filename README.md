@@ -16,6 +16,7 @@ Branch names should follow this convention - `{contributor-name}/wrt-xx-{issue-n
 
 ## Making PRs
 
+
 Go through the pull request template in the .github/ folder and follow it to the letter before creating a pull request.
 
 ## Available Scripts

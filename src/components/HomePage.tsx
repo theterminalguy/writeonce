@@ -43,6 +43,7 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
     props.setLogIn(false)
   }
 
+
   useEffect(() => {
     // global google
     window.addEventListener('sign-out', handleSignOut)
