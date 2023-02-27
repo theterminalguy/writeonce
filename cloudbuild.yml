@@ -28,10 +28,6 @@ steps:
         "--allow-unauthenticated",
         "--set-env-vars",
         "ENV=production",
-        "--set-env-vars",
-        "REACT_APP_GOOGLE_CLIENT_ID=655257869747-6hrcoh04iot27ooe2i9oeju12hvq56q9.apps.googleusercontent.com",
-        "--set-env-vars",
-        "REACT_APP_GOOGLE_CLIENT_SECRET=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",
       ]
 
 images:
