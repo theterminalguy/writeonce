@@ -178,6 +178,7 @@ export default class VanillaEditorController extends Controller {
           id: this.templateIdValue,
           contentText: contentText,
           contentHTML: contentHTML,
+          updated_at: new Date().toUTCString(),
         })
       );
     }

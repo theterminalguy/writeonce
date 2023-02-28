@@ -22,6 +22,7 @@ import PlaceholderItem from "../../components/editors/vanilla/components/Placeho
 import { store } from "../../store";
 import { addPlaceholder } from "../../store/features/placeholder/placeholderSlice";
 import { $addErrorToPromptModal } from "../../components/editors/vanilla/components/modal/prompt";
+import { AppLogger } from "../../lib/logger";
 
 export default class RenamePlaceholderController extends Controller {
   static values = {
@@ -29,10 +30,12 @@ export default class RenamePlaceholderController extends Controller {
     templateId: String,
   };
 
+  logger = new AppLogger("RenamePlaceholderController");
+
   onYes() {
     const modal = $getModal(this.modalIdValue);
     if (!modal) {
-      console.error("Modal not found");
+      this.logger.error("Modal not found");
       return;
     }
     const input = modal.querySelector(`input[type="text"]`);

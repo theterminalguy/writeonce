@@ -11,6 +11,7 @@ import Error404Page from "./components/Error404Page";
 import { RootState } from "./store";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import TemplatePage from "./components/templates"
 
 function App(): JSX.Element {
   const [logIn, setLogIn] = useState<boolean>(
@@ -26,6 +27,8 @@ function App(): JSX.Element {
             <Route path="story" element={<Storybook />} />
             <Route path="marketplace" element={<Marketplace />} />
             <Route path="quickflow/:id" element={<Quickflow />} />
+            <Route path="story" element={<Storybook />} />
+            <Route path="templates" element={<TemplatePage />} />
             <Route path="*" element={<Error404Page />} />
           </Routes>
         </BrowserRouter>
@@ -43,7 +46,5 @@ function App(): JSX.Element {
       </>
     );
   }
-
 }
-
 export default App;

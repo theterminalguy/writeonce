@@ -6,6 +6,8 @@ export interface EditorState {
   templateName: string;
   contentText: string;
   contentHTML: string;
+  created_at: string;
+  updated_at?: string;
 }
 
 export const initialState: EditorState[] = []
@@ -16,6 +18,8 @@ interface EditorPayload {
   templateName?: string;
   contentText?: string;
   contentHTML?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export const editorSlice = createSlice({
@@ -55,6 +59,10 @@ export const editorSlice = createSlice({
       if (action.payload.contentHTML) {
         placeholder.contentHTML = action.payload.contentHTML;
       }
+
+      if (action.payload.updated_at) {
+        placeholder.updated_at = action.payload.updated_at;
+      }
     },
     addTemplate(state, action: PayloadAction<EditorPayload>) {
       state.push({
@@ -63,11 +71,19 @@ export const editorSlice = createSlice({
         templateName: action.payload.templateName || "Untitled Template",
         contentText: action.payload.contentText || "",
         contentHTML: action.payload.contentHTML || "", 
+        created_at: action.payload.created_at || new Date().toUTCString(),
+        updated_at: action.payload.updated_at || new Date().toUTCString(),
       });
+    },
+    deleteTemplate(state, action: PayloadAction<string>) {
+      const index = state.findIndex(
+        (placeholder) => placeholder.id === action.payload
+      );
+      state.splice(index, 1);
     }
   },
 });
 
-export const { addTemplate, updateTemplate } = editorSlice.actions;
+export const { addTemplate, updateTemplate, deleteTemplate } = editorSlice.actions;
 
 export default editorSlice.reducer;

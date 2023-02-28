@@ -1,5 +1,3 @@
-import Templates from "../components/templates";
-import Layout from "./UI/Layout";
 import { Link } from "react-router-dom";
 import "./HomePage.css"
 import { useEffect, useState, Dispatch, SetStateAction } from "react";
@@ -35,7 +33,7 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
 
   const handleSignOut = () => {
     setUser(null);
-    console.log("sign out")
+
     const signInButton = document.getElementById("signInButton");
     if (signInButton) {
       signInButton.hidden = true;
@@ -45,6 +43,7 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
     props.setLogIn(false)
   }
 
+
   useEffect(() => {
     // global google
     window.addEventListener('sign-out', handleSignOut)
@@ -52,7 +51,7 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       google.accounts.id.initialize({
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        client_id: "655257869747-6hrcoh04iot27ooe2i9oeju12hvq56q9.apps.googleusercontent.com",
         callback: handleSignIn,
       })
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -75,8 +74,7 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
       <div id="signInButton" style={{ width: "200px", margin: "20px", padding: "5px 10px" }}></div>
       {
         signIn &&
-        <Layout>
-            <Templates />
+        <div>
           <button onClick={handleSignOut} className={"signOut"}> Sign Out </button>
           <div className={"user"}>
             <h1>Write<span>Once</span></h1>
@@ -84,10 +82,11 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
             <div>{user?.name}</div>
             <div>{user?.email}</div>
             <div className={"editor"}><Link to="/editor">Editor</Link></div>
+              <div className={"editor"}><Link to="/templates">Templates</Link></div>
           </div>
-
-        </Layout>
+        </div>
       }
+
     </div>
   );
 }

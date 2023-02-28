@@ -1,10 +1,13 @@
 import { Controller } from "@hotwired/stimulus";
+import { AppLogger } from "../lib/logger";
 
 export default class HelloController extends Controller {
+  logger = new AppLogger("HelloController");
+
   onYes() {
-    console.log("Yes");
+    this.logger.info("Yes");
   }
   onNo() {
-    console.log("No");
+    this.logger.info("No");
   }
 }
