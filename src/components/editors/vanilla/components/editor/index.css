@@ -1,7 +1,6 @@
-
-.vanilla__editor-btn-container, 
+.vanilla__editor-btn-container,
 .vanilla__editor-title,
-.vanilla__editor{
+.vanilla__editor {
   width: 80%;
 }
 
@@ -23,7 +22,7 @@ div.vanilla__editor {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-.vanilla__editor-container{
+.vanilla__editor-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,14 +36,20 @@ div.vanilla__editor-container h1 {
   height: 100%;
 }
 
-
-.vanilla__editor-container button.vanilla__floating-toolbar-button-base{
+.vanilla__editor-container button.vanilla__floating-toolbar-button-base {
   margin: 5px 0;
 }
 
-div.vanilla__editor[contenteditable=true]:empty:before{
+div.vanilla__editor[contenteditable="true"]:empty:before {
   content: attr(placeholder);
   pointer-events: none;
+  display: block; /* For Firefox */
+}
+
+h1.vanilla__editor-title[contenteditable="true"]:empty:before {
+  content: attr(placeholder);
+  pointer-events: none;
+  opacity: 0.2;
   display: block; /* For Firefox */
 }
 

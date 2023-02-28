@@ -31,8 +31,12 @@ export default class TemplateCardController extends Controller {
     }
     const editorState = store.getState().editorState;
     const placeholders =
-      editorState.placeholders.filter((placeholder) => placeholder.templateId === templateId) || [];
-    const template = editorState.editor.find((template) => template.id === templateId);
+      editorState.placeholders.filter(
+        (placeholder) => placeholder.templateId === templateId
+      ) || [];
+    const template = editorState.editor.find(
+      (template) => template.id === templateId
+    );
     const placeholderInfo = document.querySelector(
       ".vanilla__template-side-panel"
     );

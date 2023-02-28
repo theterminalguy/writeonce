@@ -2,6 +2,7 @@ import "./index.css";
 import FloatingToolBarPlugin from "../../plugins/FloatingToolBarPlugin";
 import { useNavigate } from "react-router-dom";
 import { EditorState } from '../../../../../store/features/editor/editorSlice';
+import { useRef } from "react";
 
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
@@ -9,12 +10,23 @@ interface Editorprop {
   payload: EditorState;
 }
 
-export default function Editor( { ...props }: Editorprop) {
+export default function Editor({ ...props }: Editorprop) {
   const { templateName, id, contentHTML } = props.payload;
   const navigation = useNavigate();
-  const handleRedirect = () => {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  const handleQuickflowNavigation = () => {
+    if (titleRef.current && !titleRef.current.textContent) {
+      alert("Please Enter a Template Title");
+      titleRef.current.focus();
+      return;
+    }
     navigation(`/quickflow/${id}`);
   }
+
+  // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
+
+
   return (
     <>
       <div
@@ -26,11 +38,14 @@ export default function Editor( { ...props }: Editorprop) {
           contentEditable="true"
           suppressContentEditableWarning={true}
           className="vanilla__editor-title"
+          placeholder={templateName}
           data-editors--vanilla-editor-target="title"
           data-action="focusout->editors--vanilla-editor#handleFocusOut"
+          ref={titleRef}
         >
-          {templateName}
+          {templateName !== "Untitled Template" ? templateName : ""}
         </h1>
+
         <div
           contentEditable={true}
           suppressContentEditableWarning={true}
@@ -44,7 +59,7 @@ export default function Editor( { ...props }: Editorprop) {
           <button
             className="vanilla__floating-toolbar-button-base"
             type="button"
-            onClick={handleRedirect}
+            onClick={handleQuickflowNavigation}
           >
             Use this template
           </button>
