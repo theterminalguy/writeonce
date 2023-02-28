@@ -1,7 +1,6 @@
 .vanilla__template-side-panel{
     padding: 21px 16px;
     min-width: 300px;
-    border-left: solid 1px var(--vanilla-gray-light);
 }
 
 .vanilla__template-side-panel.default{
