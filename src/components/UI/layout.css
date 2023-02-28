@@ -1,3 +1,13 @@
 .vanilla__layout {
   height: 118vh;
 }
+
+.vanilla__splitpane__menu,
+.vanilla__splitpane__middle,
+.vanilla__splitpane__dragging {
+  height: 100%;
+}
+
+.vanilla__splitpane__dragging {
+  border-left: 1px solid #e9ecef;
+}
