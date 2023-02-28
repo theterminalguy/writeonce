@@ -17,7 +17,7 @@ export default class TemplateCardController extends Controller {
   handleDelete(e) {
     if (window.confirm("Are you sure?")) {
       e.preventDefault();
-      const id = e.target.getAttribute("id");
+      const id = this.templateIdValue;
       this.templatecardTarget.classList.add("remove");
       store.dispatch(deleteTemplate(id));
     }

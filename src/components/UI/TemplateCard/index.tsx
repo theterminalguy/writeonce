@@ -25,7 +25,7 @@ export const TemplateCard: React.FC<Props> = ({ id, slug, content, time, title }
     const navigation = useNavigate();
     return (
         <div data-controller={stimulusConfig.controller} className="vanilla__template-card" data-templates--template-card-target="templatecard" data-action={`click->${stimulusConfig.controller}#${stimulusConfig.handlePlaceholderInfo}`} data-templates--template-card-template-id-value={id}>
-            <div className="vanilla__template-card-top"  id={id}>
+            <div className="vanilla__template-card-top">
                 <p className="vanilla__template-card-content">{content}</p>
             </div>
             <div className="vanilla__template-card-bottom">
@@ -47,7 +47,7 @@ export const TemplateCard: React.FC<Props> = ({ id, slug, content, time, title }
                         <SlMagicWand />
                         <span>Use template</span>
                     </li>
-                    <li data-action={`click->${stimulusConfig.controller}#${stimulusConfig.handleDelete}`} id={id}>
+                    <li data-action={`click->${stimulusConfig.controller}#${stimulusConfig.handleDelete}`}>
                         <BiTrash />
                         <span>Delete</span>
                     </li>
