@@ -3,9 +3,11 @@ import logger from 'redux-logger'
 
 import reducer from "./features";
 
+const isDev: boolean = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
+
 export const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) => isDev ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware(),
   devTools: true,
 });
 
