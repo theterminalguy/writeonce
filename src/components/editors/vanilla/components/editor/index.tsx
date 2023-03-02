@@ -3,6 +3,7 @@ import FloatingToolBarPlugin from "../../plugins/FloatingToolBarPlugin";
 import { useNavigate } from "react-router-dom";
 import { EditorState } from '../../../../../store/features/editor/editorSlice';
 import { useRef } from "react";
+import { DefaultTemplateName } from '../../../../../util/helper';
 
 // See: https://stackoverflow.com/a/62522080/5045091 for the reason why we need to use `suppressContentEditableWarning={true}`.
 
@@ -43,7 +44,7 @@ export default function Editor({ ...props }: Editorprop) {
           data-action="focusout->editors--vanilla-editor#handleFocusOut"
           ref={titleRef}
         >
-          {templateName}
+          {templateName !== DefaultTemplateName ? templateName : ""}
         </h1>
 
         <div
