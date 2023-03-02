@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { generate } from 'shortid'
 import { store } from '../../../store'
 import { addTemplate } from '../../../store/features/editor/editorSlice'
+import { DefaultTemplateName } from '../../../util/helper';
 
 interface TemplateProps {
     onClick: () => void
@@ -17,11 +18,11 @@ export const NewTemplateCard = ({ onClick }: TemplateProps) => {
     const handleNewTemplate = () => {
         store.dispatch(addTemplate({
             id: templateId,
-            templateName: "Untitled Template",
+            templateName: DefaultTemplateName,
             contentText: "",
             contentHTML: "",
         }));
-        navigation(`/editor/templates/${slug}`)
+        navigation(`/editor/${slug}`)
     }
     return (
         <div className="vanilla__template-card new-template" onClick={onClick}>

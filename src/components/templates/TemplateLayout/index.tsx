@@ -6,6 +6,7 @@ import { generate } from 'shortid'
 import { store } from '../../../store'
 import { useNavigate } from 'react-router-dom'
 import { addTemplate } from '../../../store/features/editor/editorSlice'
+import { DefaultTemplateName } from '../../../util/helper';
 
 
 
@@ -19,11 +20,11 @@ export const TemplateLayout = () => {
     const handleNewTemplate = () => {
         store.dispatch(addTemplate({
             id: templateId,
-            templateName: "Untitled Template",
+            templateName: DefaultTemplateName,
             contentText: "",
             contentHTML: "",
         }));
-        navigation(`/editor/templates/${slug}`)
+        navigation(`/editor/${slug}`)
     }
 
     return (

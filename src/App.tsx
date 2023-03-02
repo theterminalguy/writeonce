@@ -23,7 +23,7 @@ function App(): JSX.Element {
         <BrowserRouter>
           <Routes>
             <Route index element={<HomePage setLogIn={setLogIn} />} />
-            <Route path="editor/templates/:slug" element={<VanillaEditor />} />
+            <Route path="editor/:slug" element={<VanillaEditor />} />
             <Route path="story" element={<Storybook />} />
             <Route path="marketplace" element={<Marketplace />} />
             <Route path="quickflow/:id" element={<Quickflow />} />

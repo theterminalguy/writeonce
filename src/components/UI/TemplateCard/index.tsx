@@ -39,7 +39,7 @@ export const TemplateCard: React.FC<Props> = ({ id, slug, content, time, title }
             </div>
             <div data-templates--template-card-target="option" tabIndex={0} className={`vanilla__template-options`} data-action={`focusout->${stimulusConfig.controller}#${stimulusConfig.handleFocusOut}`} >
                 <ul>
-                    <li onClick={() => navigation(`/editor/templates/${slug}`)}>
+                    <li onClick={() => navigation(`/editor/${slug}`)}>
                         <BiEdit />
                         <span>Edit</span>
                     </li>

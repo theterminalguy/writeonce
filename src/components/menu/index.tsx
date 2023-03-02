@@ -8,10 +8,6 @@ import "./index.css";
 import AppName from "../atoms/app-name";
 import AvatarIcon from "../atoms/avatar";
 import avatar from "../../assets/unnamed.png";
-import { generate } from "shortid";
-import { useNavigate } from "react-router-dom";
-import { addTemplate } from "../../store/features/editor/editorSlice";
-import { store } from "../../store";
 
 const navLinks: LinksGroupProps[] = [
   {
@@ -62,19 +58,19 @@ const navLinks: LinksGroupProps[] = [
 ];
 
 export default function Menu(): JSX.Element {
-  const templateId = generate()
-  const slug = `untitled-template-${templateId}`;
-  const navigation = useNavigate();
+  // const templateId = generate()
+  // const slug = `untitled-template-${templateId}`;
+  // const navigation = useNavigate();
 
-  const handleNewTemplate = () => {
-      store.dispatch(addTemplate({
-          id: templateId,
-          templateName: "Untitled Template",
-          contentText: "",
-          contentHTML: "",
-      }));
-      navigation(`/editor/templates/${slug}`)
-  }
+  // const handleNewTemplate = () => {
+  //     store.dispatch(addTemplate({
+  //         id: templateId,
+  //         templateName: DefaultTemplateName,
+  //         contentText: "",
+  //         contentHTML: "",
+  //     }));
+  //     navigation(`/editor/${slug}`)
+  // }
   
   const links = navLinks.map((item) => (
     <LinksGroup {...item} key={item.label} />

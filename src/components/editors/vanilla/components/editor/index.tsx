@@ -43,7 +43,7 @@ export default function Editor({ ...props }: Editorprop) {
           data-action="focusout->editors--vanilla-editor#handleFocusOut"
           ref={titleRef}
         >
-          {templateName !== "Untitled Template" ? templateName : ""}
+          {templateName}
         </h1>
 
         <div

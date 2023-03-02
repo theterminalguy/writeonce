@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { DefaultTemplateName } from '../../../util/helper';
 
 export interface EditorState {
   id: string;
@@ -68,7 +69,7 @@ export const editorSlice = createSlice({
       state.push({
         id: action.payload.id,
         slug: action.payload.slug || `untitled-template-${action.payload.id}`,
-        templateName: action.payload.templateName || "Untitled Template",
+        templateName: action.payload.templateName || DefaultTemplateName,
         contentText: action.payload.contentText || "",
         contentHTML: action.payload.contentHTML || "", 
         created_at: action.payload.created_at || new Date().toUTCString(),
