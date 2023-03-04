@@ -6,7 +6,7 @@ import VanillaEditor from "./components/editors/vanilla";
 import { Storybook } from "./components/storybook";
 import HomePage from './components/HomePage';
 import Marketplace from "./components/marketplace";
-import QuickflowPage from "./components/QuickFlowPage";
+import Quickflow from "./components/QuickFlowPage";
 import Error404Page from "./components/Error404Page";
 import { RootState } from "./store";
 import { useState } from "react";
@@ -23,10 +23,11 @@ function App(): JSX.Element {
         <BrowserRouter>
           <Routes>
             <Route index element={<HomePage setLogIn={setLogIn} />} />
-            <Route path="editor" element={<VanillaEditor />} />
+            <Route path="editor/:slug" element={<VanillaEditor />} />
             <Route path="story" element={<Storybook />} />
             <Route path="marketplace" element={<Marketplace />} />
-            <Route path="quickflow" element={<QuickflowPage />} />
+            <Route path="quickflow/:id" element={<Quickflow />} />
+            <Route path="story" element={<Storybook />} />
             <Route path="templates" element={<TemplatePage />} />
             <Route path="*" element={<Error404Page />} />
           </Routes>

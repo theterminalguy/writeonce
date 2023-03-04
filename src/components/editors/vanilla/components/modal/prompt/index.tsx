@@ -7,6 +7,7 @@ export default function PromptModal({
   id,
   title,
   config,
+  templateId,
   defaultDisplay = "none",
 }: ModalProps) {
   const [error] = useState(false);
@@ -14,6 +15,7 @@ export default function PromptModal({
 
   let dataAttributes = {
     [`data-${config.controller}-modal-id-value`]: id,
+    [`data-${config.controller}-template-id-value`]: templateId,
   };
   const data = config.data;
   if (data) {
@@ -86,6 +88,7 @@ type ModalProps = {
   id: string;
   title: string;
   config: StimulusConfig;
+  templateId: string;
   defaultDisplay?: "none" | "block" | "inline" | "inline-block";
 };
 

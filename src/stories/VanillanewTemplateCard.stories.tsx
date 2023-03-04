@@ -6,6 +6,6 @@ export default {
     component: NewTemplateCard
 } as ComponentMeta<typeof NewTemplateCard>
 
-const Template: ComponentStory<typeof NewTemplateCard> = (args) => <NewTemplateCard />
+const Template: ComponentStory<typeof NewTemplateCard> = (args) => <NewTemplateCard {...args} />
 
 export const Default = Template

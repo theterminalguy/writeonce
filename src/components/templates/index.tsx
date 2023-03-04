@@ -1,4 +1,3 @@
-import React from 'react'
 import Layout from '../UI/Layout'
 import { TemplateLayout } from "./TemplateLayout"
 import { TemplateSidePanel } from './TemplateSidePanel'

@@ -10,6 +10,7 @@ export interface PlaceholderState {
   default: string;
   description: string;
   occurrences: number;
+  templateId?: string;
 }
 
 export interface PlaceholderPayload {
@@ -21,6 +22,7 @@ export interface PlaceholderPayload {
   default?: string;
   description?: string;
   occurrences?: number;
+  templateId?: string;
 }
 
 export interface PlaceholderUpdatePayload {
@@ -32,6 +34,7 @@ export interface PlaceholderUpdatePayload {
   default?: string;
   description?: string;
   occurrences?: number;
+  templateId?: string;
 }
 
 export const initialState: PlaceholderState[] = [];
@@ -51,6 +54,7 @@ export const placeholdersSlice = createSlice({
         default: action.payload.default || "",
         description: action.payload.description || "",
         occurrences: action.payload.occurrences || 1,
+        templateId: action.payload.templateId || "",
       });
     },
     deletePlaceholder(state, action: PayloadAction<string>) {

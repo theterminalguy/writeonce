@@ -1,12 +1,18 @@
-
-  
   div.quickflow__tab {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+    width: 80%;
   }
   
-  
+  button.quickflow__tablinks {
+    width: 50%;
+    padding: 10px;
+  }
+
+  button.quickflow__tablinks.active {
+    background-color: #ccc;
+  }
 
 label.quickflow__sidebar-label {
   font-weight: bold;
@@ -24,8 +30,6 @@ span.quickflow__sidebar-required {
   color: red;
 }
 
-
-
 div.quickflow__sidepanel {
   position: absolute;
   top: 0;
@@ -36,8 +40,6 @@ div.quickflow__sidepanel {
   padding: 20px;
   overflow: auto;
 }
-
-
 
 div.quickflow__placeholder-field input,
 select,

@@ -58,6 +58,20 @@ const navLinks: LinksGroupProps[] = [
 ];
 
 export default function Menu(): JSX.Element {
+  // const templateId = generate()
+  // const slug = `untitled-template-${templateId}`;
+  // const navigation = useNavigate();
+
+  // const handleNewTemplate = () => {
+  //     store.dispatch(addTemplate({
+  //         id: templateId,
+  //         templateName: DefaultTemplateName,
+  //         contentText: "",
+  //         contentHTML: "",
+  //     }));
+  //     navigation(`/editor/${slug}`)
+  // }
+  
   const links = navLinks.map((item) => (
     <LinksGroup {...item} key={item.label} />
   ));

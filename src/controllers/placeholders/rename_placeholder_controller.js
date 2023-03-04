@@ -27,6 +27,7 @@ import { AppLogger } from "../../lib/logger";
 export default class RenamePlaceholderController extends Controller {
   static values = {
     modalId: String,
+    templateId: String,
   };
 
   logger = new AppLogger("RenamePlaceholderController");
@@ -78,6 +79,7 @@ export default class RenamePlaceholderController extends Controller {
       const newModal = ReactDOMServer.renderToStaticMarkup(
         <ConfirmModal
           id={newModalId}
+          templateId={this.templateIdValue}
           message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
           defaultDisplay="block"
           config={{
@@ -95,7 +97,7 @@ export default class RenamePlaceholderController extends Controller {
       return;
     }
     placeholder.innerText = $placeholdify(placeholderName);
-    addPlaceholderToSidePanel({ name: placeholderName, id: this.modalIdValue });
+    addPlaceholderToSidePanel({ name: placeholderName, id: this.modalIdValue, templateId: this.templateIdValue });
     $setCaretAfterPlaceholder(placeholder);
     $closeModal(this.modalIdValue);
     dispatchCustomEvent(CustomEvents.RerenderFloatingToolbar);
@@ -114,7 +116,7 @@ export default class RenamePlaceholderController extends Controller {
   }
 }
 
-function addPlaceholderToSidePanel({ name, id }) {
+function addPlaceholderToSidePanel({ name, id, templateId }) {
   const placeholderSidePanel = document.querySelector(
     "div.vanilla__placeholder-side-panel"
   );
@@ -131,6 +133,7 @@ function addPlaceholderToSidePanel({ name, id }) {
     addPlaceholder({
       id,
       name,
+      templateId,
       originalText: $getPlaceholderOriginalText(id) || name,
     })
   );

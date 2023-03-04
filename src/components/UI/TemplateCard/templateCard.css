@@ -12,6 +12,12 @@
     border-color: var(--vanilla-blue);
 }
 
+.vanilla__template-card.remove{
+    transform: scale(0);
+    opacity: 0;
+    transition: 300ms ease;
+}
+
 .new-template .vanilla__template-card-bottom,
 .new-template .vanilla__template-card-top{
     display: flex;

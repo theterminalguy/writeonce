@@ -1,7 +1,10 @@
 import { Controller } from "@hotwired/stimulus";
 import { store } from "../../store";
-import { setTemplateContent, setTemplateName } from "../../store/features/editor/editorSlice";
-import { AppLogger } from '../../lib/logger';
+import {
+  updateTemplate,
+} from "../../store/features/editor/editorSlice";
+import { AppLogger } from "../../lib/logger";
+import { generate } from "shortid";
 
 export default class VanillaEditorController extends Controller {
   static targets = ["title", "content", "charCount"];
@@ -9,15 +12,22 @@ export default class VanillaEditorController extends Controller {
   static values = {
     maxChar: {
       type: Number,
-      default: 1500 // approx 300 words
-    }
+      default: 1500, // approx 300 words
+    },
+    templateId: {
+      type: String,
+      default: "",
+    },
   };
 
   connect() {
     this.contentTarget.focus();
     this.charCountTarget.innerText = `0/${this.maxCharValue} characters`;
-    this.charCountTarget.title = `approximately ${this.charCountToWordCount(this.maxCharValue)} words`;
-    this.logger = new AppLogger('VanillaEditorController');
+    this.charCountTarget.title = `approximately ${this.charCountToWordCount(
+      this.maxCharValue
+    )} words`;
+    this.logger = new AppLogger("VanillaEditorController");
+    this.uniqueId = generate();
   }
 
   charCountToWordCount(charCount) {
@@ -27,35 +37,37 @@ export default class VanillaEditorController extends Controller {
   }
 
   appendLimitDivider(node) {
-    this.logger.log('appendLimitDivider', node);
-    const divider = document.querySelector('.limit-divider');
+    this.logger.log("appendLimitDivider", node);
+    const divider = document.querySelector(".limit-divider");
     if (divider) {
       divider.remove();
     }
-    const redSpan = document.createElement('span');
-    redSpan.className = 'limit-divider';
-    redSpan.style.width = '100%';
-    redSpan.style.display = 'block';
-    redSpan.style.border = '1px solid red';
-    redSpan.style.color = 'red';
-    redSpan.style.padding = '2px';
-    redSpan.style.marginTop = '10px';
-    redSpan.innerText = 'content beyond this point will not be saved';
+    const redSpan = document.createElement("span");
+    redSpan.className = "limit-divider";
+    redSpan.style.width = "100%";
+    redSpan.style.display = "block";
+    redSpan.style.border = "1px solid red";
+    redSpan.style.color = "red";
+    redSpan.style.padding = "2px";
+    redSpan.style.marginTop = "10px";
+    redSpan.innerText = "content beyond this point will not be saved";
 
     // see https://developer.mozilla.org/fr/docs/Web/API/Element/insertAdjacentElement
     // TODO: currently, this is nesting span elements
     // we want to be sure that the HTML generated is syntactically correct
     // we should look into how this affects the HTML generated when needed to convert to PDF, XML, etc.
-    node.insertAdjacentElement('beforeend', redSpan);
+    node.insertAdjacentElement("beforeend", redSpan);
   }
 
   handleFocusOut(event) {
     if (event.target === this.titleTarget) {
+      const tempName = String(this.titleTarget.innerText).trim();
       store.dispatch(
-        setTemplateName(
-          this.titleTarget.innerText
-        )
-      )
+        updateTemplate({
+          id: this.templateIdValue,
+          templateName: tempName,
+        })
+      );
     }
 
     if (event.target === this.contentTarget) {
@@ -94,18 +106,21 @@ export default class VanillaEditorController extends Controller {
         }
 
         // remainingText is the text that will be appended to the end of the text
-        let remainingText = firstFragment.lastChild.textContent.slice(textWithinMaxChar.length);
+        let remainingText = firstFragment.lastChild.textContent.slice(
+          textWithinMaxChar.length
+        );
 
         // we check if the last node contains the textWithinMaxChar
         // if it does, we remove the text that is beyond the maxCharValue
         if (firstFragment.lastChild.textContent.includes(textWithinMaxChar)) {
-          firstFragment.lastChild.textContent = firstFragment.lastChild.textContent.slice(0, this.maxCharValue);
+          firstFragment.lastChild.textContent =
+            firstFragment.lastChild.textContent.slice(0, this.maxCharValue);
         }
-        const firstFragmentDiv = document.createElement('div');
+        const firstFragmentDiv = document.createElement("div");
         firstFragmentDiv.appendChild(firstFragment);
         contentHTML = firstFragmentDiv.outerHTML;
         contentText = firstFragmentDiv.innerText;
-       
+
         if (currentNode === null) {
           // we are at the end of the text
           // let's split the prevNode into two nodes
@@ -127,35 +142,45 @@ export default class VanillaEditorController extends Controller {
           if (prevNode.lastChild.textContent.includes(textWithinMaxChar)) {
             const newNode = prevNode.cloneNode(true);
             newNode.textContent = remainingText;
-            prevNode.textContent = prevNode.textContent.slice(0, textWithinMaxChar.length);
+            prevNode.textContent = prevNode.textContent.slice(
+              0,
+              textWithinMaxChar.length
+            );
 
             this.appendLimitDivider(prevNode);
 
             prevNode.parentNode.insertBefore(newNode, prevNode.nextSibling);
-          } else if (currentNode.lastChild.textContent.includes(textWithinMaxChar)) {
+          } else if (
+            currentNode.lastChild.textContent.includes(textWithinMaxChar)
+          ) {
             const newNode = currentNode.cloneNode(true);
             newNode.textContent = remainingText;
-            currentNode.textContent = currentNode.textContent.slice(0, textWithinMaxChar.length);
+            currentNode.textContent = currentNode.textContent.slice(
+              0,
+              textWithinMaxChar.length
+            );
             this.appendLimitDivider(currentNode);
           } else {
             // just append the limit divider
-            this.appendLimitDivider(prevNode)
+            this.appendLimitDivider(prevNode);
           }
         }
       }
       /**
-       * TODO: 
+       * TODO:
        * 1. We should wrap the contentHTML in a div if it isn't. We currently do this when the text goes over the limit
        * 2. We should use a library like DOMPurify (https://github.com/cure53/DOMPurify) to sanitize the HTML in order to prevent XSS attacks
        * 3. We should benchmark some of the operations in this controller just to improve the experience of the user
        * 4. We should look into how this affects the HTML generated when needed to convert to PDF, XML, etc.
        */
       store.dispatch(
-        setTemplateContent({
-          contentText,
-          contentHTML
+        updateTemplate({
+          id: this.templateIdValue,
+          contentText: contentText,
+          contentHTML: contentHTML,
+          updated_at: new Date().toUTCString(),
         })
-      )
+      );
     }
   }
 }

@@ -16,7 +16,7 @@ import AlertModal from "../../components/modal/alert/index";
 import Snackbar from "../../../../snackbar";
 import { AppLogger } from "../../../../../lib/logger";
 
-export default function FloatingToolBarPlugin() {
+export default function FloatingToolBarPlugin({templateId}: {templateId: string}) {
   const [rendered, setRendered] = useState(false);
   const floatingToolBarLogger = new AppLogger("FloatingToolBar");
 
@@ -157,7 +157,8 @@ export default function FloatingToolBarPlugin() {
     
     const selectedText = selection.toString();
     replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
-    showRenamePlaceholderModal(selection, selectedText, uniqueId);
+    showRenamePlaceholderModal(selection, selectedText, uniqueId, templateId);
+
   };
 
   return (
@@ -211,12 +212,14 @@ function isModalVisible(modalId: string): boolean {
 function showRenamePlaceholderModal(
   selection: Selection,
   selectedText: string,
-  modalId: string
+  modalId: string,
+  templateId: string
 ) {
   const { left, top } = $getLeftTop(selection);
   const modal = ReactDOMServer.renderToStaticMarkup(
     <PromptModal
       id={modalId}
+      templateId={templateId}
       title="Enter a name"
       config={{
         controller: "placeholders--rename-placeholder",

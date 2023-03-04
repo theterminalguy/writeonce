@@ -51,7 +51,7 @@ export default function HomePage(props: { setLogIn: Dispatch<SetStateAction<bool
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       google.accounts.id.initialize({
-        client_id: "551688131939-fddl428ps49ds8s9tb19kf039v5jlqd2.apps.googleusercontent.com",
+        client_id: "655257869747-6hrcoh04iot27ooe2i9oeju12hvq56q9.apps.googleusercontent.com",
         callback: handleSignIn,
       })
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
