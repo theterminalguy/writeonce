@@ -3,8 +3,8 @@ import logger from 'redux-logger'
 
 import reducer from "./features";
 
-const isDev: boolean = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
-
+const isDev: boolean = process.env.NODE_ENV === "development";
+console.log(isDev)
 export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) => isDev ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware(),
