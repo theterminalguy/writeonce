@@ -5,7 +5,12 @@ import ReactDOMServer from "react-dom/server";
 import "./index.css";
 import { $renderAndShowModal } from "../../components/modal/helpers";
 import PromptModal from "../../components/modal/prompt";
-import Placeholder, { $undoPlaceholdify, $getMaxPlaceholderCount, $getPlaceholderCount, $updatePlaceholderCounter } from "../../components/placeholder";
+import Placeholder, {
+  $undoPlaceholdify,
+  $getMaxPlaceholderCount,
+  $getPlaceholderCount,
+  $updatePlaceholderCounter,
+} from "../../components/placeholder";
 import { store } from "../../../../../store/index";
 import { deletePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import {
@@ -15,8 +20,14 @@ import {
 import AlertModal from "../../components/modal/alert/index";
 import Snackbar from "../../../../snackbar";
 import { AppLogger } from "../../../../../lib/logger";
+import ConfirmModal from "../../components/modal/confirm";
+import PlaceholderItem from "../../components/PlaceholderSidePanel/PlaceholderItem";
 
-export default function FloatingToolBarPlugin({templateId}: {templateId: string}) {
+export default function FloatingToolBarPlugin({
+  templateId,
+}: {
+  templateId: string;
+}) {
   const [rendered, setRendered] = useState(false);
   const floatingToolBarLogger = new AppLogger("FloatingToolBar");
 
@@ -138,7 +149,6 @@ export default function FloatingToolBarPlugin({templateId}: {templateId: string}
       return;
     }
 
-
     if ($isSelectionPlaceholder(selection)) {
       const modal = ReactDOMServer.renderToStaticMarkup(
         <AlertModal
@@ -154,11 +164,10 @@ export default function FloatingToolBarPlugin({templateId}: {templateId: string}
       $renderAndShowModal(modal, uniqueId, left, top);
       return;
     }
-    
+
     const selectedText = selection.toString();
     replaceSelectionWithPlaceholderNode(selection, selectedText, uniqueId);
     showRenamePlaceholderModal(selection, selectedText, uniqueId, templateId);
-
   };
 
   return (
@@ -233,6 +242,38 @@ function showRenamePlaceholderModal(
   $renderAndShowModal(modal, modalId, left, top, selectedText);
 }
 
+export function createConfirmRenamePlaceholderModal(
+  newModalId: string,
+  templateIdValue: string,
+  placeholderName: string,
+  modalIdValue: string
+) {
+  const newModal = ReactDOMServer.renderToStaticMarkup(
+    <ConfirmModal
+      id={newModalId}
+      templateId={templateIdValue}
+      message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
+      defaultDisplay="block"
+      config={{
+        controller: "placeholders--confirm-placeholder-merge",
+        onYes: "onYes",
+        onNo: "onNo",
+        data: {
+          "placeholder-id": modalIdValue,
+          "placeholder-name": placeholderName,
+        },
+      }}
+    />
+  );
+  return newModal;
+}
+
+export function createPlaceholderItemString(id: string, name: string) {
+  return ReactDOMServer.renderToStaticMarkup(
+    <PlaceholderItem placeholderId={id} placeholderName={name} count={1} />
+  );
+}
+
 function onPlaceholderSidepanelDelete(placeholderId: string) {
   $undoPlaceholdify(placeholderId);
   const placeholderSidePanel = document.querySelector(
@@ -244,7 +285,7 @@ function onPlaceholderSidepanelDelete(placeholderId: string) {
   placeholderSidePanel.removeChild(placeholderItem);
 
   store.dispatch(deletePlaceholder(placeholderId));
-  $updatePlaceholderCounter()
+  $updatePlaceholderCounter();
 }
 
 const replaceSelectionWithPlaceholderNode = (

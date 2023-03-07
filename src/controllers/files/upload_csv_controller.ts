@@ -1,9 +1,16 @@
+import { ChangeEvent } from "react";
+import { AppLogger } from "./../../lib/logger";
 import { Controller } from "@hotwired/stimulus";
+
+const logger = new AppLogger("UploadCsvController");
 
 export default class UploadCSVController extends Controller {
   static targets = ["quickflowWrapper", "quickflowCSVTable"];
 
-  handleCSVImport(e) {
+  declare readonly quickflowWrapperTarget: HTMLDivElement;
+  declare readonly quickflowCSVTableTarget: HTMLTableElement;
+
+  handleCSVImport(e: ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     const quickflowWrapper = this.quickflowWrapperTarget;
     const csvTable = this.quickflowCSVTableTarget;
@@ -13,7 +20,10 @@ export default class UploadCSVController extends Controller {
     const reader = new FileReader();
     reader.onload = function (e) {
       const csvString = e.target?.result;
-      if (!csvString) return;
+      if (!csvString || typeof csvString !== "string") {
+        logger.error(`Error reading ${csvString}`);
+        return;
+      }
       const patternToMatchNewLine = /[\r\n|\n|\r]/;
       const patternToMatchQuotes = /(^"|"$|^'|'$)/g;
       const patternToMatchCommasSeparatingCells = /(?!\B"[^"]*),(?![^"]*"\B)/;
@@ -63,5 +73,3 @@ export default class UploadCSVController extends Controller {
     this.quickflowCSVTableTarget.setAttribute("style", "display:none");
   }
 }
-
-
