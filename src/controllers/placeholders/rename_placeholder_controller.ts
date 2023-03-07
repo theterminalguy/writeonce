@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus";
-import ReactDOMServer from "react-dom/server";
 import {
   $closeModal,
   $getModal,
@@ -11,18 +10,20 @@ import {
   $isPlaceholderNameUnique,
   $placeholdify,
   $undoPlaceholdify,
-  $getPlaceholderCount,
   $updatePlaceholderCounter,
-  $getMaxPlaceholderCount,
 } from "../../components/editors/vanilla/components/placeholder";
 import { CustomEvents, dispatchCustomEvent } from "../../custom-events";
 
-import ConfirmModal from "../../components/editors/vanilla/components/modal/confirm/index";
-import PlaceholderItem from "../../components/editors/vanilla/components/PlaceholderSidePanel/PlaceholderItem";
 import { store } from "../../store";
 import { addPlaceholder } from "../../store/features/placeholder/placeholderSlice";
 import { $addErrorToPromptModal } from "../../components/editors/vanilla/components/modal/prompt";
 import { AppLogger } from "../../lib/logger";
+import {
+  createConfirmRenamePlaceholderModal,
+  createPlaceholderItemString,
+} from "../../components/editors/vanilla/plugins/FloatingToolBarPlugin";
+
+const logger = new AppLogger("RenamePlaceholderController");
 
 export default class RenamePlaceholderController extends Controller {
   static values = {
@@ -30,20 +31,27 @@ export default class RenamePlaceholderController extends Controller {
     templateId: String,
   };
 
-  logger = new AppLogger("RenamePlaceholderController");
+  declare modalIdValue: string;
+  declare templateIdValue: string;
 
   onYes() {
     const modal = $getModal(this.modalIdValue);
     if (!modal) {
-      this.logger.error("Modal not found");
+      logger.error("Modal not found");
       return;
     }
-    const input = modal.querySelector(`input[type="text"]`);
+    const input = modal.querySelector<HTMLInputElement>(`input[type="text"]`);
+    if (!input) {
+      logger.error("Input not found");
+      return;
+    }
     // validate placeholder name
     if (input.value.trim() === "") {
       // show error
       modal.classList.add("vanilla__modal-error");
-      const spanError = modal.querySelector("span.vanilla__error-message");
+      const spanError = modal.querySelector(
+        "span.vanilla__error-message"
+      ) as HTMLSpanElement;
       spanError.style.display = "block";
       input.classList.add("vanilla__error");
       input.focus();
@@ -76,28 +84,38 @@ export default class RenamePlaceholderController extends Controller {
     const placeholderName = input.value.trim();
     if (!$isPlaceholderNameUnique(placeholderName)) {
       const newModalId = "confirm-placeholder-merge";
-      const newModal = ReactDOMServer.renderToStaticMarkup(
-        <ConfirmModal
-          id={newModalId}
-          templateId={this.templateIdValue}
-          message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
-          defaultDisplay="block"
-          config={{
-            controller: "placeholders--confirm-placeholder-merge",
-            onYes: "onYes",
-            onNo: "onNo",
-            data: {
-              "placeholder-id": this.modalIdValue,
-              "placeholder-name": placeholderName,
-            },
-          }}
-        />
+      // const newModal = ReactDOMServer.renderToStaticMarkup(
+      //   <ConfirmModal
+      //     id={newModalId}
+      //     templateId={this.templateIdValue}
+      //     message={`A placeholder with the name "${placeholderName}" already exists. Would you like to merge the placeholders?`}
+      //     defaultDisplay="block"
+      //     config={{
+      //       controller: "placeholders--confirm-placeholder-merge",
+      //       onYes: "onYes",
+      //       onNo: "onNo",
+      //       data: {
+      //         "placeholder-id": this.modalIdValue,
+      //         "placeholder-name": placeholderName,
+      //       },
+      //     }}
+      //   />
+      // );
+      const newModal = createConfirmRenamePlaceholderModal(
+        newModalId,
+        this.templateIdValue,
+        placeholderName,
+        this.modalIdValue
       );
       $replaceModal(modal, newModal, newModalId);
       return;
     }
     placeholder.innerText = $placeholdify(placeholderName);
-    addPlaceholderToSidePanel({ name: placeholderName, id: this.modalIdValue, templateId: this.templateIdValue });
+    addPlaceholderToSidePanel({
+      name: placeholderName,
+      id: this.modalIdValue,
+      templateId: this.templateIdValue,
+    });
     $setCaretAfterPlaceholder(placeholder);
     $closeModal(this.modalIdValue);
     dispatchCustomEvent(CustomEvents.RerenderFloatingToolbar);
@@ -110,19 +128,29 @@ export default class RenamePlaceholderController extends Controller {
     dispatchCustomEvent(CustomEvents.RerenderFloatingToolbar);
   }
 
-  onEnter(e) {
+  onEnter(e: PointerEvent) {
     e.preventDefault();
     this.onYes();
   }
 }
 
-function addPlaceholderToSidePanel({ name, id, templateId }) {
+function addPlaceholderToSidePanel({
+  name,
+  id,
+  templateId,
+}: {
+  name: string;
+  id: string;
+  templateId: string;
+}) {
   const placeholderSidePanel = document.querySelector(
     "div.vanilla__placeholder-side-panel"
   );
-  const htmlString = ReactDOMServer.renderToStaticMarkup(
-    <PlaceholderItem placeholderId={id} placeholderName={name} count={1} />
-  );
+  if (!placeholderSidePanel) {
+    logger.error("Placeholder side panel not found");
+    return;
+  }
+  const htmlString = createPlaceholderItemString(id, name);
   placeholderSidePanel.insertAdjacentHTML("beforeend", htmlString);
   // publish a custom event
   const event = new CustomEvent(CustomEvents.PlaceholderAdded, {
@@ -139,7 +167,7 @@ function addPlaceholderToSidePanel({ name, id, templateId }) {
   );
 }
 
-function $setCaretAfterPlaceholder(placeholder) {
+function $setCaretAfterPlaceholder(placeholder: HTMLElement) {
   const range = document.createRange();
   range.setStartAfter(placeholder);
   range.setEndAfter(placeholder);

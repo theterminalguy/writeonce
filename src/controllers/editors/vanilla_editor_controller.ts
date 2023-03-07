@@ -1,10 +1,10 @@
 import { Controller } from "@hotwired/stimulus";
 import { store } from "../../store";
-import {
-  updateTemplate,
-} from "../../store/features/editor/editorSlice";
+import { updateTemplate } from "../../store/features/editor/editorSlice";
 import { AppLogger } from "../../lib/logger";
 import { generate } from "shortid";
+
+const logger = new AppLogger("VanillaEditorController");
 
 export default class VanillaEditorController extends Controller {
   static targets = ["title", "content", "charCount"];
@@ -20,24 +20,31 @@ export default class VanillaEditorController extends Controller {
     },
   };
 
+  declare maxCharValue: number;
+  declare templateIdValue: string;
+
+  declare readonly titleTarget: HTMLHeadingElement;
+  declare readonly contentTarget: HTMLDivElement;
+  declare readonly charCountTarget: HTMLSpanElement;
+
+  uniqueId = generate();
+
   connect() {
     this.contentTarget.focus();
     this.charCountTarget.innerText = `0/${this.maxCharValue} characters`;
     this.charCountTarget.title = `approximately ${this.charCountToWordCount(
       this.maxCharValue
     )} words`;
-    this.logger = new AppLogger("VanillaEditorController");
-    this.uniqueId = generate();
   }
 
-  charCountToWordCount(charCount) {
+  charCountToWordCount(charCount: number) {
     // source: https://charactercounter.com/characters-to-words
     const averageCharsPerWord = 5;
     return Math.round(charCount / averageCharsPerWord);
   }
 
-  appendLimitDivider(node) {
-    this.logger.log("appendLimitDivider", node);
+  appendLimitDivider(node: ChildNode) {
+    logger.info("appendLimitDivider", node);
     const divider = document.querySelector(".limit-divider");
     if (divider) {
       divider.remove();
@@ -56,10 +63,10 @@ export default class VanillaEditorController extends Controller {
     // TODO: currently, this is nesting span elements
     // we want to be sure that the HTML generated is syntactically correct
     // we should look into how this affects the HTML generated when needed to convert to PDF, XML, etc.
-    node.insertAdjacentElement("beforeend", redSpan);
+    (node as HTMLElement).insertAdjacentElement("beforeend", redSpan);
   }
 
-  handleFocusOut(event) {
+  handleFocusOut(event: FocusEvent) {
     if (event.target === this.titleTarget) {
       const tempName = String(this.titleTarget.innerText).trim();
       store.dispatch(
@@ -94,11 +101,12 @@ export default class VanillaEditorController extends Controller {
         let prevNode = null;
 
         // see https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
-        let firstFragment = new DocumentFragment();
+        const firstFragment = new DocumentFragment();
 
         // we loop through the nodes until we reach the maxCharValue
         // this way, we know exactly which node to split
         while (currentNode && nodeCharCount < this.maxCharValue) {
+          if (!currentNode.textContent) return;
           firstFragment.appendChild(currentNode.cloneNode(true));
           nodeCharCount += currentNode.textContent.length;
           prevNode = currentNode;
@@ -106,7 +114,11 @@ export default class VanillaEditorController extends Controller {
         }
 
         // remainingText is the text that will be appended to the end of the text
-        let remainingText = firstFragment.lastChild.textContent.slice(
+        if (!firstFragment.lastChild || !firstFragment.lastChild.textContent) {
+          logger.error("fragment lastChild not found");
+          return;
+        }
+        const remainingText = firstFragment.lastChild.textContent.slice(
           textWithinMaxChar.length
         );
 
@@ -120,6 +132,17 @@ export default class VanillaEditorController extends Controller {
         firstFragmentDiv.appendChild(firstFragment);
         contentHTML = firstFragmentDiv.outerHTML;
         contentText = firstFragmentDiv.innerText;
+
+        if (
+          !prevNode ||
+          !prevNode.lastChild ||
+          !prevNode.parentNode ||
+          !prevNode.textContent ||
+          !prevNode.lastChild.textContent
+        ) {
+          logger.error("Error occurred in prevNode");
+          return;
+        }
 
         if (currentNode === null) {
           // we are at the end of the text
@@ -139,6 +162,15 @@ export default class VanillaEditorController extends Controller {
             this.appendLimitDivider(prevNode);
           }
         } else {
+          if (
+            !currentNode.lastChild ||
+            !currentNode.textContent ||
+            !currentNode.lastChild.textContent
+          ) {
+            logger.error("Error occurred in currentNode");
+            return;
+          }
+
           if (prevNode.lastChild.textContent.includes(textWithinMaxChar)) {
             const newNode = prevNode.cloneNode(true);
             newNode.textContent = remainingText;

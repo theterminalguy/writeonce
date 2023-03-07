@@ -66,6 +66,7 @@ interface StimulusConfig {
 
 type ModalProps = {
   id: string;
+  templateId?: string;
   message: string;
   config: StimulusConfig;
   defaultDisplay?: "none" | "block" | "inline" | "inline-block";
