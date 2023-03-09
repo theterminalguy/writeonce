@@ -1,22 +1,22 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
-import "./styles/buttons/button.css"
+import "./styles/buttons/button.css";
 import VanillaEditor from "./components/editors/vanilla";
 import { Storybook } from "./components/storybook";
-import HomePage from './components/HomePage';
+import HomePage from "./components/HomePage";
 import Marketplace from "./components/marketplace";
 import Quickflow from "./components/QuickFlowPage";
 import Error404Page from "./components/Error404Page";
 import { RootState } from "./store";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import TemplatePage from "./components/templates"
+import TemplatePage from "./components/templates";
 
 function App(): JSX.Element {
   const [logIn, setLogIn] = useState<boolean>(
     useSelector((state: RootState) => state.auth.signIn)
-  )
+  );
   if (logIn) {
     return (
       <>
@@ -33,7 +33,6 @@ function App(): JSX.Element {
           </Routes>
         </BrowserRouter>
       </>
-
     );
   } else {
     return (

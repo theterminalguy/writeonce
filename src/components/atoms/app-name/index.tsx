@@ -10,8 +10,8 @@ const AppName = ({ withLogo }: AppNameProps) => {
     <div className="vanilla__app__name__container">
       {withLogo ? <AppLogo /> : null}
       <div className="vanilla__app__name">
-        <span>write</span>
-        <span>once</span>
+        <span>Write</span>
+        <span>Once</span>
       </div>
     </div>
   );

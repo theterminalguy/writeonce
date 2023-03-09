@@ -1,65 +1,319 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  font-family: "DM Sans";
+}
 
+/* Hero Section */
 
-.home-page{
-    display: flex;
+.homepage__hero__section {
+  background: rgba(222, 230, 255, 0.28);
+  background-image: linear-gradient(#dee6ff 0.15em, transparent 0.05em),
+    linear-gradient(90deg, #dee6ff 0.15em, transparent 0.05em);
+  background-size: 1em 1em;
+}
+
+.homepage__hero__section > div:nth-child(2) {
+  margin-left: 5%;
+}
+
+.homepage__waitlist__chip {
+  background: #e4eaf3;
+  border-radius: 47px;
+  width: 400px;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 5px;
+}
+
+/* Trusted Agencies Section */
+
+.homepage__trusted__agencies {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px 0;
+}
+
+.homepage__trusted__agencies h1 {
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 62px;
+  color: #000000;
+}
+
+.homepage__trusted__agencies p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 23px;
+  color: #5a5b65;
+}
+
+.homepage__trusted__agencies__collection {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 80px;
+  margin: 80px 0 100px;
+}
+
+.homepage__trusted__agencies__collection img {
+  height: 90px;
+}
+
+/* Use Cases Section */
+
+.homepage__usecases__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage__usecases__section {
+  background: #eff5ff;
+  padding: 200px 0;
+}
+
+.homepage__usecases__section > div {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.homepage__usecases__text__section {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.homepage__usecases__text__container {
+  padding: 20px 0 20px 30px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.homepage__usecases__text__container > h2 {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 36px;
+  color: #222222;
+}
+
+.homepage__usecases__text__container:first-of-type > h2 {
+  padding-left: 20px;
+  border-left: 2px solid #ff9534;
+}
+
+.homepage__usecases__text__container > h2 span:last-child {
+  font-weight: 700;
+}
+
+.homepage__usecases__text__container > p {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 160%;
+  color: #222222;
+  width: 80%;
+}
+
+.homepage__usecases__text__container > ul {
+  padding-left: 40px;
+}
+
+.homepage__usecases__image__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage__usecases__image__container img {
+  width: 90%;
+}
+
+/* Contact Section */
+
+.homepage__contact__section {
+  margin: 100px auto;
+  width: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.homepage__contact__text__section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.homepage__contact__text__section > h2 {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 120%;
+  color: #222222;
+}
+
+.homepage__contact__text__section > h2 > span {
+  display: block;
+}
+
+.homepage__contact__text__section > p {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 160%;
+}
+
+.homepage__contact__text__section > button {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  padding: 17px 41px;
+  width: 188px;
+  height: 60px;
+  background: #ff9534;
+  border-radius: 10px;
+  color: #ffffff;
+  margin-top: 20px;
+  outline: none;
+  border: none;
+}
+
+.homepage__contact__text__section > button:hover {
+  cursor: pointer;
+}
+
+.homepage__contact__image__section img {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  /* Hero Section */
+  .homepage__waitlist__chip {
+    width: 100%;
+  }
+
+  .homepage__hero__section > div:nth-child(2) {
+    margin: 0 auto;
+    width: 98%;
+  }
+
+  /* Trusted Agencies Section */
+
+  .homepage__trusted__agencies__collection {
     flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Use Cases Section */
+
+  .homepage__usecases__section {
+    padding: 100px 0;
+  }
+
+  .homepage__usecases__section > div {
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+  }
+
+  .homepage__usecases__text__section {
+    width: 100%;
+  }
+
+  .homepage__usecases__text__container {
+    padding: 20px 1em 20px 30px;
+  }
+
+  .homepage__usecases__text__container > p {
+    width: 100%;
+    text-align: left;
+  }
+
+  .homepage__usecases__text__container > ul {
+    padding-left: 20px;
+  }
+
+  /* Contact Section */
+
+  .homepage__contact__section {
+    flex-direction: column-reverse;
+    gap: 50px;
+  }
+
+  .homepage__contact__text__section > p {
+    text-align: left;
+  }
 }
 
-.user{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border: 5px solid #0D1934FF;
-    border-radius: 10px;
-    padding: 30px;
+.user {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid #0d1934ff;
+  border-radius: 10px;
+  padding: 30px;
 }
 
-.user > h1{
-    text-align: center;
-    font-size: 50px;
-    margin-bottom: 30px;
+.user > h1 {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 30px;
 }
 
 .user img {
-    border: 2px solid lightgrey;
-    border-radius: 50%;
-    width: 200px;
-    height: auto;
+  border: 2px solid lightgrey;
+  border-radius: 50%;
+  width: 200px;
+  height: auto;
 }
 
 .user > div {
-    text-align: center;
-    font-size: 20px;
+  text-align: center;
+  font-size: 20px;
 }
 
 .user a {
-    text-decoration: none;
-    border: 1px solid #0D1934FF;
-    padding: 2px 10px 5px;
-    border-radius: 3px;
-    color: #0D1934FF;
+  text-decoration: none;
+  border: 1px solid #0d1934ff;
+  padding: 2px 10px 5px;
+  border-radius: 3px;
+  color: #0d1934ff;
 }
 
 .user a:hover {
-    cursor: pointer;
-    color: white;
-    background-color: #0D1934FF;
+  cursor: pointer;
+  color: white;
+  background-color: #0d1934ff;
 }
 
 .editor {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .signOut {
-    margin: 20px;
-    padding: 5px 10px;
+  margin: 20px;
+  padding: 5px 10px;
 }
 
 .signOut:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.user span{
-    color: #66bf3c;
+.user span {
+  color: #66bf3c;
 }

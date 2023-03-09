@@ -71,7 +71,7 @@ export default function Menu(): JSX.Element {
   //     }));
   //     navigation(`/editor/${slug}`)
   // }
-  
+
   const links = navLinks.map((item) => (
     <LinksGroup {...item} key={item.label} />
   ));
