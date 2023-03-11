@@ -1,7 +1,10 @@
-import { store } from "../../../../../store";
-import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
 import "./index.css"
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import html2pdf from "html2pdf.js";
+
+import { store } from "../../../../../store";
+import { PlaceholderState, updatePlaceholder } from "../../../../../store/features/placeholder/placeholderSlice";
+import { generate } from "shortid";
 
 interface Props {
   placeholders: PlaceholderState[];
@@ -50,6 +53,30 @@ export default function Spreadsheet({ placeholders, changeTabPanel }: Props) {
         updatePlaceholder({ id: placeholderId, default: elem.value })
       );
     }
+  }
+
+  const handleDownloadPDF = () => {
+    changeTabPanel(1);
+    const htmlPreviewContent = document.querySelector(".vanilla__quickflow__preview-content")
+    const uuid = generate();
+    const opt = {
+      margin: 1,
+      // generate a random uuid for the
+      filename: `${uuid}-file.pdf`,
+      image: {
+          type: 'jpeg',
+          quality: 0.98
+      },
+      html2canvas: {
+          scale: 2
+      },
+      jsPDF: {
+          unit: 'in',
+          format: 'letter',
+          orientation: 'portrait'
+      }
+  };
+  html2pdf().from(htmlPreviewContent).set(opt).save();
   }
 
   useEffect(() => {
@@ -119,6 +146,7 @@ export default function Spreadsheet({ placeholders, changeTabPanel }: Props) {
               <td>
                 <button onClick={handleDataPreview}>preview</button>
                 <button onClick={handleDeleteRow}>delete</button>
+                <button onClick={handleDownloadPDF}>download PDF</button>
               </td>
             </tr>
           ))}

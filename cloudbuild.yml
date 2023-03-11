@@ -36,7 +36,7 @@ images:
 tags: ["writeonce"]
 
 substitutions:
-  _MIN_INSTANCES: "1"
+  _MIN_INSTANCES: "0"
   _REGION: "us-central1"
   _SERVICE_NAME: "${REPO_NAME}-prd"
   _PRD_IMAGE: "us-central1-docker.pkg.dev/${PROJECT_ID}/writeonce-docker-repo/${REPO_NAME}-prd:${SHORT_SHA}"

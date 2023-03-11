@@ -37,7 +37,7 @@ export default class VanillaEditorController extends Controller {
   }
 
   appendLimitDivider(node) {
-    this.logger.log("appendLimitDivider", node);
+    this.logger.info("appendLimitDivider", node);
     const divider = document.querySelector(".limit-divider");
     if (divider) {
       divider.remove();
