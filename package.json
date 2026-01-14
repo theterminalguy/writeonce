@@ -20,7 +20,7 @@
     "@typescript-eslint/parser": "^5.48.2",
     "animate.css": "^4.1.1",
     "eslint": "^8.32.0",
-    "html2pdf.js": "^0.10.1",
+    "html2pdf.js": "^0.14.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-csv": "^2.2.2",
